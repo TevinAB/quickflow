@@ -1,12 +1,16 @@
-import { Request, Response, Router } from 'express';
-import AccountModel from './model';
+import { Router } from 'express';
+import {
+  getAccount,
+  createAccount,
+  updateAccount,
+  deleteAccount,
+} from './controllers';
 
 const accountRoutes = Router();
 
-//get account
+accountRoutes.get('/', getAccount);
+accountRoutes.post('/create', createAccount);
+accountRoutes.put('/update', updateAccount);
+accountRoutes.delete('/delete', deleteAccount);
 
-//add account
-
-//update account
-
-//delete account
+export default accountRoutes;
