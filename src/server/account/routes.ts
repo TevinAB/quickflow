@@ -1,17 +1,30 @@
 import { Router } from 'express';
 import AccountModel from './model';
 import {
-  getAccountWrapper,
-  createAccountWrapper,
-  updateAccountWrapper,
-  deleteAccountWrapper,
-} from './controllers';
+  wrapperGetResource,
+  wrapperCreateResource,
+  wrapperUpdateResource,
+  wrapperDeleteResource,
+} from '../utils/resourceMethods';
 
 const accountRoutes = Router();
 
-accountRoutes.get('/', getAccountWrapper(AccountModel));
-accountRoutes.post('/create', createAccountWrapper(AccountModel));
-accountRoutes.put('/update', updateAccountWrapper(AccountModel));
-accountRoutes.delete('/delete', deleteAccountWrapper(AccountModel));
+accountRoutes.get('/', wrapperGetResource(AccountModel, 'Account not found.'));
+accountRoutes.post(
+  '/create',
+  wrapperCreateResource(AccountModel, 'Account not added.')
+);
+accountRoutes.put(
+  '/update',
+  wrapperUpdateResource(AccountModel, 'Account update failed.')
+);
+accountRoutes.delete(
+  '/delete',
+  wrapperDeleteResource(
+    AccountModel,
+    'Account delete failed.',
+    'Account deleted.'
+  )
+);
 
 export default accountRoutes;

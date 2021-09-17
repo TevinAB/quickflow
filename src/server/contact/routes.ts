@@ -1,20 +1,33 @@
 import { Router } from 'express';
 import ContactModel from './model';
 import {
-  getContactWrapper,
-  updateContactWrapper,
-  deleteContactWrapper,
-  createContactWrapper,
-} from './controllers';
+  wrapperGetResource,
+  wrapperCreateResource,
+  wrapperUpdateResource,
+  wrapperDeleteResource,
+} from '../utils/resourceMethods';
 
 const contactRoute = Router();
 
-contactRoute.get('/', getContactWrapper(ContactModel));
+contactRoute.get('/', wrapperGetResource(ContactModel, 'Contact not found.'));
 
-contactRoute.post('/create', createContactWrapper(ContactModel));
+contactRoute.post(
+  '/create',
+  wrapperCreateResource(ContactModel, 'Contact not added.')
+);
 
-contactRoute.put('/update', updateContactWrapper(ContactModel));
+contactRoute.put(
+  '/update',
+  wrapperUpdateResource(ContactModel, 'Contact update failed.')
+);
 
-contactRoute.delete('/delete', deleteContactWrapper(ContactModel));
+contactRoute.delete(
+  '/delete',
+  wrapperDeleteResource(
+    ContactModel,
+    'Contact delete failed.',
+    'Contact deleted'
+  )
+);
 
 export default contactRoute;
