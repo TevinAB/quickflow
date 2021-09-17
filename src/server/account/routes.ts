@@ -1,16 +1,17 @@
 import { Router } from 'express';
+import AccountModel from './model';
 import {
-  getAccount,
-  createAccount,
-  updateAccount,
-  deleteAccount,
+  getAccountWrapper,
+  createAccountWrapper,
+  updateAccountWrapper,
+  deleteAccountWrapper,
 } from './controllers';
 
 const accountRoutes = Router();
 
-accountRoutes.get('/', getAccount);
-accountRoutes.post('/create', createAccount);
-accountRoutes.put('/update', updateAccount);
-accountRoutes.delete('/delete', deleteAccount);
+accountRoutes.get('/', getAccountWrapper(AccountModel));
+accountRoutes.post('/create', createAccountWrapper(AccountModel));
+accountRoutes.put('/update', updateAccountWrapper(AccountModel));
+accountRoutes.delete('/delete', deleteAccountWrapper(AccountModel));
 
 export default accountRoutes;
