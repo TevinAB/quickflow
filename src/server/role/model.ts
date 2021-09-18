@@ -30,10 +30,10 @@ export interface Role {
     editEvent: boolean;
     deleteEvent: boolean;
   };
-  user: {
-    createUser: boolean;
-    editUser: boolean;
-    deleteUser: boolean;
+  profile: {
+    createProfile: boolean;
+    editProfile: boolean;
+    deleteProfile: boolean;
   };
   email: {
     sendEmail: boolean;
@@ -91,11 +91,11 @@ const basicSchema = new Schema<Role>({
     },
     required: true,
   },
-  user: {
+  profile: {
     type: {
-      createUser: { type: Boolean, required: true },
-      editUser: { type: Boolean, required: true },
-      deleteUser: { type: Boolean, required: true },
+      createProfile: { type: Boolean, required: true },
+      editProfile: { type: Boolean, required: true },
+      deleteProfile: { type: Boolean, required: true },
     },
     required: true,
   },
