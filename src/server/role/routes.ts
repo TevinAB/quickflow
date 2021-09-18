@@ -15,6 +15,8 @@ roleRoutes.put(
   '/update',
   wrapperUpdateResource(RoleModel, 'Role update failed.')
 );
+
+//eventually replace this with a specialized delete role function -- users need fallback role
 roleRoutes.delete(
   '/delete',
   wrapperDeleteResource(RoleModel, 'Role delete failed.', 'Role deleted.')
