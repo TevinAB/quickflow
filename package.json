@@ -4,7 +4,7 @@
   "description": "CRM project",
   "main": "index.js",
   "scripts": {
-    "server":"nodemon -e ts --exec npm start",
+    "server": "nodemon -e ts --exec npm start",
     "start": "node --loader ts-node/esm -r dotenv/config src/server/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +21,8 @@
   "homepage": "https://github.com/TevinAB/quickflow#readme",
   "dependencies": {
     "@sendgrid/mail": "^7.4.6",
+    "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^8.5.5",
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
