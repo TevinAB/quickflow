@@ -43,7 +43,7 @@ export function wrapperUpdateResource<T extends Model<any>>(
   return async function updateResource(req: Request, response: Response) {
     const { _id, updateDetails } = req.body;
     try {
-      const updatedResource = await resourceModel.updateOne(
+      const updatedResource = await resourceModel.findOneAndUpdate(
         { _id },
         updateDetails
       );
