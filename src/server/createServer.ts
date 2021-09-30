@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import apiRoutes from './api';
-import RequestException from './types/exceptions/requestException';
+import RequestException from './exceptions/requestException';
 
 const server = express();
 

@@ -4,7 +4,7 @@ import { model, Schema } from 'mongoose';
 export interface Deal {
   orgId: string;
   owner: { firstName: string; lastName: string };
-  title: string;
+  name: string;
   value: number;
   deal_status: string;
   current_stage: number;
@@ -20,7 +20,7 @@ const basicSchema = new Schema<Deal>(
   {
     orgId: { type: String, required: true },
     owner: {},
-    title: { type: String, required: true },
+    name: { type: String, required: true },
     value: { type: Number, required: true },
     deal_status: String,
     current_stage: { type: Number, required: true },

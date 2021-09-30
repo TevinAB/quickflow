@@ -2,6 +2,8 @@ import { Router } from 'express';
 import customizationModel from './model';
 import roleModel from './roleModel';
 import profileModel from './profileModel';
+import { baseModel } from '../documents/model';
+import wrapperPipelineCheck from '../middleware/pipelineCheck/pipelineCheck';
 import bcrypt from 'bcrypt';
 import {
   wrapperGetFormData,
@@ -11,6 +13,7 @@ import {
   wrapperGetPipeline,
   wrapperCreatePipeline,
   wrapperEditPipeline,
+  wrapperDeletePipeline,
   wrapperGetRoles,
   wrapperGetRole,
   wrapperCreateRole,
@@ -25,29 +28,32 @@ import {
 
 const customizationRoutes = Router();
 
+//form and list
 customizationRoutes.get('/form/:type', wrapperGetFormData(customizationModel));
-
 customizationRoutes.put('/form', wrapperEditFormData(customizationModel));
-
 customizationRoutes.get('/lists', wrapperGetListViews(customizationModel));
 
+//pipelines
 customizationRoutes.get('/pipelines', wrapperGetPipelines(customizationModel));
-
 customizationRoutes.get(
   '/pipeline/:_id',
   wrapperGetPipeline(customizationModel)
 );
-
 customizationRoutes.post(
   '/pipeline',
   wrapperCreatePipeline(customizationModel)
 );
-
 customizationRoutes.put(
   '/pipeline/:_id',
   wrapperEditPipeline(customizationModel)
 );
+customizationRoutes.delete(
+  '/pipeline/:_id',
+  wrapperPipelineCheck(baseModel),
+  wrapperDeletePipeline(customizationModel)
+);
 
+//roles
 customizationRoutes.get('/roles', wrapperGetRoles(roleModel));
 customizationRoutes.get('/role/:_id', wrapperGetRole(roleModel));
 customizationRoutes.post('/role', wrapperCreateRole(roleModel));
@@ -57,6 +63,7 @@ customizationRoutes.delete(
   wrapperDeleteRole(roleModel, profileModel)
 );
 
+//profiles
 customizationRoutes.get('/profiles', wrapperGetProfiles(profileModel));
 customizationRoutes.get('/profile/:_id', wrapperGetProfile(profileModel));
 customizationRoutes.post(
@@ -67,7 +74,6 @@ customizationRoutes.put(
   '/profile/:_id',
   wrapperEditProfile(profileModel, bcrypt.hash.bind(bcrypt))
 );
-
 customizationRoutes.delete('/profile/:_id', wrapperDeleteProfile(profileModel));
 
 export default customizationRoutes;

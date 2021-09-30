@@ -21,3 +21,16 @@ export type SendErrorResponse = (
   errorCode: number,
   error: Error
 ) => void;
+
+export type NotificationType =
+  | 'contact'
+  | 'account'
+  | 'deal'
+  | 'event'
+  | 'task';
+
+//array type is for when document are edited -- each document field will have before and
+//after data saved if they were edited.
+export type TimelineBody =
+  | string
+  | Array<{ beforeEdit: string; afterEdit: string }>;

@@ -1,8 +1,8 @@
-import { Resources } from '../../../types';
+import { Resources } from '../../../../types';
 import { Request, Response, NextFunction } from 'express';
 
 //should be called for every route that needs role authorization
-export function wrapperRoleAuthorizer(resourceType: Resources) {
+export default function wrapperRoleAuthorizer(resourceType: Resources) {
   return function roleAuthorizer(
     request: Request,
     response: Response,
@@ -27,7 +27,7 @@ export function wrapperRoleAuthorizer(resourceType: Resources) {
         break;
 
       case 'delete':
-        actionType = 'delete';
+        actionType = 'delete_';
         break;
     }
 

@@ -2,7 +2,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import authRoutes from './auth';
 import resourceRoutes from './resources';
-import responder from './middleware/responder';
+import responder from './middleware/responder/responder';
 
 const apiRoutes = Router();
 
@@ -16,8 +16,14 @@ apiRoutes.use(function (
     gmailInfo: {},
     orgSetupData: {},
     jwtData: {},
-    response: {},
+    response: {
+      data: {},
+      token: {},
+    },
     userRole: {},
+    notifData: {},
+    timelineData: {},
+    deletePipeline: false,
   };
   next();
 });

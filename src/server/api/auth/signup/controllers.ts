@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Model } from 'mongoose';
-import RequestException from '../../../types/exceptions/requestException';
+import RequestException from '../../../exceptions/requestException';
 import { HashFunction } from '../../../types';
 import { Profile } from '../../resources/customizable/profileModel';
 

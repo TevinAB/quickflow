@@ -1,4 +1,5 @@
 import { model, Types, Schema } from 'mongoose';
+import { NotificationType } from '../../../types';
 
 export interface Profile {
   orgName?: string;
@@ -9,7 +10,14 @@ export interface Profile {
   roleId: Schema.Types.ObjectId;
   passwordHash?: string;
   ceo: boolean;
-  notifications: [{ title: string; added: Schema.Types.Date; read: boolean }];
+  notifications: [
+    {
+      title: string;
+      added: Schema.Types.Date;
+      read: boolean;
+      type: NotificationType;
+    }
+  ];
 }
 
 const basicSchema = new Schema<Profile>({

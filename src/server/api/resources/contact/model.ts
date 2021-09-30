@@ -21,18 +21,18 @@ const timelineItemSchema = new Schema<TimelineItem>();
 export interface Contact {
   firstName: string;
   lastName: string;
+  name: string;
   orgId: string;
   owner: { firstName: string; lastName: string };
   created: Schema.Types.Date;
-  timeline: Schema.Types.ObjectId;
 }
 
 const contactSchema = new Schema<Contact>(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
+    name: { type: String, required: true },
     orgId: { type: String, required: true },
-    timeline: { type: Schema.Types.ObjectId },
   },
   { strict: false }
 );
