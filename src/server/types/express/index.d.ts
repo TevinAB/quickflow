@@ -41,7 +41,7 @@ declare module 'express-serve-static-core' {
       //data used to add notification to profiles
       notifData:
         | {
-            profileId: any;
+            profileIds: [];
             notifType: NotificationType;
             title: '';
           }
@@ -58,7 +58,7 @@ declare module 'express-serve-static-core' {
 
             addResponse: boolean;
             title: string;
-            itemType: 'email' | 'note' | 'task' | 'event' | 'other';
+            itemType: NotificationType | 'Email' | 'other';
             itemBody: TimelineBody;
           }
         | { [key: string]: any };
