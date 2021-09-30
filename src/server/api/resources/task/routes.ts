@@ -1,23 +1,11 @@
 import { Router } from 'express';
-import TaskModel from './model';
-import {
-  wrapperGetResource,
-  wrapperCreateResource,
-  wrapperUpdateResource,
-  wrapperDeleteResource,
-} from '../utils/resourceMethods';
+// import TaskModel from './model';
 
 const taskRoutes = Router();
 
-taskRoutes.get('/', wrapperGetResource(TaskModel, 'Task not found.'));
-taskRoutes.post('/create', wrapperCreateResource(TaskModel, 'Task not added.'));
-taskRoutes.put(
-  '/update',
-  wrapperUpdateResource(TaskModel, 'Task update failed.')
-);
-taskRoutes.delete(
-  '/delete',
-  wrapperDeleteResource(TaskModel, 'Task delete failed.', 'Task deleted.')
-);
+taskRoutes.get('/');
+taskRoutes.post('/create');
+taskRoutes.put('/update');
+taskRoutes.delete('/delete');
 
 export default taskRoutes;
