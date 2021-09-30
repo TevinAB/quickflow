@@ -78,11 +78,11 @@ export const contactForm = [
 export const accountForm = [
   {
     inputType: 'text',
-    inputLabel: 'Company',
+    inputLabel: 'Name',
     helpText: '',
     form: { order: 1, visible: true },
     list: { order: 1, visible: true },
-    fieldName: 'company',
+    fieldName: 'name',
     deletable: false,
     dataSource: '',
   },
@@ -141,11 +141,11 @@ export const accountForm = [
 export const dealForm = [
   {
     inputType: 'text',
-    inputLabel: 'Title',
+    inputLabel: 'Name',
     helpText: '',
     form: { order: 1, visible: true },
     list: { order: 1, visible: true },
-    fieldName: 'title',
+    fieldName: 'name',
     deletable: false,
     listSource: '',
   },

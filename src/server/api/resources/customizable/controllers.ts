@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { CustomizationInfo } from './model';
 import { Role } from './roleModel';
 import { Profile } from './profileModel';
-import RequestException from '../../../types/exceptions/requestException';
+import RequestException from '../../../exceptions/requestException';
 
 const HASH_ROUNDS = 10;
 
@@ -27,7 +27,7 @@ export function wrapperGetFormData<T extends Model<CustomizationInfo>>(
         .select('-__v -pipelineData');
 
       if (formDoc) {
-        response.json(formDoc);
+        response.json({ result: formDoc });
       } else {
         throw new RequestException('Form type not found.', 404);
       }
@@ -60,7 +60,7 @@ export function wrapperEditFormData<T extends Model<CustomizationInfo>>(
         .select('-__v -pipelineData');
 
       if (updatedDoc) {
-        response.json(updatedDoc);
+        response.json({ result: updatedDoc });
       } else {
         throw new RequestException('Form type update failed.', 400);
       }
@@ -86,7 +86,7 @@ export function wrapperGetListViews<T extends Model<CustomizationInfo>>(
         .select('-_id -orgId -__v -formData -pipelineData');
 
       if (listTypes) {
-        response.json(listTypes);
+        response.json({ result: listTypes });
       } else {
         throw new RequestException('List views not found.', 404);
       }
@@ -120,7 +120,7 @@ export function wrapperGetPipelines<T extends Model<CustomizationInfo>>(
       }));
 
       if (finalResult) {
-        response.json(finalResult);
+        response.json({ result: finalResult });
       } else {
         throw new RequestException('Pipelines not found.', 404);
       }
@@ -148,7 +148,7 @@ export function wrapperGetPipeline<T extends Model<CustomizationInfo>>(
       );
 
       if (pipeline) {
-        response.json(pipeline);
+        response.json({ result: pipeline });
       } else {
         throw new RequestException('Pipeline not found.', 404);
       }
@@ -189,8 +189,10 @@ export function wrapperCreatePipeline<T extends Model<CustomizationInfo>>(
           (pipeline) => pipeline.name === name
         )[0];
         response.json({
-          name: updatedPipeline?.name,
-          _id: updatedPipeline?._id,
+          result: {
+            name: updatedPipeline?.name,
+            _id: updatedPipeline?._id,
+          },
         });
       } else {
         throw new RequestException('Failed to add pipeline.', 400);
@@ -229,7 +231,7 @@ export function wrapperEditPipeline<T extends Model<CustomizationInfo>>(
           (pipeline) => String(pipeline._id) === _id
         )[0];
 
-        response.json(pipeline);
+        response.json({ result: pipeline });
       } else {
         throw new RequestException('Pipeline update failed', 404);
       }
@@ -239,13 +241,29 @@ export function wrapperEditPipeline<T extends Model<CustomizationInfo>>(
   };
 }
 
-/**
- * export function wrapperDeletePipeline<T extends Model<Profile>>(profileModel: T){
-  return async function deletePipeline(request: Request, response: Response, next: NextFunction){
-    //
-  }
+export function wrapperDeletePipeline<T extends Model<CustomizationInfo>>(
+  customModel: T
+) {
+  return async function deletePipeline(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ) {
+    const { deletePipeline } = request.middlewareInfo;
+    const { _id } = request.params;
+
+    try {
+      if (!deletePipeline)
+        throw new RequestException('Cannot delete active pipelines.', 400);
+
+      await customModel.findOneAndDelete({ _id });
+
+      response.json({ result: 'Pipeline deleted' });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
- */
 
 //Roles
 
@@ -263,7 +281,7 @@ export function wrapperGetRoles<T extends Model<Role>>(roleModel: T) {
         .select('-__v -view -create -edit -delete_ -isAdmin -orgId');
 
       if (roles.length) {
-        response.json(roles);
+        response.json({ result: roles });
       } else {
         throw new RequestException('Roles not found.', 404);
       }
@@ -285,7 +303,7 @@ export function wrapperGetRole<T extends Model<Role>>(roleModel: T) {
       const role = await roleModel.findOne({ _id });
 
       if (role) {
-        response.json(role);
+        response.json({ result: role });
       } else {
         throw new RequestException('Role not found.', 404);
       }
@@ -308,7 +326,9 @@ export function wrapperCreateRole<T extends Model<Role>>(roleModel: T) {
       const newRole = new roleModel({ orgId, roleName });
       await newRole.save();
 
-      response.json({ roleName: newRole.roleName, _id: newRole._id });
+      response.json({
+        result: { roleName: newRole.roleName, _id: newRole._id },
+      });
     } catch (error) {
       next(error);
     }
@@ -330,7 +350,7 @@ export function wrapperEditRole<T extends Model<Role>>(roleModel: T) {
         .select('-__v');
 
       if (updatedDoc) {
-        response.json(updatedDoc);
+        response.json({ result: updatedDoc });
       } else {
         throw new RequestException('Role update failed.', 400);
       }
@@ -364,7 +384,7 @@ export function wrapperDeleteRole<
 
         await roleToDelete.remove();
 
-        response.json({ message: 'Role deleted.' });
+        response.json({ result: 'Role deleted.' });
       } else {
         throw new RequestException('Admin roles cannot be deleted', 404);
       }
@@ -389,7 +409,7 @@ export function wrapperGetProfiles<T extends Model<Profile>>(profileModel: T) {
         .select('firstName lastName _id');
 
       if (profiles.length) {
-        response.json(profiles);
+        response.json({ result: profiles });
       } else {
         throw new RequestException('No profiles found', 404);
       }
@@ -411,7 +431,7 @@ export function wrapperGetProfile<T extends Model<Profile>>(profileModel: T) {
       const profile = await profileModel.findOne({ _id });
 
       if (profile) {
-        response.json(profile);
+        response.json({ result: profile });
       } else {
         throw new RequestException('Profile not found.', 404);
       }
@@ -445,9 +465,11 @@ export function wrapperCreateProfile<T extends Model<Profile>>(
         await newUser.save();
 
         response.json({
-          firstName: newUser.firstName,
-          lastName: newUser.lastName,
-          _id: newUser._id,
+          result: {
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            _id: newUser._id,
+          },
         });
       } else {
         throw new RequestException('User already exists.', 400);
@@ -480,7 +502,7 @@ export function wrapperEditProfile<T extends Model<Profile>>(
       );
 
       if (user) {
-        response.json(user);
+        response.json({ result: user });
       } else {
         throw new RequestException('Profile update failed.', 400);
       }
@@ -503,7 +525,7 @@ export function wrapperDeleteProfile<T extends Model<Profile>>(
     try {
       await profileModel.findByIdAndDelete(_id);
 
-      response.json({ message: 'Profile deleted.' });
+      response.json({ result: 'Profile deleted.' });
     } catch (error) {
       next(error);
     }

@@ -4,7 +4,7 @@ export interface Account {
   orgId: string;
   owner: { firstName: string; lastName: string };
   created: Schema.Types.Date;
-  company: string;
+  name: string;
   associatedContacts: [
     { _id: Schema.Types.ObjectId; firstName: string; lastName: string }
   ];
@@ -13,7 +13,7 @@ export interface Account {
 const basicSchema = new Schema<Account>(
   {
     orgId: { type: String, required: true },
-    company: { type: String, required: true },
+    name: { type: String, required: true },
     associatedContacts: [],
   },
   { strict: false }

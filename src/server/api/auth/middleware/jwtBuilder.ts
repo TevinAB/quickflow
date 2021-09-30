@@ -13,8 +13,7 @@ export default function jwtBuilder(
 
     const token = jwt.sign(
       { firstName, lastName, orgId, roleId, email, profileId },
-      process.env.JWT_SECRET,
-      { expiresIn: '8h' }
+      process.env.JWT_SECRET
     );
 
     request.middlewareInfo.response.token = token;
