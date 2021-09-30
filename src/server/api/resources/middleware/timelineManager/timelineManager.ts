@@ -19,7 +19,7 @@ export default function wrapperTimelineManager<T extends Model<Timeline>>(
       itemBody,
     } = request.middlewareInfo.timelineData;
 
-    if (!timelineIds.length) return next();
+    if (!timelineIds?.length) return next();
 
     try {
       const timelineItem = {

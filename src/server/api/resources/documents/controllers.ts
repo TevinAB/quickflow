@@ -126,8 +126,8 @@ export function wrapperCreateDocument<
       //add things for notif middleware if owner _id is detected
       if (data.owner._id) {
         request.middlewareInfo.notifData = {
-          profileId: data.owner._id,
-          notifType: options.type.toLowerCase(),
+          profileIds: [data.owner._id],
+          notifType: options.type,
           title: `You were assigned to ${document.name}.`,
         };
       }
@@ -180,8 +180,8 @@ export function wrapperEditDocument<T extends Model<BaseDocument>>(
 
       if (document && reassigned) {
         request.middlewareInfo.notifData = {
-          profileId: data.owner._id,
-          notifType: options.type.toLowerCase(),
+          profileIds: [data.owner._id],
+          notifType: options.type,
           title: `You were assigned to ${document.name}.`,
         };
       }

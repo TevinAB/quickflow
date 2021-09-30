@@ -10,8 +10,8 @@ export default function wrapperNotifier<T extends Model<Profile>>(
     response: Response,
     next: NextFunction
   ) {
-    const { notifType, title, profileId } = request.middlewareInfo.notifData;
-    if (!profileId || !notifType || !title) return next();
+    const { notifType, title, profileIds } = request.middlewareInfo.notifData;
+    if (!profileIds?.length || !notifType || !title) return next();
 
     try {
       const notification = {
@@ -21,8 +21,8 @@ export default function wrapperNotifier<T extends Model<Profile>>(
         added: new Date().toISOString(),
       };
 
-      await profileModel.findOneAndUpdate(
-        { _id: profileId },
+      await profileModel.updateMany(
+        { _id: { $in: profileIds } },
         { $push: { notifications: notification } }
       );
 

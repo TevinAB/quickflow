@@ -23,11 +23,11 @@ export type SendErrorResponse = (
 ) => void;
 
 export type NotificationType =
-  | 'contact'
-  | 'account'
-  | 'deal'
-  | 'event'
-  | 'task';
+  | 'Contact'
+  | 'Account'
+  | 'Deal'
+  | 'Event'
+  | 'Task';
 
 //array type is for when document are edited -- each document field will have before and
 //after data saved if they were edited.
