@@ -23,6 +23,8 @@ export default function wrapperOrgBuilder<
   ) {
     const { orgId, roleId } = request.middlewareInfo.orgSetupData;
 
+    if (!orgId || !roleId) return next();
+
     try {
       const contact = new customizationModel({
         orgId,
@@ -76,7 +78,7 @@ export default function wrapperOrgBuilder<
 
       next();
     } catch (error) {
-      response.status(400).json({ message: 'Sign up failed.' });
+      next(error);
     }
   };
 }

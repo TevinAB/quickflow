@@ -51,7 +51,7 @@ export default function wrapperRoleLocator<T extends Model<Role>>(role: T) {
 
       next();
     } catch (error) {
-      response.status(400).json({ message: (error as Error).message });
+      next(error);
     }
   };
 }

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Model } from 'mongoose';
 import { Profile } from '../../resources/customizable/profileModel';
+import RequestException from '../../../exceptions/requestException';
 import { HashCompare } from '../../../types';
 
 export function wrapperLogin<T extends Model<Profile>>(
@@ -38,13 +39,13 @@ export function wrapperLogin<T extends Model<Profile>>(
           };
           next();
         } else {
-          throw new Error('Password is incorrect.');
+          throw new RequestException('Password is incorrect.', 400);
         }
       } else {
-        throw new Error('User not found.');
+        throw new RequestException('User not found.', 404);
       }
     } catch (error) {
-      response.status(400).json({ message: (error as Error).message });
+      next(error);
     }
   };
 }
