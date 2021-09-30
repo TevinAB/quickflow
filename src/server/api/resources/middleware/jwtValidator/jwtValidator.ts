@@ -24,7 +24,7 @@ export default function jwtValidator(
 
       next();
     } catch (error) {
-      response.status(401).json({ message: 'Unauthorized.' });
+      next(error);
     }
   } else {
     response.status(500).json({ message: 'No secret found.' });
