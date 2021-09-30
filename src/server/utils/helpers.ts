@@ -1,5 +1,3 @@
-import { Response } from 'express';
-
 export async function promiseRetry(
   fn: () => Promise<any>,
   limit: number,
@@ -15,12 +13,4 @@ export async function promiseRetry(
 
     await promiseRetry(fn, limit - 1, delay);
   }
-}
-
-export function sendErrorResponse(
-  response: Response,
-  errorCode: number,
-  error: Error
-) {
-  response.status(errorCode).json({ message: error.message });
 }
