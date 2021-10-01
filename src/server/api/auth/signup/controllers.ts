@@ -13,39 +13,39 @@ export function wrapperSignUp<T extends Model<Profile>>(
     response: Response,
     next: NextFunction
   ) {
-    const { firstName, lastName, email, password, orgName } = request.body;
+    const { first_name, last_name, email, password, org_name } = request.body;
     try {
       if (!password) throw new RequestException('Missing password', 400);
 
       const userExists = await profile.exists({ email });
 
       if (!userExists) {
-        const passwordHash = await hash(password, 10);
+        const password_hash = await hash(password, 10);
 
         const newProfile = new profile({
-          firstName,
-          lastName,
+          first_name,
+          last_name,
           email,
-          passwordHash,
-          orgName,
+          password_hash,
+          org_name,
           ceo: true,
         });
 
         await newProfile.save();
-        const { orgId, roleId, _id } = newProfile;
+        const { org_id, role_id, _id } = newProfile;
 
         request.middlewareInfo.orgSetupData = {
-          orgId: String(orgId),
-          roleId: String(roleId),
+          org_id: String(org_id),
+          role_id: String(role_id),
         };
 
         request.middlewareInfo.jwtData = {
           profileId: _id,
-          firstName,
-          lastName,
+          first_name,
+          last_name,
           email,
-          orgId,
-          roleId,
+          org_id,
+          role_id,
         };
 
         next();

@@ -1,6 +1,7 @@
 import customizationRoutes from './customizable/routes';
 import documentRoutes from './documents/routes';
 import activityRoutes from './activities/routes';
+import searchRoutes from './search/routes';
 import timelineRoutes from './timeline/routes';
 import notificationRoutes from './notification/route';
 import roleModel from './customizable/roleModel';
@@ -28,6 +29,7 @@ resourceRoutes.use('/document', documentRoutes);
 resourceRoutes.use('/activity', activityRoutes);
 resourceRoutes.use('/notifications', notificationRoutes);
 resourceRoutes.use('/timeline', timelineRoutes);
+resourceRoutes.use('/search', searchRoutes);
 
 resourceRoutes.use(wrapperNotifier(profileModel));
 resourceRoutes.use(wrapperTimelineManager(timelineModel));

@@ -24,7 +24,7 @@ export default function wrapperTimelineManager<T extends Model<Timeline>>(
     try {
       const timelineItem = {
         title,
-        itemType,
+        item_type: itemType,
         body: itemBody,
         date: new Date().toISOString(),
       };
@@ -33,7 +33,7 @@ export default function wrapperTimelineManager<T extends Model<Timeline>>(
         {
           _id: { $in: timelineIds },
         },
-        { $push: { timelineItems: timelineItem } },
+        { $push: { timeline_items: timelineItem } },
         { new: true }
       );
 

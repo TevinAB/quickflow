@@ -2,12 +2,12 @@ import { Secret, VerifyOptions } from 'jsonwebtoken';
 
 declare module 'jsonwebtoken' {
   export interface JwtPayload {
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     email: string;
-    profileId: string;
-    roleId: string;
-    orgId: string;
+    profile_id: string;
+    role_id: string;
+    org_id: string;
   }
 
   function verify(

@@ -19,11 +19,11 @@ export function wrapperGetFormData<T extends Model<CustomizationInfo>>(
     next: NextFunction
   ) {
     const { type } = request.params;
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       const formDoc = await customModel
-        .findOne({ orgId, resType: type })
+        .findOne({ org_id, res_type: type })
         .select('-__v -pipelineData');
 
       if (formDoc) {
@@ -45,19 +45,19 @@ export function wrapperEditFormData<T extends Model<CustomizationInfo>>(
     response: Response,
     next: NextFunction
   ) {
-    const { _id, formData } = request.body;
+    const { _id, form_data } = request.body;
     try {
-      await customModel.findOneAndUpdate({ _id }, { formData: [] });
+      await customModel.findOneAndUpdate({ _id }, { form_data: [] });
 
       const updatedDoc = await customModel
         .findOneAndUpdate(
           { _id },
           {
-            $push: { formData: { $each: formData } },
+            $push: { form_data: { $each: form_data } },
           },
           { new: true }
         )
-        .select('-__v -pipelineData');
+        .select('-__v -pipeline_data');
 
       if (updatedDoc) {
         response.json({ result: updatedDoc });
@@ -78,12 +78,12 @@ export function wrapperGetListViews<T extends Model<CustomizationInfo>>(
     response: Response,
     next: NextFunction
   ) {
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       const listTypes = await customModel
-        .find({ orgId, resType: { $ne: 'pipeline' } })
-        .select('-_id -orgId -__v -formData -pipelineData');
+        .find({ org_id, res_type: { $ne: 'pipeline' } })
+        .select('-_id -org_id -__v -form_data -pipeline_data');
 
       if (listTypes) {
         response.json({ result: listTypes });
@@ -106,15 +106,15 @@ export function wrapperGetPipelines<T extends Model<CustomizationInfo>>(
     response: Response,
     next: NextFunction
   ) {
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
     try {
       const pipelines = await customModel
-        .find({ orgId, resType: 'pipeline' })
-        .select('-orgId -__v -formData -resType');
+        .find({ org_id, res_type: 'pipeline' })
+        .select('-org_id -__v -form_data -res_type');
 
       //get the first element of the pipeline list because each organization will only have
       //one document that stores all their pipelines
-      const finalResult = pipelines[0].pipelineData?.map((pipeline) => ({
+      const finalResult = pipelines[0].pipeline_data?.map((pipeline) => ({
         name: pipeline.name,
         _id: pipeline._id,
       }));
@@ -141,9 +141,9 @@ export function wrapperGetPipeline<T extends Model<CustomizationInfo>>(
     const { _id } = request.params;
 
     try {
-      const parentDoc = await customModel.findOne({ 'pipelineData._id': _id });
+      const parentDoc = await customModel.findOne({ 'pipeline_data._id': _id });
 
-      const pipeline = parentDoc?.pipelineData?.filter(
+      const pipeline = parentDoc?.pipeline_data?.filter(
         (obj) => String(obj._id) === _id
       );
 
@@ -167,25 +167,28 @@ export function wrapperCreatePipeline<T extends Model<CustomizationInfo>>(
     next: NextFunction
   ) {
     const { name } = request.body;
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       const parentDoc = await customModel.findOneAndUpdate(
         {
-          orgId,
-          resType: 'pipeline',
-          'pipelineData.name': { $ne: name },
+          org_id,
+          res_type: 'pipeline',
+          'pipeline_data.name': { $ne: name },
         },
         {
           $addToSet: {
-            pipelineData: { name, stages: [{ stageName: 'start', order: 0 }] },
+            pipeline_data: {
+              name,
+              stages: [{ stage_name: 'start', order: 0 }],
+            },
           },
         },
         { new: true }
       );
 
       if (parentDoc) {
-        const updatedPipeline = parentDoc.pipelineData?.filter(
+        const updatedPipeline = parentDoc.pipeline_data?.filter(
           (pipeline) => pipeline.name === name
         )[0];
         response.json({
@@ -213,21 +216,21 @@ export function wrapperEditPipeline<T extends Model<CustomizationInfo>>(
   ) {
     const { _id } = request.params;
     const { data } = request.body;
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       const parentDoc = await customModel.findOneAndUpdate(
         {
-          orgId,
-          resType: 'pipeline',
-          'pipelineData._id': _id,
+          org_id,
+          res_type: 'pipeline',
+          'pipeline_data._id': _id,
         },
-        { 'pipelineData.$.stages': data },
+        { 'pipeline_data.$.stages': data },
         { new: true }
       );
 
       if (parentDoc) {
-        const pipeline = parentDoc.pipelineData?.filter(
+        const pipeline = parentDoc.pipeline_data?.filter(
           (pipeline) => String(pipeline._id) === _id
         )[0];
 
@@ -256,7 +259,10 @@ export function wrapperDeletePipeline<T extends Model<CustomizationInfo>>(
       if (!deletePipeline)
         throw new RequestException('Cannot delete active pipelines.', 400);
 
-      await customModel.findOneAndDelete({ _id });
+      await customModel.findOneAndUpdate(
+        { 'pipeline_data._id': _id },
+        { $pull: { 'pipeline_data._id': _id } }
+      );
 
       response.json({ result: 'Pipeline deleted' });
     } catch (error) {
@@ -273,12 +279,12 @@ export function wrapperGetRoles<T extends Model<Role>>(roleModel: T) {
     response: Response,
     next: NextFunction
   ) {
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       const roles = await roleModel
-        .find({ orgId })
-        .select('-__v -view -create -edit -delete_ -isAdmin -orgId');
+        .find({ org_id })
+        .select('-__v -view -create -edit -delete_ -is_admin -org_id');
 
       if (roles.length) {
         response.json({ result: roles });
@@ -319,15 +325,15 @@ export function wrapperCreateRole<T extends Model<Role>>(roleModel: T) {
     response: Response,
     next: NextFunction
   ) {
-    const { roleName } = request.body;
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { role_name } = request.body;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
-      const newRole = new roleModel({ orgId, roleName });
+      const newRole = new roleModel({ org_id, role_name });
       await newRole.save();
 
       response.json({
-        result: { roleName: newRole.roleName, _id: newRole._id },
+        result: { role_name: newRole.role_name, _id: newRole._id },
       });
     } catch (error) {
       next(error);
@@ -371,15 +377,15 @@ export function wrapperDeleteRole<
   ) {
     const { _id } = request.params;
     const { fallbackRoleId } = request.body;
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       const roleToDelete = await roleModel.findOne({ _id });
 
-      if (roleToDelete && !roleToDelete.isAdmin) {
+      if (roleToDelete && !roleToDelete.is_admin) {
         await profileModel.updateMany(
-          { orgId, roleId: _id as any },
-          { roleId: fallbackRoleId }
+          { org_id, role_id: _id as any },
+          { role_id: fallbackRoleId }
         );
 
         await roleToDelete.remove();
@@ -401,12 +407,12 @@ export function wrapperGetProfiles<T extends Model<Profile>>(profileModel: T) {
     response: Response,
     next: NextFunction
   ) {
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       const profiles = await profileModel
-        .find({ orgId })
-        .select('firstName lastName _id');
+        .find({ org_id })
+        .select('first_name last_name _id');
 
       if (profiles.length) {
         response.json({ result: profiles });
@@ -451,7 +457,7 @@ export function wrapperCreateProfile<T extends Model<Profile>>(
     next: NextFunction
   ) {
     const { data } = request.body;
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       if (!data.password) throw new RequestException('Missing password.', 400);
@@ -460,14 +466,18 @@ export function wrapperCreateProfile<T extends Model<Profile>>(
 
       if (!userExists) {
         const passwordHash = await hash(data.password, HASH_ROUNDS);
-        const newUser = new profileModel({ ...data, passwordHash, orgId });
+        const newUser = new profileModel({
+          ...data,
+          password_hash: passwordHash,
+          org_id,
+        });
 
         await newUser.save();
 
         response.json({
           result: {
-            firstName: newUser.firstName,
-            lastName: newUser.lastName,
+            first_name: newUser.first_name,
+            last_name: newUser.last_name,
             _id: newUser._id,
           },
         });
@@ -493,11 +503,11 @@ export function wrapperEditProfile<T extends Model<Profile>>(
     const { data } = request.body;
 
     try {
-      const passwordHash = await hash(data.password, HASH_ROUNDS);
+      const password_hash = await hash(data.password, HASH_ROUNDS);
 
       const user = await profileModel.findOneAndUpdate(
         { _id },
-        { ...data, passwordHash },
+        { ...data, password_hash },
         { new: true }
       );
 

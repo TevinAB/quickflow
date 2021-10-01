@@ -1,8 +1,8 @@
 import { model, Schema } from 'mongoose';
 
 export interface Role {
-  orgId: string;
-  roleName: string;
+  org_id: string;
+  role_name: string;
   view: {
     contact: boolean;
     account: boolean;
@@ -30,12 +30,12 @@ export interface Role {
     event: boolean;
     task: boolean;
   };
-  isAdmin: boolean;
+  is_admin: boolean;
 }
 
 const basicSchema = new Schema<Role>({
-  orgId: { type: String, required: true },
-  roleName: { type: String, required: true },
+  org_id: { type: String, required: true },
+  role_name: { type: String, required: true },
   view: {
     type: {
       contact: { type: Boolean, required: true },
@@ -102,7 +102,7 @@ const basicSchema = new Schema<Role>({
     },
     required: true,
   },
-  isAdmin: { type: Boolean, required: true, default: false },
+  is_admin: { type: Boolean, required: true, default: false },
 });
 
 const roleModel = model<Role>('role', basicSchema);

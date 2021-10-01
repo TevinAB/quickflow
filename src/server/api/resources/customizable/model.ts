@@ -1,20 +1,20 @@
 import { model, Schema, Types } from 'mongoose';
 
 export interface FormField {
-  inputType: string;
-  inputLabel: string;
-  helpText: string;
+  input_type: string;
+  input_label: string;
+  help_text: string;
   form: { order: number; visible: boolean };
   list: { order: number; visible: boolean };
-  fieldName: string;
+  field_name: string;
   deletable: boolean;
-  dataSource?: string;
+  data_source?: string;
 }
 
 const formFieldSchema = new Schema<FormField>({
-  inputType: { type: String, required: true },
-  inputLabel: { type: String, required: true },
-  helpText: { type: String, required: false },
+  input_type: { type: String, required: true },
+  input_label: { type: String, required: true },
+  help_text: { type: String, required: false },
   form: {
     order: { type: Number, default: 0 },
     visible: { type: Boolean, default: true },
@@ -23,13 +23,13 @@ const formFieldSchema = new Schema<FormField>({
     order: { type: Number, default: 0 },
     visible: { type: Boolean, default: true },
   },
-  fieldName: { type: String, required: true },
+  field_name: { type: String, required: true },
   deletable: { type: Boolean, required: true, default: true },
-  dataSource: { type: String, required: false },
+  data_source: { type: String, required: false },
 });
 
 interface Pipeline {
-  stages: [{ stageName: string; order: number }];
+  stages: [{ stage_name: string; order: number }];
   name: string;
   _id: Schema.Types.ObjectId;
 }
@@ -41,18 +41,18 @@ const pipelineSchema = new Schema<Pipeline>({
 });
 
 export interface CustomizationInfo {
-  orgId: string;
-  resType: string; //contact, account, deal, pipeline
-  formData?: Array<FormField>;
-  pipelineData?: Array<Pipeline>;
+  org_id: string;
+  res_type: string; //contact, account, deal, pipeline
+  form_data?: Array<FormField>;
+  pipeline_data?: Array<Pipeline>;
 }
 
 const basicSchema = new Schema<CustomizationInfo>(
   {
-    orgId: { type: String, required: true },
-    resType: { type: String, required: true },
-    formData: { type: [formFieldSchema], required: false },
-    pipelineData: { type: [pipelineSchema], required: false },
+    org_id: { type: String, required: true },
+    res_type: { type: String, required: true },
+    form_data: { type: [formFieldSchema], required: false },
+    pipeline_data: { type: [pipelineSchema], required: false },
   },
   { strict: false }
 );

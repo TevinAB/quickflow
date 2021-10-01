@@ -31,7 +31,7 @@ export default function wrapperRoleAuthorizer(resourceType: Resources) {
         break;
     }
 
-    if (resourceType === 'customization' && userRole.isAdmin) {
+    if (resourceType === 'customization' && userRole.is_admin) {
       next();
     } else if (userRole[actionType][resourceType]) {
       next();

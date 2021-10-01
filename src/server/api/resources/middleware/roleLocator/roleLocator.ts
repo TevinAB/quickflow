@@ -8,9 +8,9 @@ export default function wrapperRoleLocator<T extends Model<Role>>(role: T) {
     response: Response,
     next: NextFunction
   ) {
-    const { roleId } = request.middlewareInfo.jwtData;
+    const { role_id } = request.middlewareInfo.jwtData;
     try {
-      const userRole = await role.findOne({ _id: roleId });
+      const userRole = await role.findOne({ _id: role_id });
 
       if (userRole) {
         request.middlewareInfo.userRole = {
@@ -41,9 +41,9 @@ export default function wrapperRoleLocator<T extends Model<Role>>(role: T) {
             event: userRole.delete_.event,
             task: userRole.delete_.task,
           },
-          isAdmin: userRole.isAdmin,
-          orgId: userRole.orgId,
-          roleName: userRole.roleName,
+          is_admin: userRole.is_admin,
+          orgId: userRole.org_id,
+          roleName: userRole.role_name,
         };
       } else {
         throw new Error('Authorization failed, role not found.');

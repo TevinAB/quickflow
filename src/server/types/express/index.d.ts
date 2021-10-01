@@ -10,20 +10,20 @@ declare module 'express-serve-static-core' {
       //used to store data for creating a jwt or for storing data pulled from a jwt
       jwtData:
         | {
-            firstName: string;
-            lastName: string;
+            first_name: string;
+            last_name: string;
             email: string;
-            profileId: any;
-            roleId: any;
-            orgId: any;
+            profile_id: any;
+            role_id: any;
+            org_id: any;
           }
         | { [key: string]: any };
 
       //used to setup an 'organization' when a user signs up
       orgSetupData:
         | {
-            orgId: any;
-            roleId: any;
+            org_id: any;
+            role_id: any;
           }
         | { [key: string]: any };
 

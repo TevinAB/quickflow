@@ -14,7 +14,7 @@ const eventSchema = new Schema<Event>(
 );
 
 export interface Activity {
-  orgId: Schema.Types.ObjectId;
+  org_id: Schema.Types.ObjectId;
   title: string;
   description: string;
   start_date: Schema.Types.Date;
@@ -31,7 +31,7 @@ export interface Activity {
 
 const activitySchema = new Schema<Activity>(
   {
-    orgId: { type: Schema.Types.ObjectId, required: true },
+    org_id: { type: Schema.Types.ObjectId, required: true },
     title: { type: String, required: true },
     description: { type: String },
     start_date: { type: Schema.Types.Date },
