@@ -14,12 +14,12 @@ export default function jwtValidator(
       const decode = jwt.verify(token, process.env.JWT_SECRET);
 
       request.middlewareInfo.jwtData = {
-        firstName: decode.firstName,
-        lastName: decode.lastName,
+        first_name: decode.first_name,
+        last_name: decode.last_name,
         email: decode.email,
-        profileId: decode.profileId,
-        roleId: decode.roleId,
-        orgId: decode.orgId,
+        profile_id: decode.profile_id,
+        role_id: decode.role_id,
+        org_id: decode.org_id,
       };
 
       next();

@@ -21,43 +21,43 @@ export default function wrapperOrgBuilder<
     response: Response,
     next: NextFunction
   ) {
-    const { orgId, roleId } = request.middlewareInfo.orgSetupData;
+    const { org_id, role_id } = request.middlewareInfo.orgSetupData;
 
-    if (!orgId || !roleId) return next();
+    if (!org_id || !role_id) return next();
 
     try {
       const contact = new customizationModel({
-        orgId,
-        resType: 'contact',
-        formData: contactForm,
+        org_id,
+        res_type: 'contact',
+        form_data: contactForm,
       });
       const account = new customizationModel({
-        orgId,
-        resType: 'account',
-        formData: accountForm,
+        org_id,
+        res_type: 'account',
+        form_data: accountForm,
       });
       const deal = new customizationModel({
-        orgId,
-        resType: 'deal',
-        formData: dealForm,
+        org_id,
+        res_type: 'deal',
+        form_data: dealForm,
       });
 
       const dealPipeline = new customizationModel({
-        orgId,
-        resType: 'pipeline',
-        pipelineData: [pipeline],
+        org_id,
+        res_type: 'pipeline',
+        pipeline_data: [pipeline],
       });
 
       //roleId links the newly created profile with this role.
       const admin = new roleModel({
-        _id: roleId,
-        orgId,
-        roleName: 'Administrator',
+        _id: role_id,
+        org_id,
+        role_name: 'Administrator',
         ...adminRole,
       });
       const manager = new roleModel({
-        orgId,
-        roleName: 'Manager',
+        org_id,
+        role_name: 'Manager',
         ...managerRole,
       });
 

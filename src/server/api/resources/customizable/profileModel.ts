@@ -2,13 +2,13 @@ import { model, Types, Schema } from 'mongoose';
 import { NotificationType } from '../../../types';
 
 export interface Profile {
-  orgName?: string;
-  orgId: Schema.Types.ObjectId;
-  firstName: string;
-  lastName: string;
+  org_name?: string;
+  org_id: Schema.Types.ObjectId;
+  first_name: string;
+  last_name: string;
   email: string;
-  roleId: Schema.Types.ObjectId;
-  passwordHash?: string;
+  role_id: Schema.Types.ObjectId;
+  password_hash?: string;
   ceo: boolean;
   notifications: [
     {
@@ -21,16 +21,18 @@ export interface Profile {
 }
 
 const basicSchema = new Schema<Profile>({
-  orgName: { type: String, required: false },
-  orgId: { type: Schema.Types.ObjectId, default: Types.ObjectId },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  org_name: { type: String, required: false },
+  org_id: { type: Schema.Types.ObjectId, default: Types.ObjectId },
+  first_name: { type: String, required: true },
+  last_name: { type: String, required: true },
   email: { type: String, required: true },
-  roleId: { type: Schema.Types.ObjectId, default: Types.ObjectId },
-  passwordHash: { type: String, required: false },
+  role_id: { type: Schema.Types.ObjectId, default: Types.ObjectId },
+  password_hash: { type: String, required: false },
   ceo: { type: Boolean, default: false },
   notifications: [],
 });
+
+basicSchema.index({ first_name: 'text' });
 
 const profileModel = model<Profile>('profile', basicSchema);
 

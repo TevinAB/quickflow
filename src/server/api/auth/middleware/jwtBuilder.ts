@@ -8,11 +8,11 @@ export default function jwtBuilder(
   next: NextFunction
 ) {
   if (process.env.JWT_SECRET) {
-    const { firstName, lastName, orgId, roleId, email, profileId } =
+    const { first_name, last_name, org_id, role_id, email, profile_id } =
       request.middlewareInfo.jwtData;
 
     const token = jwt.sign(
-      { firstName, lastName, orgId, roleId, email, profileId },
+      { first_name, last_name, org_id, role_id, email, profile_id },
       process.env.JWT_SECRET
     );
 

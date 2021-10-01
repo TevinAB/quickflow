@@ -53,7 +53,7 @@ const dealSchema = new Schema<Deal>(
 
 export interface BaseDocument {
   name: string;
-  orgId: Schema.Types.ObjectId;
+  org_id: Schema.Types.ObjectId;
   timeline_id: Schema.Types.ObjectId;
   created: Schema.Types.Date;
   owner: { first_name: string; last_name: string; _id: Schema.Types.ObjectId };
@@ -62,7 +62,7 @@ export interface BaseDocument {
 export const baseSchema = new Schema<BaseDocument>(
   {
     name: { type: String, required: true },
-    orgId: {
+    org_id: {
       type: Schema.Types.ObjectId,
       required: true,
     },
@@ -78,7 +78,12 @@ export const baseSchema = new Schema<BaseDocument>(
       },
     },
   },
-  { strict: false, collection: COLLECTION_NAME, discriminatorKey: '__type' }
+  {
+    strict: false,
+    collection: COLLECTION_NAME,
+    discriminatorKey: '__type',
+    autoIndex: true,
+  }
 );
 
 baseSchema.index({ name: 'text' });

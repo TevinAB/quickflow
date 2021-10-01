@@ -21,11 +21,11 @@ export function wrapperGetDocuments<T extends Model<BaseDocument>>(
     next: NextFunction
   ) {
     const { pageNum, itemsPerPage } = request.query;
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       const documents = await baseModel
-        .find({ orgId, __type: options.type })
+        .find({ org_id, __type: options.type })
         .sort(options.sortBy)
         .select(options.select);
 
@@ -84,7 +84,7 @@ export function wrapperCreateDocument<
     response: Response,
     next: NextFunction
   ) {
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
     const {
       data,
       meta: { initiator },
@@ -93,10 +93,10 @@ export function wrapperCreateDocument<
     try {
       const document = new baseModel({
         ...data,
-        orgId,
+        org_id,
         __type: options.type,
       });
-      const timeline = new timelineModel({ orgId, parentId: document._id });
+      const timeline = new timelineModel({ org_id, parent_id: document._id });
 
       const TIMELINE_ID = timeline._id;
       document.set('timeline_id', TIMELINE_ID);

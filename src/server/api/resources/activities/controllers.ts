@@ -17,7 +17,7 @@ export function wrapperGetActivity<T extends Model<Activity>>(
     next: NextFunction
   ) {
     const { key, from, to } = request.query;
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       const searchKey = String(key) || 'end';
@@ -28,7 +28,7 @@ export function wrapperGetActivity<T extends Model<Activity>>(
       const end = String(to);
 
       const results = await activityModel.find({
-        orgId,
+        org_id,
         __type: options.type,
         [searchKey]: { $gte: new Date(start), $lte: new Date(end) },
       });
@@ -53,7 +53,7 @@ export function wrapperCreateActivity<T extends Model<Activity>>(
     reponse: Response,
     next: NextFunction
   ) {
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
     const {
       data,
       meta: { initiator },
@@ -62,7 +62,7 @@ export function wrapperCreateActivity<T extends Model<Activity>>(
     try {
       const activity = new activityModel({
         ...data,
-        orgId,
+        org_id,
         __type: options.type,
       });
 

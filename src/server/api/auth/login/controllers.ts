@@ -23,19 +23,19 @@ export function wrapperLogin<T extends Model<Profile>>(
       if (user) {
         let passwordValid = false;
 
-        if (user.passwordHash) {
-          passwordValid = await hashCompare(password, user.passwordHash);
+        if (user.password_hash) {
+          passwordValid = await hashCompare(password, user.password_hash);
         }
 
         if (passwordValid) {
-          const { _id, firstName, lastName, email, orgId, roleId } = user;
+          const { _id, first_name, last_name, email, org_id, role_id } = user;
           request.middlewareInfo.jwtData = {
             profileId: _id,
-            firstName,
-            lastName,
+            first_name,
+            last_name,
             email,
-            orgId,
-            roleId,
+            org_id,
+            role_id,
           };
           next();
         } else {

@@ -11,12 +11,12 @@ export default function wrapperPipelineCheck<T extends Model<BaseDocument>>(
     next: NextFunction
   ) {
     const { _id } = request.params;
-    const { orgId } = request.middlewareInfo.jwtData;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       //check if pipeline is in use.
       const deals = await baseModel.find({
-        orgId,
+        org_id,
         __type: 'Deal',
         pipeline: _id,
       });
