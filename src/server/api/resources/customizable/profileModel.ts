@@ -20,17 +20,20 @@ export interface Profile {
   ];
 }
 
-const basicSchema = new Schema<Profile>({
-  org_name: { type: String, required: false },
-  org_id: { type: Schema.Types.ObjectId, default: Types.ObjectId },
-  first_name: { type: String, required: true },
-  last_name: { type: String, required: true },
-  email: { type: String, required: true },
-  role_id: { type: Schema.Types.ObjectId, default: Types.ObjectId },
-  password_hash: { type: String, required: false },
-  ceo: { type: Boolean, default: false },
-  notifications: [],
-});
+const basicSchema = new Schema<Profile>(
+  {
+    org_name: { type: String, required: false },
+    org_id: { type: Schema.Types.ObjectId, default: Types.ObjectId },
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
+    email: { type: String, required: true },
+    role_id: { type: Schema.Types.ObjectId, default: Types.ObjectId },
+    password_hash: { type: String, required: false },
+    ceo: { type: Boolean, default: false },
+    notifications: [],
+  },
+  { autoIndex: true }
+);
 
 basicSchema.index({ first_name: 'text' });
 
