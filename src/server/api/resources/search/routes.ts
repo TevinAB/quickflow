@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { wrapperSearchDocuments } from './controllers';
+import { wrapperSearchDocuments, wrapperSearchProfiles } from './controllers';
 import { baseModel } from '../documents/model';
+import profileModel from '../customizable/profileModel';
 
 const searchRoutes = Router();
 
@@ -14,5 +15,16 @@ const searchRoutes = Router();
  * ?q='some query text'
  */
 searchRoutes.get('/documents/:__type', wrapperSearchDocuments(baseModel));
+
+/**
+ * result: {
+ *  first_name: '',
+ *  last_name: ''
+ *  _id: 'doc id',
+ * }
+ *
+ * ?q='some query text'
+ */
+searchRoutes.get('/profiles/', wrapperSearchProfiles(profileModel));
 
 export default searchRoutes;
