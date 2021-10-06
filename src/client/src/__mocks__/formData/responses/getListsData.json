@@ -1,0 +1,13 @@
+{
+  "result": [
+      {
+          "res_type": "contact"
+      },
+      {
+          "res_type": "account"
+      },
+      {
+          "res_type": "deal"
+      }
+  ]
+}
