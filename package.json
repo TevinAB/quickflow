@@ -4,7 +4,7 @@
   "description": "CRM project",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon -e ts --exec npm start",
+    "server": "nodemon --watch src/server -e ts --exec npm start",
     "start": "node --loader ts-node/esm -r dotenv/config src/server/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
