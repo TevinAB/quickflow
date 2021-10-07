@@ -1,5 +1,5 @@
 import { DocumentType } from '../../types';
-import { defaultToken } from '../../utils/localStorage';
+import { defaultToken, toStringArray } from '../../utils/localStorage';
 import { get, post, put, _delete } from '../requests';
 
 export async function getDocumentOne(
@@ -79,13 +79,7 @@ export async function deleteDocument(
   token?: string
 ) {
   const _token = defaultToken(token);
-  let _id;
-
-  if (Array.isArray(id)) {
-    _id = [...id];
-  } else {
-    _id = Array.of(id);
-  }
+  let _id = toStringArray(id);
 
   const result = await _delete(
     `/api/resource/document/${docType.toLowerCase()}`,
