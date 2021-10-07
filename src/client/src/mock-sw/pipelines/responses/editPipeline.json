@@ -1,0 +1,20 @@
+{
+  "result": {
+      "stages": [
+          {
+              "stageName": "Start",
+              "order": 1
+          },
+          {
+              "stageName": "Mid",
+              "order": 2
+          },
+          {
+              "stageName": "End",
+              "order": 3
+          }
+      ],
+      "name": "Deal",
+      "_id": "615f6f9f48433fa23084ef16"
+  }
+}
