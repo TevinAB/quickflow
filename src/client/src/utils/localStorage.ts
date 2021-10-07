@@ -17,7 +17,7 @@ export function writeToLocalStorage(storageKey: string, value: string) {
 }
 
 export function defaultToken(token: string | undefined) {
-  return token ?? getFromLocalStorage('token');
+  return token || getFromLocalStorage('token');
 }
 
 export function toStringArray(str: string | Array<string>) {
