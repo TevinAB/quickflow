@@ -1,22 +1,16 @@
 import { DocumentType } from '../../types';
 import { defaultToken, toStringArray } from '../../utils/localStorage';
 import { get, post, put, _delete } from '../requests';
+import { AUTH_HEADER } from './../../constants/index';
 
 export async function getDocumentOne(
   docType: DocumentType,
   id: string,
   token?: string
 ) {
-  const _token = defaultToken(token);
-
-  const result = await get(
-    `/api/resource/document/${docType.toLowerCase()}/${id}`,
-    {
-      'x-auth-token': _token,
-    }
-  );
-
-  return result;
+  return await get(`/api/resource/document/${docType.toLowerCase()}/${id}`, {
+    [AUTH_HEADER]: defaultToken(token),
+  });
 }
 
 export async function getDocumentMany(
@@ -25,13 +19,10 @@ export async function getDocumentMany(
   itemsPerPage = 15,
   token?: string
 ) {
-  const _token = defaultToken(token);
-  const result = await get(
+  return await get(
     `/api/resource/document/${docType.toLowerCase()}s?pageNum=${pageNum}&itemsPerPage=${itemsPerPage}`,
-    { 'x-auth-token': _token }
+    { [AUTH_HEADER]: defaultToken(token) }
   );
-
-  return result;
 }
 
 export async function createDocument(
@@ -39,18 +30,14 @@ export async function createDocument(
   data: {},
   token?: string
 ) {
-  const _token = defaultToken(token);
-
-  const result = await post(
+  return await post(
     `/api/resource/document/${docType.toLowerCase()}`,
     {
-      'x-auth-token': _token,
+      [AUTH_HEADER]: defaultToken(token),
       'content-type': 'application/json',
     },
     data
   );
-
-  return result;
 }
 
 export async function editDocument(
@@ -59,18 +46,14 @@ export async function editDocument(
   data: {},
   token?: string
 ) {
-  const _token = defaultToken(token);
-
-  const result = await put(
+  return await put(
     `/api/resource/document/${docType.toLowerCase()}/${id}`,
     {
-      'x-auth-token': _token,
+      [AUTH_HEADER]: defaultToken(token),
       'content-type': 'application/json',
     },
     data
   );
-
-  return result;
 }
 
 export async function deleteDocument(
@@ -78,14 +61,9 @@ export async function deleteDocument(
   id: string | Array<string>,
   token?: string
 ) {
-  const _token = defaultToken(token);
-  let _id = toStringArray(id);
-
-  const result = await _delete(
+  return await _delete(
     `/api/resource/document/${docType.toLowerCase()}`,
-    { 'x-auth-token': _token, 'content-type': 'application/json' },
-    { _ids: _id }
+    { [AUTH_HEADER]: defaultToken(token), 'content-type': 'application/json' },
+    { _ids: toStringArray(id) }
   );
-
-  return result;
 }

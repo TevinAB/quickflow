@@ -9,7 +9,5 @@ export async function signUp(data: {}) {
 }
 
 async function auth(path: string, data: {}) {
-  const result = await post(path, { 'content-type': 'application/json' }, data);
-
-  return result;
+  return await post(path, { 'content-type': 'application/json' }, data);
 }

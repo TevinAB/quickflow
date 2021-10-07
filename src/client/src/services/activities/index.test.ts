@@ -9,9 +9,9 @@ describe('test the function that fetches activites', () => {
   it('should have a valid response if data is valid', async () => {
     const result = await getActivities(
       'Event',
-      'token',
       '10-7-2021',
-      '10-8-2021'
+      '10-8-2021',
+      'token'
     );
 
     expect(result.responseHeaders.statusText).toBe('OK');
@@ -25,9 +25,9 @@ describe('test the function that fetches activites', () => {
       try {
         const result = await getActivities(
           'Event',
-          'token',
           '12x-0-12',
-          'as-4-13'
+          'as-4-13',
+          'token'
         );
         return result;
       } catch (error) {
