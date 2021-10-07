@@ -19,3 +19,13 @@ export function writeToLocalStorage(storageKey: string, value: string) {
 export function defaultToken(token: string | undefined) {
   return token ?? getFromLocalStorage('token');
 }
+
+export function toStringArray(str: string | Array<string>) {
+  let result = [];
+  if (Array.isArray(str)) {
+    result = [...str];
+  } else {
+    result = Array.of(str);
+  }
+  return result;
+}

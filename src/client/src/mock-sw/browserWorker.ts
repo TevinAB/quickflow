@@ -1,4 +1,5 @@
 import { formDataHanlders } from './formData';
+import { authHandlers } from './auth';
 import { roleHandlers } from './roles';
 import { profileHandlers } from './profiles';
 import { contactHandlers } from './contacts';
@@ -9,6 +10,7 @@ import { searchHandlers } from './search';
 import { setupWorker } from 'msw';
 
 export const worker = setupWorker(
+  ...authHandlers,
   ...formDataHanlders,
   ...roleHandlers,
   ...profileHandlers,

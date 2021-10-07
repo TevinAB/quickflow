@@ -2,7 +2,7 @@ import { ActivityType } from '../../types';
 import { defaultToken } from '../../utils/localStorage';
 import { isValidDate, formatDate } from '../../utils/date';
 import { DATE_STANDARD_2 } from '../../constants';
-import { get, post, put } from '../requests';
+import { get, post, put, _delete } from '../requests';
 
 export async function getActivities(
   activityType: ActivityType,
@@ -55,6 +55,19 @@ export async function editActivity(
     { 'x-auth-token': _token, 'content-type': 'application/json' },
     data
   );
+
+  return result;
+}
+
+export async function deleteActivity(
+  activityType: ActivityType,
+  id: string,
+  token?: string
+) {
+  const _token = defaultToken(token);
+  const result = await _delete(`/api/resource/activity/${activityType}/${id}`, {
+    'x-auth-token': _token,
+  });
 
   return result;
 }
