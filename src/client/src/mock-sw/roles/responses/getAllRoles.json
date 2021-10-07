@@ -1,0 +1,12 @@
+{
+  "result": [
+      {
+          "_id": "61565cba5fe7d02c7753c12c",
+          "role_name": "Administrator"
+      },
+      {
+          "_id": "61565cba5fe7d02c7753c156",
+          "role_name": "Manager"
+      }
+  ]
+}
