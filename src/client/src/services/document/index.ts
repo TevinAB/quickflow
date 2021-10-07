@@ -1,8 +1,9 @@
-import { getFromLocalStorage } from '../localStorage';
+import { DocumentType } from '../../types';
+import { defaultToken } from '../../utils/localStorage';
 import { get, post, put, _delete } from '../requests';
 
 export async function getDocumentOne(
-  docType: string,
+  docType: DocumentType,
   id: string,
   token: string | undefined
 ) {
@@ -19,14 +20,14 @@ export async function getDocumentOne(
 }
 
 export async function getDocumentMany(
-  docType: string,
+  docType: DocumentType,
   token: string,
   pageNum: number,
   itemsPerPage = 15
 ) {
   const _token = defaultToken(token);
   const result = await get(
-    `/api/resource/document/${docType.toLowerCase()}?pageNum=${pageNum}&itemsPerPage=${itemsPerPage}`,
+    `/api/resource/document/${docType.toLowerCase()}s?pageNum=${pageNum}&itemsPerPage=${itemsPerPage}`,
     { 'x-auth-token': _token }
   );
 
@@ -34,7 +35,7 @@ export async function getDocumentMany(
 }
 
 export async function createDocument(
-  docType: string,
+  docType: DocumentType,
   data: {},
   token: string | undefined
 ) {
@@ -53,7 +54,7 @@ export async function createDocument(
 }
 
 export async function editDocument(
-  docType: string,
+  docType: DocumentType,
   id: string,
   data: {},
   token: string | undefined
@@ -73,7 +74,7 @@ export async function editDocument(
 }
 
 export async function deleteDocument(
-  docType: string,
+  docType: DocumentType,
   id: string | Array<string>,
   token: string | undefined
 ) {
@@ -93,8 +94,4 @@ export async function deleteDocument(
   );
 
   return result;
-}
-
-function defaultToken(token: string | undefined) {
-  return token ?? getFromLocalStorage('token');
 }
