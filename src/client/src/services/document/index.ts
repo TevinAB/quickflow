@@ -5,7 +5,7 @@ import { get, post, put, _delete } from '../requests';
 export async function getDocumentOne(
   docType: DocumentType,
   id: string,
-  token: string | undefined
+  token?: string
 ) {
   const _token = defaultToken(token);
 
@@ -21,9 +21,9 @@ export async function getDocumentOne(
 
 export async function getDocumentMany(
   docType: DocumentType,
-  token: string,
   pageNum: number,
-  itemsPerPage = 15
+  itemsPerPage = 15,
+  token?: string
 ) {
   const _token = defaultToken(token);
   const result = await get(
@@ -37,7 +37,7 @@ export async function getDocumentMany(
 export async function createDocument(
   docType: DocumentType,
   data: {},
-  token: string | undefined
+  token?: string
 ) {
   const _token = defaultToken(token);
 
@@ -57,7 +57,7 @@ export async function editDocument(
   docType: DocumentType,
   id: string,
   data: {},
-  token: string | undefined
+  token?: string
 ) {
   const _token = defaultToken(token);
 
@@ -76,7 +76,7 @@ export async function editDocument(
 export async function deleteDocument(
   docType: DocumentType,
   id: string | Array<string>,
-  token: string | undefined
+  token?: string
 ) {
   const _token = defaultToken(token);
   let _id;
