@@ -2,7 +2,7 @@ import { ActivityType } from '../../types';
 import { defaultToken } from '../../utils/localStorage';
 import { isValidDate, formatDate } from '../../utils/date';
 import { DATE_STANDARD_2 } from '../../constants';
-import { get } from '../requests';
+import { get, post } from '../requests';
 
 export async function getActivities(
   activityType: ActivityType,
@@ -21,6 +21,22 @@ export async function getActivities(
   const result = await get(
     `/api/resource/activity/${activityType.toLowerCase()}s?key=end_date&from=${start}&to=${end}}`,
     { 'x-auth-token': _token }
+  );
+
+  return result;
+}
+
+export async function createActivity(
+  activityType: ActivityType,
+  token: string,
+  data: {}
+) {
+  const _token = defaultToken(token);
+
+  const result = await post(
+    `/api/resource/activity/${activityType.toLowerCase()}`,
+    { 'x-auth-token': _token, 'content-type': 'application/json' },
+    data
   );
 
   return result;
