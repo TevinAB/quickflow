@@ -24,6 +24,13 @@ export async function _delete(path: string, headers: {}, body?: {}) {
   return extractData(result);
 }
 
-function extractData(result: AxiosResponse<{}>) {
-  return { responseHeaders: result.headers, data: result.data };
+function extractData(result: AxiosResponse<{ [key: string]: any }>) {
+  return {
+    responseHeaders: {
+      ...result.headers,
+      status: result.status,
+      statusText: result.statusText,
+    },
+    data: result.data,
+  };
 }
