@@ -16,7 +16,7 @@ export async function getActivities(
     throw new TypeError('Dates must be valid.');
 
   const start = formatDate(dateStart, DATE_STANDARD_2);
-  const end = formatDate(dateStart, DATE_STANDARD_2);
+  const end = formatDate(dateEnd, DATE_STANDARD_2);
 
   const result = await get(
     `/api/resource/activity/${activityType.toLowerCase()}s?key=end_date&from=${start}&to=${end}}`,
