@@ -1,0 +1,30 @@
+{
+  "data": {
+      "result": {
+          "_id": "616074e0fa3d8396e7cabe2d",
+          "phone": "8793449812",
+          "value": 150000,
+          "current_stage": 2,
+          "pipeline": "61539fc39dc12b1bdd4529ce",
+          "associated_contacts": [
+              {
+                  "_id": "615dcd97ee3a517af8efc8b7",
+                  "first_name": "jim",
+                  "last_name": "john",
+                  "timeline_id": "615dcd97ee3a517af8efc8b8"
+              }
+          ],
+          "name": "Xesi",
+          "org_id": "61565cba5fe7d02c7753c12b",
+          "owner": {
+              "first_name": "Tevin",
+              "last_name": "Banton",
+              "_id": "61565cba5fe7d02c7753c12a"
+          },
+          "__type": "Deal",
+          "created": "2021-10-08T16:42:08.297Z",
+          "timeline_id": "616074e0fa3d8396e7cabe2e",
+          "__v": 0
+      }
+  }
+}
