@@ -2,6 +2,7 @@ import getFormData from './responses/getFormData.json';
 import editFormData from './responses/editFormData.json';
 import listData from './responses/getListsData.json';
 import { validateRequest } from '../utils';
+import { AUTH_HEADER } from '../../constants';
 import { rest } from 'msw';
 
 export const formDataHanlders = [
@@ -9,7 +10,7 @@ export const formDataHanlders = [
     '/api/resource/customization/form/:type',
     (request, response, ctx) => {
       const valid = validateRequest(request, {
-        headers: ['x-auth-token'],
+        headers: [AUTH_HEADER],
         pathParams: ['type'],
       });
 
@@ -22,7 +23,7 @@ export const formDataHanlders = [
   ),
   rest.put('/api/resource/customization/form/:id', (request, response, ctx) => {
     const valid = validateRequest(request, {
-      headers: ['x-auth-token', 'content-type'],
+      headers: [AUTH_HEADER, 'content-type'],
       pathParams: ['id'],
     });
 
@@ -33,7 +34,7 @@ export const formDataHanlders = [
     }
   }),
   rest.get('/api/resource/customization/lists', (request, response, ctx) => {
-    const valid = validateRequest(request, { headers: ['x-auth-token'] });
+    const valid = validateRequest(request, { headers: [AUTH_HEADER] });
 
     if (valid) {
       return response(ctx.status(200), ctx.json(listData));
