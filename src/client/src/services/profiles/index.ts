@@ -39,3 +39,11 @@ export async function deleteProfile(id: string, token?: string) {
     { _ids: toStringArray(id) }
   );
 }
+
+export async function readNotifications(profileId: string, token?: string) {
+  return await put(
+    `/api/resources/notifications/${profileId}`,
+    buildHeaders({ auth: token, contentType: 'application/json' }),
+    {}
+  );
+}
