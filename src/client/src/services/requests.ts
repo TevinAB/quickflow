@@ -1,9 +1,17 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 
-export async function get(path: string, headers: {}) {
-  const result = await axios.get(path, { headers });
+export async function get(
+  path: string,
+  headers: {},
+  config?: AxiosRequestConfig
+) {
+  const result = await axios.get(path, { headers, ...config });
 
   return extractData(result);
+}
+
+export function createCancelToken() {
+  return axios.CancelToken.source();
 }
 
 export async function post(path: string, headers: {}, body: {}) {
