@@ -2,12 +2,13 @@ import getEvent from './responses/getEvent.json';
 import addEvent from './responses/addEvent.json';
 import deleteEvent from './responses/deleteEvent.json';
 import { validateRequest } from '../utils';
+import { AUTH_HEADER } from '../../constants';
 import { rest } from 'msw';
 
 export const eventRouteHandlers = [
   rest.get('/api/resource/activity/:events', (request, response, ctx) => {
     const valid = validateRequest(request, {
-      headers: ['x-auth-token'],
+      headers: [AUTH_HEADER],
       searchParams: ['from', 'to'],
     });
 
@@ -18,7 +19,7 @@ export const eventRouteHandlers = [
     }
   }),
   rest.post('/api/resource/activity/event', (request, response, ctx) => {
-    const valid = validateRequest(request, { headers: ['x-auth-token'] });
+    const valid = validateRequest(request, { headers: [AUTH_HEADER] });
 
     if (valid) {
       return response(ctx.status(200), ctx.json(addEvent));
@@ -28,7 +29,7 @@ export const eventRouteHandlers = [
   }),
   rest.put('/api/resource/activity/event/:id', (request, response, ctx) => {
     const valid = validateRequest(request, {
-      headers: ['x-auth-token'],
+      headers: [AUTH_HEADER],
       pathParams: ['id'],
     });
 
@@ -41,7 +42,7 @@ export const eventRouteHandlers = [
   }),
   rest.delete('/api/resource/activity/event/:id', (request, response, ctx) => {
     const valid = validateRequest(request, {
-      headers: ['x-auth-token'],
+      headers: [AUTH_HEADER],
       pathParams: ['id'],
     });
 
