@@ -1,0 +1,39 @@
+{
+  "result": [
+      {
+          "_id": "615dd186ee3a517af8efc926",
+          "value": 429000,
+          "name": "Mega deal",
+          "__type": "Deal",
+          "timeline_id": "615dd186ee3a517af8efc927",
+          "created": "2021-10-08T16:37:57.852Z"
+      },
+      {
+          "_id": "616074b3fa3d8396e7cabe1b",
+          "value": 255000,
+          "name": "Mokia",
+          "__type": "Deal",
+          "timeline_id": "616074b3fa3d8396e7cabe1c",
+          "created": "2021-9-08T16:37:57.852Z"
+      },
+      {
+          "_id": "616074e0fa3d8396e7cabe2d",
+          "value": 150000,
+          "name": "Xesi",
+          "__type": "Deal",
+          "timeline_id": "616074e0fa3d8396e7cabe2e",
+          "created": "2021-10-04T16:37:57.852Z"
+      },
+      {
+          "_id": "616073e5fa3d8396e7cabe09",
+          "value": 276891,
+          "name": "Zony",
+          "__type": "Deal",
+          "timeline_id": "616073e5fa3d8396e7cabe0a",
+          "created": "2021-10-12T16:37:57.852Z"
+      }
+  ],
+  "meta": {
+      "last_page": 1
+  }
+}

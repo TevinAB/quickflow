@@ -9,7 +9,10 @@ import { rest } from 'msw';
 
 export const contactHandlers = [
   rest.get('/api/resource/document/contacts', (request, response, ctx) => {
-    const valid = validateRequest(request, { headers: [AUTH_HEADER] });
+    const valid = validateRequest(request, {
+      headers: [AUTH_HEADER],
+      searchParams: ['pageNum', 'itemsPerPage'],
+    });
 
     if (valid) {
       return response(ctx.status(200), ctx.json(getAllContacts));
