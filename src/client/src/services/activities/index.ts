@@ -1,7 +1,7 @@
 import { ActivityType } from '../../types';
-import { defaultToken } from '../../utils/localStorage';
+import { buildHeaders } from '../headers';
 import { isValidDate, formatDate } from '../../utils/date';
-import { DATE_STANDARD_2, AUTH_HEADER } from '../../constants';
+import { DATE_STANDARD_2 } from '../../constants';
 import { get, post, put, _delete } from '../requests';
 
 export async function getActivities(
@@ -18,7 +18,7 @@ export async function getActivities(
 
   return await get(
     `/api/resource/activity/${activityType.toLowerCase()}s?key=end_date&from=${start}&to=${end}}`,
-    { [AUTH_HEADER]: defaultToken(token) }
+    buildHeaders({ auth: token })
   );
 }
 
@@ -29,7 +29,7 @@ export async function createActivity(
 ) {
   return await post(
     `/api/resource/activity/${activityType.toLowerCase()}`,
-    { [AUTH_HEADER]: defaultToken(token), 'content-type': 'application/json' },
+    buildHeaders({ auth: token, contentType: 'application/json' }),
     data
   );
 }
@@ -42,7 +42,7 @@ export async function editActivity(
 ) {
   return await put(
     `/api/resource/activity/${activityType.toLowerCase()}/${id}`,
-    { [AUTH_HEADER]: defaultToken(token), 'content-type': 'application/json' },
+    buildHeaders({ auth: token, contentType: 'application/json' }),
     data
   );
 }
@@ -52,7 +52,8 @@ export async function deleteActivity(
   id: string,
   token?: string
 ) {
-  return await _delete(`/api/resource/activity/${activityType}/${id}`, {
-    [AUTH_HEADER]: defaultToken(token),
-  });
+  return await _delete(
+    `/api/resource/activity/${activityType}/${id}`,
+    buildHeaders({ auth: token })
+  );
 }

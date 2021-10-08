@@ -1,16 +1,17 @@
 import { DocumentType } from '../../types';
-import { defaultToken, toStringArray } from '../../utils/localStorage';
+import { toStringArray } from '../../utils/localStorage';
+import { buildHeaders } from '../headers';
 import { get, post, put, _delete } from '../requests';
-import { AUTH_HEADER } from './../../constants/index';
 
 export async function getDocumentOne(
   docType: DocumentType,
   id: string,
   token?: string
 ) {
-  return await get(`/api/resource/document/${docType.toLowerCase()}/${id}`, {
-    [AUTH_HEADER]: defaultToken(token),
-  });
+  return await get(
+    `/api/resource/document/${docType.toLowerCase()}/${id}`,
+    buildHeaders({ auth: token })
+  );
 }
 
 export async function getDocumentMany(
@@ -21,7 +22,7 @@ export async function getDocumentMany(
 ) {
   return await get(
     `/api/resource/document/${docType.toLowerCase()}s?pageNum=${pageNum}&itemsPerPage=${itemsPerPage}`,
-    { [AUTH_HEADER]: defaultToken(token) }
+    buildHeaders({ auth: token })
   );
 }
 
@@ -32,10 +33,7 @@ export async function createDocument(
 ) {
   return await post(
     `/api/resource/document/${docType.toLowerCase()}`,
-    {
-      [AUTH_HEADER]: defaultToken(token),
-      'content-type': 'application/json',
-    },
+    buildHeaders({ auth: token, contentType: 'application/json' }),
     data
   );
 }
@@ -48,10 +46,7 @@ export async function editDocument(
 ) {
   return await put(
     `/api/resource/document/${docType.toLowerCase()}/${id}`,
-    {
-      [AUTH_HEADER]: defaultToken(token),
-      'content-type': 'application/json',
-    },
+    buildHeaders({ auth: token, contentType: 'application/json' }),
     data
   );
 }
@@ -63,7 +58,7 @@ export async function deleteDocument(
 ) {
   return await _delete(
     `/api/resource/document/${docType.toLowerCase()}`,
-    { [AUTH_HEADER]: defaultToken(token), 'content-type': 'application/json' },
+    buildHeaders({ auth: token, contentType: 'application/json' }),
     { _ids: toStringArray(id) }
   );
 }
