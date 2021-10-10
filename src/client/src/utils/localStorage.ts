@@ -1,7 +1,22 @@
+let storageEnabled: boolean | null = null;
 const LOCAL_STORAGE_ERROR = 'Local storage not enabled.';
 
+function localStorageEnabled() {
+  if (storageEnabled !== null) return storageEnabled;
+
+  try {
+    if (!window.localStorage) throw new ReferenceError(LOCAL_STORAGE_ERROR);
+
+    localStorage.setItem('test_storage', 'text');
+    localStorage.removeItem('test_storage');
+    storageEnabled = true;
+  } catch (error) {
+    storageEnabled = false;
+  }
+}
+
 export function getFromLocalStorage(storageKey: string) {
-  if (window.localStorage) {
+  if (localStorageEnabled()) {
     return window.localStorage.getItem(storageKey);
   } else {
     throw new ReferenceError(LOCAL_STORAGE_ERROR);
@@ -9,8 +24,16 @@ export function getFromLocalStorage(storageKey: string) {
 }
 
 export function writeToLocalStorage(storageKey: string, value: string) {
-  if (window.localStorage) {
+  if (localStorageEnabled()) {
     window.localStorage.setItem(storageKey, value);
+  } else {
+    throw new ReferenceError(LOCAL_STORAGE_ERROR);
+  }
+}
+
+export function removeFromLocalStorage(storageKey: string) {
+  if (localStorageEnabled()) {
+    window.localStorage.removeItem(storageKey);
   } else {
     throw new ReferenceError(LOCAL_STORAGE_ERROR);
   }
