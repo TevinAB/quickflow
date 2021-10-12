@@ -1,17 +1,26 @@
 import { createTheme } from '@mui/material/styles';
+import { CSSProperties } from 'react';
 
 declare module '@mui/material/styles' {
   interface Theme {
-    status: {
-      danger: string;
+    widgets: {
+      borderSize: CSSProperties['borderWidth'];
+      borderRadius: CSSProperties['borderRadius'];
+      borderColor: CSSProperties['borderColor'];
     };
   }
 
   interface ThemeOptions {
-    status?: {
-      danger?: string;
+    widgets?: {
+      borderSize?: CSSProperties['borderWidth'];
+      borderRadius?: CSSProperties['borderRadius'];
+      borderColor?: CSSProperties['borderColor'];
     };
   }
+
+  interface Palette {}
+  interface PaletteOptions {}
+
   interface BreakpointOverrides {
     xs: false;
     sm: false;
@@ -27,6 +36,11 @@ declare module '@mui/material/styles' {
 }
 
 export const theme = createTheme({
+  widgets: {
+    borderSize: '1px',
+    borderRadius: '10px',
+    borderColor: 'rgba(153, 153, 153, 0.44)',
+  },
   palette: {
     primary: {
       main: '#081a43',
