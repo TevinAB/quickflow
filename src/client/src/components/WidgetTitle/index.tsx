@@ -1,52 +1,33 @@
-import React from 'react';
+import { ReactNode } from 'react';
+import { useTheme } from '@mui/material';
+import { SxProps } from '@mui/system';
 import Box from '../Box';
 
 type WidgetTitleProps = {
-  children: React.ReactNode;
-
-  /**The type of widget it's being used with. */
-  type: '.main_widget' | '.mini_widget';
+  children: ReactNode;
 };
 
-const baseStyle = {
-  backgroundColor: 'secondary.main',
-  display: 'flex',
-  justifyContent: 'space-between',
-  padding: 1,
-  paddingLeft: 2,
-  paddingRight: 2,
-} as const;
-
-const mainStyle = {
-  borderBottom: '1px solid rgba(153, 153, 153, 0.44)',
-} as const;
-
 export default function WidgetTitle({
-  type,
   children,
   ...otherProps
 }: WidgetTitleProps) {
-  let style;
+  const theme = useTheme();
 
-  switch (type) {
-    case '.main_widget':
-      style = {
-        ...baseStyle,
-        ...mainStyle,
-      };
-      break;
-    case '.mini_widget':
-      style = {
-        ...baseStyle,
-      };
-      break;
-    default:
-      style = baseStyle;
-      break;
-  }
+  const baseStyle: SxProps = {
+    backgroundColor: 'secondary.main',
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: 1,
+    paddingX: 2,
+    borderStyle: 'solid',
+    borderWidth: theme.widgets.borderSize,
+    borderColor: theme.widgets.borderColor,
+    borderTopLeftRadius: theme.widgets.borderRadius,
+    borderTopRightRadius: theme.widgets.borderRadius,
+  };
 
   return (
-    <Box sx={style} {...otherProps}>
+    <Box sx={baseStyle} {...otherProps}>
       {children}
     </Box>
   );
