@@ -1,5 +1,31 @@
 import { createTheme } from '@mui/material/styles';
 
+declare module '@mui/material/styles' {
+  interface Theme {
+    status: {
+      danger: string;
+    };
+  }
+
+  interface ThemeOptions {
+    status?: {
+      danger?: string;
+    };
+  }
+  interface BreakpointOverrides {
+    xs: false;
+    sm: false;
+    md: false;
+    lg: false;
+    xl: false;
+    mobile_sm: true;
+    mobile: true;
+    tablet: true;
+    laptop: true;
+    desktop: true;
+  }
+}
+
 export const theme = createTheme({
   palette: {
     primary: {
@@ -18,11 +44,11 @@ export const theme = createTheme({
   },
   breakpoints: {
     values: {
-      xs: 0,
-      sm: 425,
-      md: 768,
-      lg: 1024,
-      xl: 1440,
+      mobile_sm: 0,
+      mobile: 425,
+      tablet: 768,
+      laptop: 1024,
+      desktop: 1440,
     },
   },
 });
