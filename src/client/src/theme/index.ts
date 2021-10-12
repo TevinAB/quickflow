@@ -54,7 +54,7 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily: ['Nunito', 'sans-serif'].join(','),
-    fontSize: 12,
+    fontSize: 13,
   },
   breakpoints: {
     values: {
