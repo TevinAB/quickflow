@@ -1,0 +1,78 @@
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 310px;
+  min-height: 380px;
+  max-height: 380px;
+  overflow: hidden;
+  border: 1px solid var(--grey-2);
+  border-radius: var(--border-radius-1);
+  padding: var(--padding-2);
+  background-color: white;
+}
+
+.feature-card__icon {
+  display: flex;
+  padding: 0.1rem;
+  border-radius: var(--border-radius-1);
+}
+
+.feature-card__title {
+  text-transform: capitalize;
+  margin-top: var(--padding-1);
+  margin-bottom: var(--padding-1);
+}
+
+.feature-card__desc {
+  text-align: left;
+  color: var(--grey-1);
+}
+
+.bg-1 {
+  background: linear-gradient(
+    28deg,
+    rgb(80, 154, 167) 0%,
+    rgba(163, 216, 227, 1) 80%
+  );
+}
+
+.bg-2 {
+  background: linear-gradient(
+    28deg,
+    rgba(194, 114, 149, 1) 0%,
+    rgb(240, 200, 228, 1) 100%
+  );
+}
+
+.bg-3 {
+  background: linear-gradient(
+    28deg,
+    rgba(253, 162, 50, 1) 0%,
+    rgba(231, 209, 158, 1) 100%
+  );
+}
+
+.bg-4 {
+  background: linear-gradient(
+    28deg,
+    rgba(2, 216, 144, 1) 29%,
+    rgba(201, 233, 163, 1) 90%
+  );
+}
+
+.bg-5 {
+  background: linear-gradient(
+    28deg,
+    rgba(134, 30, 214, 1) 0%,
+    rgb(179, 156, 241) 100%
+  );
+}
+
+.bg-6 {
+  background: linear-gradient(
+    28deg,
+    rgba(214, 30, 62, 1) 0%,
+    rgba(224, 127, 149, 1) 100%
+  );
+}
