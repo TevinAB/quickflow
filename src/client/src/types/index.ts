@@ -24,3 +24,10 @@ export interface SignUpData {
 export interface ApiError {
   message: string;
 }
+
+export interface Notification {
+  title: string;
+  read: boolean;
+  type: string;
+  added: string | Date;
+}
