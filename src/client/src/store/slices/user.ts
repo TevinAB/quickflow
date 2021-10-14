@@ -1,4 +1,9 @@
-import { LoginData, ApiError, SignUpData } from './../../types/index';
+import {
+  LoginData,
+  ApiError,
+  SignUpData,
+  Notification,
+} from './../../types/index';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { login, signUp } from '../../services/auth';
 import { readNotifications } from '../../services/profiles';
@@ -8,13 +13,6 @@ import {
 } from '../../utils/localStorage';
 
 const TOKEN_NAME = 'auth_token';
-
-interface Notification {
-  title: string;
-  read: boolean;
-  type: string;
-  added: string | Date;
-}
 
 interface UserState {
   _id: string;
