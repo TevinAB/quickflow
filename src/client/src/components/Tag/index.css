@@ -1,0 +1,11 @@
+.tag {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 3px;
+  user-select: none;
+}
