@@ -1,0 +1,20 @@
+.info-widget {
+  border: 1px solid var(--grey-2);
+  width: 300px;
+  border-radius: var(--border-radius-1);
+  text-align: left;
+  padding: var(--padding-1);
+}
+
+.info-widget > div:not(:last-child) {
+  margin-bottom: var(--margin-1);
+}
+
+.info-widget__title {
+  margin-bottom: 1rem;
+}
+
+.info-widget__label {
+  font-weight: bold;
+  padding-bottom: 0.2rem;
+}
