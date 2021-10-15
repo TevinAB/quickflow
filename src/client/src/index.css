@@ -31,3 +31,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.btn {
+  display: inline-block;
+  padding: 0.5rem var(--padding-1);
+  border-radius: 5px;
+  transition: ease-in 0.32s background-color;
+  font-size: 15px;
+}
