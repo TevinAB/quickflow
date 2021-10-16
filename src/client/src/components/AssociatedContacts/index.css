@@ -1,0 +1,35 @@
+.assc-contacts a {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.assc-contacts a:hover {
+  text-decoration: underline;
+}
+
+.assc-contacts__list {
+  list-style-type: none;
+  height: 150px;
+}
+
+.assc-contacts__list > li:not(:last-child) {
+  margin-bottom: 0.2rem;
+}
+
+.assc-contacts__contact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--border-radius-1);
+  text-transform: capitalize;
+  padding: 0.5rem var(--padding-1);
+}
+
+.assc-contacts__contact:hover {
+  background-color: var(--secondary-color-dark);
+}
+
+.assc-contact__inner-wrapper {
+  padding: 0.5rem 0;
+}
