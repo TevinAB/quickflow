@@ -1,20 +1,19 @@
-.info-widget {
-  border: 1px solid var(--grey-2);
-  width: 300px;
-  border-radius: var(--border-radius-1);
-  text-align: left;
-  padding: var(--padding-1);
+.info__body {
+  list-style-type: none;
+  height: 150px;
 }
 
-.info-widget > div:not(:last-child) {
+.info__body > li:not(:last-child) {
   margin-bottom: var(--margin-1);
 }
 
 .info-widget__title {
+  text-transform: capitalize;
   margin-bottom: 1rem;
 }
 
 .info-widget__label {
   font-weight: bold;
+  text-transform: capitalize;
   padding-bottom: 0.2rem;
 }

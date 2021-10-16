@@ -1,7 +1,6 @@
 import './index.css';
 import { numberFormat } from '../../utils';
 import { Link } from 'react-router-dom';
-import React from 'react';
 import { CURRENCY_DECIMAL } from '../../constants';
 import { Typography } from '@mui/material';
 
@@ -17,11 +16,11 @@ type AsscDealsProp = {
 
 export default function AssociatedDeals({ deals }: AsscDealsProp) {
   return (
-    <div className="assc-deals">
-      <Typography fontWeight="bold" component="h2" variant="h6">
+    <div className="widget assc-deals">
+      <Typography fontWeight="bold" component="h2" className="widget__title">
         Associated Deals ({deals.length})
       </Typography>
-      <ul className="assc-deals__list">
+      <ul className="widget__body assc-deals__list">
         {deals.map(({ _id, name, value }) => (
           <li>
             <Link to={`/deal/${_id}`}>

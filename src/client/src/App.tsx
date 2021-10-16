@@ -3,9 +3,11 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './theme';
+import { StyledEngineProvider } from '@mui/material/styles';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import AssociatedDeals from './components/AssociatedDeals';
+import InfoWidget from './components/InfoWidget';
 
 const dealData = [
   {
@@ -47,27 +49,39 @@ const dealData = [
   },
 ];
 
+const infoData = [
+  { label: 'name', value: 'Tevin Banton' },
+  { label: 'phone', value: 8843090 },
+  { label: 'email', value: 'teb@gmal.com' },
+  { label: 'value', value: 240000 },
+  { label: 'job', value: 'Frontend developer' },
+];
+
 function App() {
   return (
-    <div
-      style={{
-        paddingTop: '2rem',
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-      }}
-      className="App"
-    >
-      <Router>
-        <ThemeProvider theme={theme}>
-          <Provider store={store}>
-            <div style={{ width: '40%' }}>
-              <AssociatedDeals deals={dealData} />
-            </div>
-          </Provider>
-        </ThemeProvider>
-      </Router>
-    </div>
+    <StyledEngineProvider injectFirst>
+      <div
+        style={{
+          paddingTop: '2rem',
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
+        className="App"
+      >
+        <Router>
+          <ThemeProvider theme={theme}>
+            <Provider store={store}>
+              <div style={{ width: '40%' }}>
+                <AssociatedDeals deals={dealData} />
+                <div style={{ height: '30px' }}></div>
+                <InfoWidget data={infoData} title="Profile" />
+              </div>
+            </Provider>
+          </ThemeProvider>
+        </Router>
+      </div>
+    </StyledEngineProvider>
   );
 }
 

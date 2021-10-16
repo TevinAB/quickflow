@@ -15,6 +15,7 @@
   --yellow: #ffc241;
   --border-radius-1: 10px;
   --margin-1: 1.5rem;
+  --margin-widget: 1rem;
   --padding-1: 1.1rem;
   --padding-2: 2rem;
   --grey-1: rgb(110, 114, 114);
@@ -39,4 +40,35 @@ code {
   border-radius: 5px;
   transition: ease-in 0.32s background-color;
   font-size: 15px;
+}
+
+.widget {
+  width: 100%;
+  border: 1px solid var(--grey-2);
+  border-radius: var(--border-radius-1);
+  text-align: left;
+  padding: var(--padding-1);
+}
+
+.widget__title {
+  font-size: 14.8px;
+  margin-bottom: var(--margin-widget);
+  border-bottom: 1px solid var(--grey-2);
+}
+
+.widget__body {
+  overflow: auto;
+  padding: 0 10px 0 0;
+  margin-bottom: var(--margin-widget);
+}
+
+.widget__body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: var(--secondary-color-light);
+}
+
+.widget__body::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-color-dark-1);
+  border-radius: var(--border-radius-1);
 }
