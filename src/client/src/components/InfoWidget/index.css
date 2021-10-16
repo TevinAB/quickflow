@@ -1,6 +1,5 @@
 .info__body {
   list-style-type: none;
-  height: 150px;
 }
 
 .info__body > li:not(:last-child) {
