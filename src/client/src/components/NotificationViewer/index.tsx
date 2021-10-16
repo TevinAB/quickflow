@@ -2,7 +2,6 @@ import './notif.css';
 import { Notification } from '../../types';
 import { timeFromNow } from '../../utils/date';
 import { useTheme } from '@mui/material';
-// import { useAppDispatch } from '../../hooks/redux';
 import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { readNotifThunk } from '../../store/slices/user';
