@@ -1,0 +1,10 @@
+.profile-pic {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius-1);
+  font-weight: bold;
+  color: white;
+  user-select: none;
+  overflow: hidden;
+}
