@@ -1,12 +1,15 @@
-import { CancelToken } from 'axios';
+import { CancelToken, CancelTokenSource } from 'axios';
 
 export type Cancel_Token = CancelToken;
+export type Cancel_Token_Source = CancelTokenSource;
 
 export type DocumentType = 'Contact' | 'Account' | 'Deal';
 
 export type FormType = DocumentType;
 
 export type ActivityType = 'Task' | 'Event';
+
+export type SearchType = 'Profiles' | DocumentType;
 
 export interface LoginData {
   email: string;
