@@ -5,9 +5,14 @@ export async function get(
   headers: {},
   config?: AxiosRequestConfig
 ) {
-  const result = await axios.get(path, { headers, ...config });
-
-  return extractData(result);
+  try {
+    const result = await axios.get(path, { headers, ...config });
+    return extractData(result);
+  } catch (error) {
+    if (!axios.isCancel(error)) {
+      throw error;
+    }
+  }
 }
 
 export function createCancelToken() {
