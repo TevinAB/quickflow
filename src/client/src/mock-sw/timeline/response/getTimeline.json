@@ -3,11 +3,33 @@
   "org_id": "61565cba5fe7d02c7753c12b",
   "parent_id": "61566801642c753073fe012e",
   "timeline_items": [
-      {
-          "title": "Contact created by Tevin banton",
-          "item_type": "other",
-          "date": "2021-10-01T01:44:33.345Z",
-          "_id": "61566801642c753073fe0133"
-      }
-  ]
+    {
+        "body": "",
+        "title": "Contact created by Tevin banton",
+        "item_type": "other",
+        "date": "2021-10-01T01:44:33.345Z",
+        "_id": "61566801642c753073fe0133"
+    },
+    {
+        "body": "Call later..",
+        "title": "Note created by Tevin Banton",
+        "item_type": "note",
+        "date": "2021-10-06T17:02:04.641Z",
+        "_id": "615dd68cee3a517af8efc98a"
+    },
+    {
+        "body": "Send email",
+        "title": "Note edited by Tevin Banton",
+        "item_type": "Note",
+        "date": "2021-10-06T17:04:25.791Z",
+        "_id": "615dd719ee3a517af8efc998"
+    },
+    {
+        "body": "Ut fringilla elit ac diam imperdiet, et bibendum justo euismod. Nunc sagittis mollis diam, nec varius libero volutpat nec. Morbi sit amet posuere nisi. Proin finibus fermentum varius. Etiam hendrerit urna ut aliquam pharetra. Curabitur ac erat ornare, placerat nisl id, consequat ex. Nulla dolor lorem, vehicula eget faucibus non, feugiat ac est. Morbi sollicitudin tellus eget congue mollis. Vestibulum at sagittis ex, in sollicitudin sapien.",
+        "title": "Note edited by Tevin Banton",
+        "item_type": "Note",
+        "date": "2021-10-06T17:05:09.855Z",
+        "_id": "615dd745ee3a517af8efc9a7"
+    }
+]
 }
