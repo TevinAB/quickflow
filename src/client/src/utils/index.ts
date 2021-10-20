@@ -63,3 +63,48 @@ const icons: Record<SearchType | ActivityType, typeof ContactPageOutlinedIcon> =
 export function getIcon(type: keyof typeof icons) {
   return icons[type];
 }
+
+interface PicklistConvertOptions<U> {
+  valueKey: keyof U;
+  textKey: keyof U;
+  selected?: Partial<Record<keyof U, any>>;
+}
+
+export function toPicklistData<T extends Object>(
+  rawData: Array<T>,
+  options: PicklistConvertOptions<T>
+) {
+  const result: Array<{
+    value: T[keyof T];
+    text: T[keyof T];
+    selected: boolean;
+  }> = [];
+
+  rawData.forEach((item) => {
+    const obj = {
+      text: item[options.textKey],
+      value: item[options.valueKey],
+      selected: checkPropEqual(item, options.selected),
+    };
+
+    result.push(obj);
+  });
+
+  return result;
+
+  function checkPropEqual(item: T, selected: typeof options.selected) {
+    for (let prop in selected) {
+      if (selected.hasOwnProperty) {
+        if (selected.hasOwnProperty(prop)) {
+          if (selected[prop] !== item[prop]) {
+            return false;
+          }
+        }
+      } else {
+        return false;
+      }
+    }
+
+    return true;
+  }
+}
