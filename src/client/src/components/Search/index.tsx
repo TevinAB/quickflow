@@ -19,7 +19,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 type SearchProps = {
   shouldSubmit: boolean;
   searchType?: SearchType;
-  searchTypeList?: (setType: () => void) => JSX.Element;
+  searchTypeList?: (
+    setType: (type: SetStateAction<SearchType>) => void
+  ) => JSX.Element;
   customOnClick?: (
     selectedResult: SearchResultItem,
     setQuery: (query: SetStateAction<string>) => void
@@ -125,30 +127,35 @@ export default function Search({
 
   return (
     <div className="search">
-      <form method="get" onSubmit={handleSubmit}>
-        <TextField
-          id="search-box"
-          inputRef={searchBoxRef}
-          className="search__box"
-          type="text"
-          size="small"
-          value={query}
-          onKeyDown={handleKeyboardTraversal}
-          onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => setShowResults(true)}
-        />
-        {showResults && (
-          <Typeahead
-            searchResults={data?.length ? data : []}
-            activeResultRef={activeResultRef}
-            typeaheadRef={typeaheadRef}
-            activeResultIndex={activeResultIndex}
-            handleClick={handleClick}
-            loading={loading}
-            error={error}
+      <div className="search__inner-wrapper">
+        <div style={{ width: '120px', maxWidth: '120px' }}>
+          {searchTypeList && searchTypeList(setType)}
+        </div>
+        <form method="get" onSubmit={handleSubmit}>
+          <TextField
+            id="search-box"
+            inputRef={searchBoxRef}
+            className="search__box"
+            type="text"
+            size="small"
+            value={query}
+            onKeyDown={handleKeyboardTraversal}
+            onChange={(e) => setQuery(e.target.value)}
+            onFocus={() => setShowResults(true)}
           />
-        )}
-      </form>
+        </form>
+      </div>
+      {showResults && (
+        <Typeahead
+          searchResults={data?.length ? data : []}
+          activeResultRef={activeResultRef}
+          typeaheadRef={typeaheadRef}
+          activeResultIndex={activeResultIndex}
+          handleClick={handleClick}
+          loading={loading}
+          error={error}
+        />
+      )}
     </div>
   );
 }
