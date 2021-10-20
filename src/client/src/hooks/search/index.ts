@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { searchDocuments, searchProfiles } from '../../services/search';
-import { SearchType } from '../../types';
+import { SearchType, SearchResultItem } from '../../types';
 import { createCancelToken } from '../../services/requests';
 
 type UseSearchOptions = {
@@ -12,7 +12,7 @@ export function useSearch(
   query: string,
   options?: UseSearchOptions
 ) {
-  const [data, setData] = useState<Object | undefined>();
+  const [data, setData] = useState<Array<SearchResultItem>>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const cancelToken = useRef<ReturnType<typeof createCancelToken>>(
@@ -25,9 +25,9 @@ export function useSearch(
     async function search() {
       setLoading(true);
 
-      if (cancelToken) cancelToken.current?.cancel();
+      if (cancelToken.current) cancelToken.current.cancel();
 
-      cancelToken.current.token = createCancelToken().token;
+      cancelToken.current = createCancelToken();
 
       try {
         //refactor this after fixing api
@@ -43,8 +43,8 @@ export function useSearch(
           );
 
           setLoading(false);
-          setData(data?.data);
-        } else if (type === 'Profiles' && cancelToken.current) {
+          setData(data?.data.result);
+        } else if (type === 'Profile' && cancelToken.current) {
           const data = await searchProfiles(
             query,
             cancelToken.current.token,
@@ -52,7 +52,7 @@ export function useSearch(
           );
 
           setLoading(false);
-          setData(data?.data);
+          setData(data?.data.result);
         }
       } catch (error) {
         setLoading(false);

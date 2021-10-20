@@ -3,7 +3,23 @@
       {
           "_id": "61565cba5fe7d02c7753c12a",
           "first_name": "Tevin",
-          "last_name": "Banton"
+          "last_name": "Banton",
+          "name": "Tevin Banton",
+          "__type": "Profile"
+      },
+      {
+        "_id": "61565cba5fe7d02c7753c14a",
+        "first_name": "John",
+        "last_name": "Snow",
+        "name": "John Snow",
+        "__type": "Profile"
+      },
+      {
+        "_id": "61565cba5fe7452c7753c12a",
+        "first_name": "Ariya",
+        "last_name": "Stark",
+        "name": "Ariya Stark",
+        "__type": "Profile"
       }
   ]
 }

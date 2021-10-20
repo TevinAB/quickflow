@@ -13,7 +13,11 @@ export const searchHandlers = [
     });
 
     if (valid) {
-      return response(ctx.status(200), ctx.json(searchContacts));
+      return response(
+        ctx.status(200),
+        ctx.json(searchContacts),
+        ctx.delay(500)
+      );
     } else {
       return response(ctx.status(400));
     }

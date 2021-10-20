@@ -9,7 +9,13 @@ export type FormType = DocumentType;
 
 export type ActivityType = 'Task' | 'Event';
 
-export type SearchType = 'Profiles' | DocumentType;
+export type SearchType = 'Profile' | DocumentType;
+
+export type SearchResultItem = {
+  _id: string;
+  __type: SearchType;
+  name: string;
+};
 
 export interface LoginData {
   email: string;

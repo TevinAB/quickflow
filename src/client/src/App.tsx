@@ -6,6 +6,8 @@ import { theme } from './theme';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import Search from './components/Search';
+
 function App() {
   return (
     <StyledEngineProvider injectFirst>
@@ -21,7 +23,9 @@ function App() {
         <Router>
           <ThemeProvider theme={theme}>
             <Provider store={store}>
-              <div style={{ width: '40%' }}></div>
+              <div style={{ width: '40%' }}>
+                <Search shouldSubmit={true} searchType="Contact" />
+              </div>
             </Provider>
           </ThemeProvider>
         </Router>
