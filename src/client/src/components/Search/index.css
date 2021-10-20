@@ -6,6 +6,14 @@
   width: 100%;
 }
 
+.search__inner-wrapper {
+  display: flex;
+}
+
+.search__inner-wrapper form {
+  width: 100%;
+}
+
 .typeahead {
   position: absolute;
   width: 100%;
