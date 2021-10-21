@@ -27,8 +27,10 @@ export default function PickList({ optionsData, afterChange }: PickListProps) {
       fullWidth
       onChange={handleChange}
     >
-      {optionsData.map((option) => (
-        <MenuItem value={option.value}>{option.text}</MenuItem>
+      {optionsData.map((option, i) => (
+        <MenuItem key={i} value={option.value}>
+          {option.text}
+        </MenuItem>
       ))}
     </Select>
   );
