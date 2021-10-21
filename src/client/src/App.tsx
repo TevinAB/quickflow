@@ -6,18 +6,22 @@ import { theme } from './theme';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import AppBar from './components/AppBar';
-
 function App() {
   return (
     <StyledEngineProvider injectFirst>
-      <div style={{ height: '120vh' }} className="App">
+      <div
+        style={{
+          height: '120vh',
+          paddingTop: '2rem',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+        className="App"
+      >
         <Router>
           <ThemeProvider theme={theme}>
             <Provider store={store}>
-              <div>
-                <AppBar />
-              </div>
+              <div style={{ width: '80%' }}></div>
             </Provider>
           </ThemeProvider>
         </Router>
