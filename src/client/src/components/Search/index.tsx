@@ -26,6 +26,7 @@ type SearchProps = {
     selectedResult: SearchResultItem,
     setQuery: (query: SetStateAction<string>) => void
   ) => void;
+  inputId?: string;
 };
 
 export default function Search({
@@ -33,6 +34,7 @@ export default function Search({
   searchTypeList,
   shouldSubmit,
   customOnClick,
+  inputId,
 }: SearchProps) {
   const history = useHistory();
   const authToken = useAppSelector((state) => state.user.token);
@@ -128,12 +130,14 @@ export default function Search({
   return (
     <div className="search">
       <div className="search__inner-wrapper">
-        <div style={{ width: '120px', maxWidth: '120px' }}>
-          {searchTypeList && searchTypeList(setType)}
-        </div>
+        {searchTypeList && (
+          <div style={{ width: '120px', maxWidth: '120px' }}>
+            {searchTypeList(setType)}
+          </div>
+        )}
         <form method="get" onSubmit={handleSubmit}>
           <TextField
-            id="search-box"
+            id={inputId || 'search-box'}
             inputRef={searchBoxRef}
             className="search__box"
             type="text"

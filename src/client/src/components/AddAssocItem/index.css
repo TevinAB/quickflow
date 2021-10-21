@@ -1,0 +1,15 @@
+.add-assoc {
+  text-align: left;
+  padding: var(--padding-1);
+  background-color: var(--secondary-color-main);
+}
+
+.add-assoc__tags {
+  border: 1px solid var(--grey-2);
+  border-radius: var(--border-radius-1);
+  margin-top: var(--margin-1);
+  padding: 0.5rem;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
