@@ -11,6 +11,18 @@ export type FormType = DocumentType;
 
 export type ActivityType = 'Task' | 'Event';
 
+export type ActivityBase = {
+  start_date: string;
+  end_date: string;
+  description: string;
+};
+export type Task = {
+  completed: boolean;
+} & SearchResultItem &
+  ActivityBase;
+
+export type Event = SearchResultItem & ActivityBase;
+
 export type SearchType = 'Profile' | DocumentType;
 
 //A work around to take the type of a generic function.

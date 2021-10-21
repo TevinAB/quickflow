@@ -5,7 +5,7 @@ import { profileHandlers } from './profiles';
 import { contactHandlers } from './contacts';
 import { dealHandlers } from './deals';
 import { timelineHandlers } from './timeline';
-import { eventRouteHandlers } from './events';
+import { activityRouteHandlers } from './activities';
 import { pipelineHandlers } from './pipelines';
 import { searchHandlers } from './search';
 
@@ -17,7 +17,7 @@ export const allHandlers = [
   ...contactHandlers,
   ...dealHandlers,
   ...timelineHandlers,
-  ...eventRouteHandlers,
+  ...activityRouteHandlers,
   ...pipelineHandlers,
   ...searchHandlers,
 ];
