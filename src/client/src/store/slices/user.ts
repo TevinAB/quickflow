@@ -73,7 +73,19 @@ export const readNotifThunk = createAsyncThunk<
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: {} as UserState,
+  initialState: {
+    token: '',
+    _id: '',
+    first_name: '',
+    last_name: '',
+    email: '',
+    org_name: '',
+    notifications: [],
+    is_admin: false,
+    is_loading: false,
+    error_message: '',
+    notif_error_msg: '',
+  } as UserState,
   reducers: {
     logout(state) {
       state._id = '';

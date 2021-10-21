@@ -10,8 +10,8 @@ import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlin
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 import TodayOutlinedIcon from '@mui/icons-material/TodayOutlined';
 import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Typography } from '@mui/material';
-import { Tooltip } from '@mui/material';
 import IconButton from '../IconButton';
 
 const Links = [
@@ -44,6 +44,11 @@ const Links = [
     icon: TodayOutlinedIcon,
     text: 'events',
     link: '/events',
+  },
+  {
+    icon: SettingsOutlinedIcon,
+    text: 'settings',
+    link: '/settings',
   },
 ];
 
@@ -91,8 +96,9 @@ type NavLinksProps = {
 export function NavLinks({ isOpen, currentUrl }: NavLinksProps) {
   return (
     <ul className="side-bar__links">
-      {Links.map(({ text, link, icon }) => (
+      {Links.map(({ text, link, icon }, i) => (
         <NavItem
+          key={i}
           text={text}
           link={link}
           icon={icon}
@@ -120,20 +126,14 @@ function NavItem({ icon: Icon, text, link, showText, isActive }: NavItemProps) {
   return (
     <li className={classes}>
       <Link to={link}>
-        <Tooltip
-          sx={{ backgroundColor: 'black' }}
-          title={text}
-          placement="right"
-        >
-          <div className="side-bar__wrapper">
-            <span className="side-bar__icon-wrapper">
-              <Icon sx={{ fontSize: iconSize }} />
-            </span>
-            <Collapse orientation="horizontal" in={showText}>
-              <span className="side-bar__link-text">{text}</span>
-            </Collapse>
-          </div>
-        </Tooltip>
+        <div className="side-bar__wrapper">
+          <span className="side-bar__icon-wrapper">
+            <Icon sx={{ fontSize: iconSize }} />
+          </span>
+          <Collapse orientation="horizontal" in={showText}>
+            <span className="side-bar__link-text">{text}</span>
+          </Collapse>
+        </div>
       </Link>
     </li>
   );

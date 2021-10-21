@@ -13,6 +13,8 @@ function localStorageEnabled() {
   } catch (error) {
     storageEnabled = false;
   }
+
+  return storageEnabled;
 }
 
 export function getFromLocalStorage(storageKey: string) {

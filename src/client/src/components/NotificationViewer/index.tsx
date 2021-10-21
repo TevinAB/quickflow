@@ -8,12 +8,12 @@ import { readNotifThunk } from '../../store/slices/user';
 
 type NotificationViewerProps = {
   open: boolean;
-  data: Array<Notification>;
+  notificationData: Array<Notification>;
 };
 
 export default function NotificationViewer({
   open,
-  data,
+  notificationData,
 }: NotificationViewerProps) {
   const [openCount, setOpenCount] = useState(0);
   const dispatch = useDispatch();
@@ -34,9 +34,11 @@ export default function NotificationViewer({
       className="notif-viewer"
       style={{ borderColor: theme.widgets.borderColor }}
     >
-      {data.map((notif, i) => (
-        <Notif key={i} {...notif} />
-      ))}
+      {notificationData.length ? (
+        notificationData.map((notif, i) => <Notif key={i} {...notif} />)
+      ) : (
+        <div className="notif__none">No notifications.</div>
+      )}
     </ul>
   );
 }
