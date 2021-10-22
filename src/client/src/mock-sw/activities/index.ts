@@ -11,7 +11,7 @@ export const activityRouteHandlers = [
     const valid = validateRequest(request, {
       headers: [AUTH_HEADER],
       searchParams: ['from', 'to'],
-      pathParams: [':type'],
+      pathParams: ['type'],
     });
 
     if (valid) {
@@ -21,7 +21,7 @@ export const activityRouteHandlers = [
         return response(ctx.status(200), ctx.json(getEvent));
 
       if (type === 'tasks')
-        return response(ctx.status(200), ctx.json(getTasks));
+        return response(ctx.status(200), ctx.json(getTasks), ctx.delay(1200));
     } else {
       return response(ctx.status(400));
     }
