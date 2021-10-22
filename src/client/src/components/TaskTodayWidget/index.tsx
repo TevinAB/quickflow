@@ -6,9 +6,10 @@ import { useState } from 'react';
 import { useAppSelector } from '../../hooks/redux';
 import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { CircularProgress, Grow } from '@mui/material';
+import { Grow } from '@mui/material';
 import Checkbox from '../Checkbox';
 import { timeFromNow } from '../../utils/date';
+import { WidgetLoadError, WidgetLoading } from '../WidgetUtils';
 
 const taskOverdueOffset = 1; //units = days
 
@@ -20,7 +21,7 @@ export default function TaskTodayWidget() {
   const { tasksData, setTasksData, error, loading } = useViewTasks(
     startDate,
     endDate,
-    'token'
+    token
   );
   const [markedTasks, setMarkedTasks] = useState<Array<string>>([]);
 
@@ -43,21 +44,11 @@ export default function TaskTodayWidget() {
     }
   };
 
-  const renderError = (
-    <div className="error error--text">An error has occured</div>
-  );
-
-  const renderLoading = (
-    <div className="widget-loading">
-      <CircularProgress style={{ width: '32px', height: '32px' }} />
-    </div>
-  );
-
   const renderItems = (
     <ul className="widget-body--with-list">
       {tasksData.map((task) => (
-        <Grow in={!markedTasks.includes(task._id)}>
-          <li key={task._id} className="activity__list-item">
+        <Grow key={task._id} in={!markedTasks.includes(task._id)}>
+          <li className="activity__list-item">
             <div className="task__left-wrapper">
               <Checkbox
                 size="small"
@@ -80,8 +71,8 @@ export default function TaskTodayWidget() {
         <Typography fontWeight="bold">Today's Tasks</Typography>
       </div>
       <div className="widget__body widget-body--med">
-        {error && renderError}
-        {!error && loading && renderLoading}
+        {error && <WidgetLoadError />}
+        {!error && loading && <WidgetLoading />}
         {!error && !loading && renderItems}
       </div>
       <div className="widget__footer">

@@ -18,7 +18,7 @@ export const activityRouteHandlers = [
       const { type } = request.params;
 
       if (type === 'events')
-        return response(ctx.status(200), ctx.json(getEvent));
+        return response(ctx.status(200), ctx.json(getEvent), ctx.delay(1200));
 
       if (type === 'tasks')
         return response(ctx.status(200), ctx.json(getTasks), ctx.delay(1200));
