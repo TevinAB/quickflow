@@ -7,6 +7,22 @@ export type Cancel_Token_Source = CancelTokenSource;
 
 export type DocumentType = 'Contact' | 'Account' | 'Deal';
 
+export type DealRangeTypes = 'Year';
+export type DealCategory = 'Open' | 'Won' | 'Lost' | 'Closed' | 'All';
+
+export type Deal = {
+  value: number;
+  timeline_id: string;
+  category: DealCategory;
+  created: string;
+  closed: string;
+} & SearchResultItem;
+
+export type GroupedDeals = Array<{
+  categoryTitle: string;
+  categoryItems: Deal[];
+}>;
+
 export type FormType = DocumentType;
 
 export type ActivityType = 'Task' | 'Event';
