@@ -6,8 +6,7 @@ import { theme } from './theme';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import TaskTodayWidget from './components/TaskTodayWidget';
-import EventTodayWidget from './components/EventTodayWidget';
+import DealSummary from './components/DealSummaryWidget';
 
 function App() {
   return (
@@ -25,9 +24,7 @@ function App() {
           <ThemeProvider theme={theme}>
             <Provider store={store}>
               <div style={{ width: '80%' }}>
-                <TaskTodayWidget />
-                <div style={{ height: '40px' }}></div>
-                <EventTodayWidget />
+                <DealSummary />
               </div>
             </Provider>
           </ThemeProvider>

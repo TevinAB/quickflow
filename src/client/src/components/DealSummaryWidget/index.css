@@ -1,0 +1,51 @@
+.deal-summary__body {
+  display: flex;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0;
+}
+
+.deal-summary__items {
+  display: flex;
+  justify-content: center;
+}
+
+.deal-summary__items > div:not(:last-child) {
+  border-right: 1px solid var(--grey-2);
+}
+
+@media screen and (max-width: 500px) {
+  .deal-summary__items {
+    flex-direction: column;
+  }
+
+  .deal-summary__items > div:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid var(--grey-2);
+  }
+}
+
+.deal-summary__item {
+  padding: 16px;
+}
+
+.deal-summary__item > div:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.deal-summary__item-category {
+  text-transform: capitalize;
+}
+
+.deal-summary__item-category {
+  font-size: 18px;
+}
+
+.deal-summary__item-value {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.deal-summary__item-count {
+  font-size: 16px;
+}

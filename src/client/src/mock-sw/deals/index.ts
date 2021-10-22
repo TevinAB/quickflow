@@ -15,7 +15,7 @@ export const dealHandlers = [
     });
 
     if (valid) {
-      return response(ctx.status(200), ctx.json(getAllDeals));
+      return response(ctx.status(200), ctx.json(getAllDeals), ctx.delay(1200));
     } else {
       return response(ctx.status(400));
     }
@@ -87,4 +87,16 @@ export const dealHandlers = [
       }
     }
   ),
+  rest.get('/api/resource/document/deals/range`', (request, response, ctx) => {
+    const valid = validateRequest(request, {
+      headers: [AUTH_HEADER],
+      searchParams: ['dealType', 'rangeType', 'value'],
+    });
+
+    if (valid) {
+      return response(ctx.status(200), ctx.json(getAllDeals), ctx.delay(1200));
+    } else {
+      return response(ctx.status(400));
+    }
+  }),
 ];

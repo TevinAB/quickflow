@@ -1,4 +1,4 @@
-import { DocumentType } from '../../types';
+import type { DealCategory, DealRangeTypes, DocumentType } from '../../types';
 import { toStringArray } from '../../utils/localStorage';
 import { buildHeaders } from '../headers';
 import { get, post, put, _delete } from '../requests';
@@ -60,5 +60,28 @@ export async function deleteDocument(
     `/api/resource/document/${docType.toLowerCase()}`,
     buildHeaders({ auth: token, contentType: 'application/json' }),
     { _ids: toStringArray(id) }
+  );
+}
+
+// Deal specific apis for widgets
+
+export async function getDealsOverRange(
+  rangeType: DealRangeTypes,
+  dealType: DealCategory,
+  value: string,
+  token?: string
+) {
+  /**Uncomment after fixing server */
+
+  // return await get(
+  //   `/api/resource/document/deals/range` +
+  //     `?dealType=${dealType}&rangeType=${rangeType.toLowerCase()}&value=${value}`,
+  //   buildHeaders({ auth: token })
+  // );
+
+  //temp
+  return await get(
+    `/api/resource/document/deals?pageNum=1&itemsPerPage=20`,
+    buildHeaders({ auth: token })
   );
 }
