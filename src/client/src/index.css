@@ -10,6 +10,7 @@
   --secondary-color-light: #ffffff;
   --secondary-color-dark: #d3d3dd;
   --secondary-color-dark-1: #aeaeb6;
+  --error-color-main: rgb(196, 30, 30);
   --logo-bg-color: #3a63c7;
   --aqua-1: #1dc9b7;
   --yellow: #ffc241;
@@ -19,6 +20,7 @@
   --margin-xl: 2rem;
   --padding-1: 1.1rem;
   --padding-2: 2rem;
+  --grey-thin: #d3d3dd7c;
   --grey-1: rgb(110, 114, 114);
   --grey-2: rgba(153, 153, 153, 0.44);
   --grey-3: rgb(78, 75, 75);
@@ -50,6 +52,7 @@ code {
   border-radius: var(--border-radius-1);
   text-align: left;
   padding: var(--padding-1);
+  background-color: var(--secondary-color-main);
 }
 
 .widget__title {
@@ -73,4 +76,69 @@ code {
 .widget__body::-webkit-scrollbar-thumb {
   background-color: var(--secondary-color-dark-1);
   border-radius: var(--border-radius-1);
+}
+
+.widget-body--med {
+  display: flex;
+  justify-content: center;
+  min-height: 180px;
+  max-height: 180px;
+}
+
+.widget-body--with-list {
+  width: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.widget-body--with-list > li:not(:last-child) {
+  margin-bottom: 0.3rem;
+}
+
+.widget__footer {
+  font-size: 14.4px;
+  border-top: 1px solid var(--grey-2);
+  padding: 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.widget__footer a {
+  text-decoration: none;
+  color: var(--logo-bg-color);
+}
+
+.widget--with-footer {
+  padding-bottom: 0;
+}
+
+.widget-loading {
+  display: flex;
+  align-items: center;
+}
+
+.activity__list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: var(--border-radius-1);
+  background-color: var(--grey-thin);
+  user-select: none;
+}
+
+.error {
+  color: var(--error-color-main);
+}
+
+.error--text {
+  font-size: 14px;
+  user-select: none;
+}
+
+.date-text--1 {
+  font-size: 13px;
+  color: var(--grey-3);
 }

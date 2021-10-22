@@ -4,6 +4,7 @@
       "phone": "8793449812",
       "value": 150000,
       "current_stage": 1,
+      "category": "open",
       "pipeline": "61539fc39dc12b1bdd4529ce",
       "associated_contacts": [
           {

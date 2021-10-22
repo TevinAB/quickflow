@@ -14,3 +14,7 @@ export function formatDate(date: string | number, format: string) {
 export function timeFromNow(date: string | Date) {
   return dayjs(date).fromNow();
 }
+
+export function subtractDays(date: Date, days: number) {
+  return dayjs(date).subtract(days, 'day').toISOString();
+}

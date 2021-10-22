@@ -57,3 +57,15 @@ export async function deleteActivity(
     buildHeaders({ auth: token })
   );
 }
+
+export async function setTaskCompleted(
+  id: string,
+  data: { completed: boolean },
+  token?: string
+) {
+  return await put(
+    `/api/resource/activity/task/completed/${id}`,
+    buildHeaders({ auth: token, contentType: 'application/json' }),
+    data
+  );
+}

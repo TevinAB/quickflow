@@ -1,0 +1,64 @@
+{
+    "result": [
+        {
+            "_id": "615dd9b2ee3a517af8efc9b7",
+            "org_id": "61565cba5fe7d02c7753c12b",
+            "name": "office party",
+            "description": "idk more description",
+            "start_date": "2021-10-12T00:00:00.000Z",
+            "end_date": "2021-10-12T00:00:00.000Z",
+            "related_to": [
+                {
+                    "_id": "6154b9469acf940ff84668fe",
+                    "name": "Rick flame",
+                    "timeline_id": "6154b9469acf940ff84668ff"
+                }
+            ],
+            "involved": [
+                "61539fc39dc12b1bdd4529b0"
+            ],
+            "__type": "Event",
+            "__v": 0
+        },
+        {
+            "_id": "6171dc9164df07b861b1cdac",
+            "org_id": "61565cba5fe7d02c7753c12b",
+            "name": "Meeting",
+            "description": "About something",
+            "start_date": "2021-10-18T00:00:00.000Z",
+            "end_date": "2021-10-18T00:00:00.000Z",
+            "related_to": [
+                {
+                    "_id": "6154b9469acf940ff84668fe",
+                    "name": "susan white",
+                    "timeline_id": "6154b9469acf940ff84668ff"
+                }
+            ],
+            "involved": [
+                "61539fc39dc12b1bdd4529b0"
+            ],
+            "__type": "Event",
+            "__v": 0
+        },
+        {
+            "_id": "6171dcdc64df07b861b1cdc4",
+            "org_id": "61565cba5fe7d02c7753c12b",
+            "name": "Meeting II",
+            "description": "About something else",
+            "start_date": "2021-10-21T00:00:00.000Z",
+            "end_date": "2021-10-21T00:00:00.000Z",
+            "related_to": [
+                {
+                    "_id": "6154b9469acf940ff84668fe",
+                    "name": "sarah white",
+                    "timeline_id": "6154b9469acf940ff84668ff"
+                }
+            ],
+            "involved": [
+                "61539fc39dc12b1bdd4529b0"
+            ],
+            "__type": "Event",
+            "__v": 0
+        }
+    ]
+}

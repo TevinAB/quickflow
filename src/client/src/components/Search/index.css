@@ -68,5 +68,5 @@
 
 .search--error {
   font-size: 14px;
-  color: rgb(196, 30, 30);
+  color: var(--error-color-main);
 }
