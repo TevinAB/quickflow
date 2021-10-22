@@ -1,0 +1,12 @@
+.deal-chart__body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px;
+  padding: 0;
+}
+
+.deal-chart__empty-text {
+  color: var(--grey-3);
+  user-select: none;
+}
