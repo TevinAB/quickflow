@@ -20,7 +20,7 @@ export default function DealSummaryWidget() {
   );
 
   const renderItems = (
-    <div className="deal-summary__items">
+    <div className="deal-chart">
       {formattedDeals.map((group) => {
         return <SummaryBox group={group} />;
       })}
@@ -37,7 +37,7 @@ export default function DealSummaryWidget() {
         <div className="widget__title">
           <Typography fontWeight="bold">Deal Summary [All Deals]</Typography>
         </div>
-        <div className="widget__body deal-summary__body">
+        <div className="widget__body deal-chart__body">
           {error && <WidgetLoadError />}
           {!error && loading && <WidgetLoading />}
           {!error && !loading && renderItems}

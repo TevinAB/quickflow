@@ -14,8 +14,8 @@ export type Deal = {
   value: number;
   timeline_id: string;
   category: DealCategory;
-  created: string;
-  closed: string;
+  created_date: string;
+  closed_date: string;
 } & SearchResultItem;
 
 export type GroupedDeals = Array<{

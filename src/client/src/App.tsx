@@ -6,7 +6,7 @@ import { theme } from './theme';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import DealSummary from './components/DealSummaryWidget';
+import DealSummaryChartWidget from './components/DealSummaryChartWidget';
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
           <ThemeProvider theme={theme}>
             <Provider store={store}>
               <div style={{ width: '80%' }}>
-                <DealSummary />
+                <DealSummaryChartWidget />
               </div>
             </Provider>
           </ThemeProvider>
