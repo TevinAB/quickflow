@@ -1,13 +1,23 @@
-import { useState } from 'react';
+import { useState, Ref } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import type { PicklistOption } from '../../types';
 
 type PickListProps = {
-  optionsData: Array<{ value: string; text: string; selected: boolean }>;
-  afterChange: (value: string) => void;
+  optionsData: Array<PicklistOption>;
+  afterChange?: (value: string) => void;
+  id?: string;
+  name?: string;
+  selectRef?: Ref<any>;
 };
 
-export default function PickList({ optionsData, afterChange }: PickListProps) {
+export default function PickList({
+  optionsData,
+  name,
+  id,
+  afterChange,
+  selectRef,
+}: PickListProps) {
   const [selected, setSelected] = useState(
     optionsData.filter((option) => option.selected).pop()?.value
   );
@@ -16,16 +26,20 @@ export default function PickList({ optionsData, afterChange }: PickListProps) {
     const value = event.target.value;
     setSelected(value);
 
-    afterChange(value);
+    if (afterChange) afterChange(value);
   };
 
   return (
     <Select
+      inputRef={selectRef}
       style={{ backgroundColor: 'white' }}
       value={selected}
       size="small"
       fullWidth
       onChange={handleChange}
+      name={name}
+      labelId={id}
+      inputProps={{ id }}
     >
       {optionsData.map((option, i) => (
         <MenuItem key={i} value={option.value}>
