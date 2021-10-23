@@ -4,6 +4,7 @@ import Search from '../Search';
 import { SearchType, SearchResultItem } from '../../types';
 
 type AddAssocItemProps = {
+  id?: string;
   labelText: string;
   itemType: SearchType;
   selectedItems: Array<SearchResultItem>;
@@ -17,15 +18,13 @@ export default function AddAssocItem({
   selectedItems,
   onItemSelect,
   onItemRemove,
+  id,
 }: AddAssocItemProps) {
   return (
     <div className="add-assoc">
-      <label className="add-assoc__label" htmlFor="search">
-        {labelText}
-      </label>
       <Search
         searchType={itemType}
-        inputId="search"
+        inputId={id}
         shouldSubmit={false}
         customOnClick={(selectedItem, setQuery) => {
           onItemSelect(selectedItem);
