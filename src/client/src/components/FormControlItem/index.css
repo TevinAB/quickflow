@@ -1,0 +1,14 @@
+.form-control {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-control__label {
+  text-transform: capitalize;
+}
+
+.control__item {
+  width: 100%;
+  padding-top: 10px;
+}

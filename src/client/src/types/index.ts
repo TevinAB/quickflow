@@ -25,6 +25,40 @@ export type GroupedDeals = Array<{
 
 export type FormType = DocumentType;
 
+export type FormFieldTypes =
+  | 'Text'
+  | 'Email'
+  | 'Number'
+  | 'Picklist'
+  | 'Assoc_Contact'
+  | 'Url'
+  | 'Date';
+
+export type FormFieldDataSources =
+  | 'Profiles'
+  | 'Contacts'
+  | 'Pipelines'
+  | 'Currency'
+  | 'Deal Status';
+
+export type FormFieldData = {
+  form: {
+    order: number;
+    visible: boolean;
+  };
+  list: {
+    order: number;
+    visible: boolean;
+  };
+  input_type: FormFieldTypes;
+  input_label: string;
+  help_text: string;
+  field_name: string;
+  deletable: boolean;
+  data_source: FormFieldDataSources;
+  _id: string;
+};
+
 export type ActivityType = 'Task' | 'Event';
 
 export type ActivityBase = {
@@ -82,3 +116,9 @@ export interface Notification {
   type: string;
   added: string | Date;
 }
+
+export type PicklistOption = {
+  value: string;
+  text: string;
+  selected: boolean;
+};
