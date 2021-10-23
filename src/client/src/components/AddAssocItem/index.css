@@ -1,7 +1,8 @@
 .add-assoc {
   text-align: left;
-  padding: var(--padding-1);
+  padding-top: 0;
   background-color: var(--secondary-color-main);
+  width: 100%;
 }
 
 .add-assoc__tags {
@@ -10,6 +11,7 @@
   margin-top: var(--margin-1);
   padding: 0.5rem;
   display: flex;
+  min-height: 27px;
   gap: 5px;
   flex-wrap: wrap;
 }
