@@ -4,15 +4,14 @@ import {
   SignUpData,
   Notification,
 } from './../../types/index';
+import { TOKEN_NAME } from '../../constants';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { login, signUp } from '../../services/auth';
+import { login, signUp, isAuthenticated } from '../../services/auth';
 import { readNotifications } from '../../services/profiles';
 import {
   removeFromLocalStorage,
   writeToLocalStorage,
 } from '../../utils/localStorage';
-
-const TOKEN_NAME = 'auth_token';
 
 interface UserState {
   _id: string;
@@ -28,6 +27,22 @@ interface UserState {
   notif_error_msg: string;
 }
 
+export const isAuthenticatedThunk = createAsyncThunk<
+  UserState,
+  string,
+  { rejectValue: boolean }
+>('user/is_authenticated', async (token, { rejectWithValue }) => {
+  try {
+    const result = await isAuthenticated(token);
+
+    const userState = result?.data.result as UserState;
+
+    return userState;
+  } catch (error) {
+    return rejectWithValue(false);
+  }
+});
+
 export const loginThunk = createAsyncThunk<
   UserState,
   LoginData,
@@ -36,7 +51,13 @@ export const loginThunk = createAsyncThunk<
   try {
     const result = await login(data);
 
-    return result.data as UserState;
+    const userData = result.data;
+    const state = {
+      ...userData.result,
+      token: userData.token,
+    } as UserState;
+
+    return state;
   } catch (error) {
     return rejectWithValue(error as ApiError);
   }
@@ -50,7 +71,13 @@ export const signUpThunk = createAsyncThunk<
   try {
     const result = await signUp(data);
 
-    return result.data as UserState;
+    const userData = result.data;
+    const state = {
+      ...userData.result,
+      token: userData.token,
+    } as UserState;
+
+    return state;
   } catch (error) {
     return rejectWithValue(error as ApiError);
   }
@@ -102,6 +129,14 @@ const userSlice = createSlice({
 
       removeFromLocalStorage(TOKEN_NAME);
     },
+    resumeSession(
+      state,
+      action: {
+        payload: { userData: UserState };
+      }
+    ) {
+      state = action.payload.userData;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -147,4 +182,4 @@ const userSlice = createSlice({
 export const userReducer = userSlice.reducer;
 
 //export logout action creator
-export const { logout } = userSlice.actions;
+export const { logout, resumeSession } = userSlice.actions;

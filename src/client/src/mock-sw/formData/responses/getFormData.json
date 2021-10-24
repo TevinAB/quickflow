@@ -1,128 +1,162 @@
 {
   "result": {
-      "_id": "61565cba5fe7d02c7753c12e",
-      "org_id": "61565cba5fe7d02c7753c12b",
-      "res_type": "contact",
-      "form_data": [
-          {
-              "form": {
-                  "order": 1,
-                  "visible": true
-              },
-              "list": {
-                  "order": 1,
-                  "visible": true
-              },
-              "input_type": "text",
-              "input_label": "First Name",
-              "help_text": "the first name",
-              "field_name": "first_name",
-              "deletable": false,
-              "data_source": "",
-              "_id": "61565cba5fe7d02c7753c12f"
-          },
-          {
-              "form": {
-                  "order": 2,
-                  "visible": true
-              },
-              "list": {
-                  "order": 2,
-                  "visible": true
-              },
-              "input_type": "text",
-              "input_label": "Last Name",
-              "help_text": "",
-              "field_name": "last_name",
-              "deletable": false,
-              "data_source": "",
-              "_id": "61565cba5fe7d02c7753c130"
-          },
-          {
-              "form": {
-                  "order": 3,
-                  "visible": true
-              },
-              "list": {
-                  "order": 3,
-                  "visible": true
-              },
-              "input_type": "email",
-              "input_label": "Email",
-              "help_text": "",
-              "field_name": "email",
-              "deletable": false,
-              "data_source": "",
-              "_id": "61565cba5fe7d02c7753c131"
-          },
-          {
-              "form": {
-                  "order": 4,
-                  "visible": true
-              },
-              "list": {
-                  "order": 4,
-                  "visible": true
-              },
-              "input_type": "phone",
-              "input_label": "Phone",
-              "help_text": "",
-              "field_name": "phone",
-              "deletable": false,
-              "data_source": "",
-              "_id": "61565cba5fe7d02c7753c132"
-          },
-          {
-              "form": {
-                  "order": 5,
-                  "visible": true
-              },
-              "list": {
-                  "order": 5,
-                  "visible": true
-              },
-              "input_type": "text",
-              "input_label": "Company",
-              "help_text": "",
-              "field_name": "company",
-              "deletable": false,
-              "data_source": "[],",
-              "_id": "61565cba5fe7d02c7753c133"
-          },
-          {
-              "form": {
-                  "order": 6,
-                  "visible": true
-              },
-              "list": {
-                  "order": 6,
-                  "visible": true
-              },
-              "input_type": "text",
-              "input_label": "Job Title",
-              "help_text": "",
-              "field_name": "job_title",
-              "deletable": false,
-              "data_source": "",
-              "_id": "61565cba5fe7d02c7753c134"
-          },
-          {
-              "form": {
-                  "order": 7,
-                  "visible": true
-              },
-              "list": {
-                  "order": 7,
-                  "visible": true
-              },
-              "input_type": "picklist",
-              "input_label": "Owner",
-              "help_text": "",
-              "field_name": "owner",
-              "deletable": false,
-              "data_source": "profiles",
-              "_id": "61565cba5fe7d02c7753c135"
-          }
-      ]
+    "_id": "61565cba5fe7d02c7753c12e",
+    "org_id": "61565cba5fe7d02c7753c12b",
+    "res_type": "contact",
+    "form_data": [
+      {
+        "form": {
+          "order": 1,
+          "visible": true
+        },
+        "list": {
+          "order": 1,
+          "visible": true
+        },
+        "input_type": "Text",
+        "input_label": "First Name",
+        "help_text": "",
+        "field_name": "first_name",
+        "deletable": false,
+        "data_source": "",
+        "_id": "61565cba5fe7d02c7753c12f"
+      },
+      {
+        "form": {
+          "order": 2,
+          "visible": true
+        },
+        "list": {
+          "order": 2,
+          "visible": true
+        },
+        "input_type": "Text",
+        "input_label": "Last Name",
+        "help_text": "",
+        "field_name": "last_name",
+        "deletable": false,
+        "data_source": "",
+        "_id": "61565cba5fe7d02c7753c130"
+      },
+      {
+        "form": {
+          "order": 3,
+          "visible": true
+        },
+        "list": {
+          "order": 3,
+          "visible": true
+        },
+        "input_type": "Email",
+        "input_label": "Email",
+        "help_text": "",
+        "field_name": "email",
+        "deletable": false,
+        "data_source": "",
+        "_id": "61565cba5fe7d02c7753c131"
+      },
+      {
+        "form": {
+          "order": 4,
+          "visible": true
+        },
+        "list": {
+          "order": 4,
+          "visible": true
+        },
+        "input_type": "Number",
+        "input_label": "Phone",
+        "help_text": "",
+        "field_name": "phone",
+        "deletable": false,
+        "data_source": "",
+        "_id": "61565cba5fe7d02c7753c132"
+      },
+      {
+        "form": {
+          "order": 5,
+          "visible": true
+        },
+        "list": {
+          "order": 5,
+          "visible": true
+        },
+        "input_type": "Text",
+        "input_label": "Company",
+        "help_text": "",
+        "field_name": "company",
+        "deletable": false,
+        "data_source": "",
+        "_id": "61565cba5fe7d02c7753c133"
+      },
+      {
+        "form": {
+          "order": 6,
+          "visible": true
+        },
+        "list": {
+          "order": 6,
+          "visible": true
+        },
+        "input_type": "Text",
+        "input_label": "Job Title",
+        "help_text": "",
+        "field_name": "job_title",
+        "deletable": false,
+        "data_source": "",
+        "_id": "61565cba5fe7d02c7753c134"
+      },
+      {
+        "form": {
+          "order": 7,
+          "visible": true
+        },
+        "list": {
+          "order": 7,
+          "visible": true
+        },
+        "input_type": "Picklist",
+        "input_label": "Owner",
+        "help_text": "",
+        "field_name": "owner",
+        "deletable": false,
+        "data_source": "Profiles",
+        "_id": "61565cba5fe7d02c7753c135"
+      },
+      {
+        "form": {
+          "order": 8,
+          "visible": true
+        },
+        "list": {
+          "order": 8,
+          "visible": true
+        },
+        "input_type": "Assoc_Contact",
+        "input_label": "Associated Contacts",
+        "help_text": "",
+        "field_name": "associated_contacts",
+        "deletable": false,
+        "data_source": "",
+        "_id": "61565cba5fe7d02l2753c17y"
+      },
+      {
+        "form": {
+          "order": 9,
+          "visible": true
+        },
+        "list": {
+          "order": 9,
+          "visible": true
+        },
+        "input_type": "Date",
+        "input_label": "End Date",
+        "help_text": "",
+        "field_name": "end_date",
+        "deletable": false,
+        "data_source": "",
+        "_id": "61565cba5fe7d02c7753c17y"
+      }
+    ]
   }
 }

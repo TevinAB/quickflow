@@ -1,4 +1,4 @@
-import { baseModel } from './model';
+import { baseModel, dealModel } from './model';
 import { timelineModel } from '../timeline/model';
 import {
   wrapperGetDocuments,
@@ -7,6 +7,7 @@ import {
   wrapperEditDocument,
   wrapperDeleteDocument,
   wrapperGetDeals,
+  wrapperGetDealsOverRange,
 } from './controllers';
 import wrapperRoleAuthorizer from '../middleware/roleAuthorizer/roleAuthorizer';
 import { Router } from 'express';
@@ -48,7 +49,7 @@ documentRoutes.put(
 );
 
 documentRoutes.delete(
-  '/contact/:_id',
+  '/contact',
   wrapperRoleAuthorizer('contact'),
   wrapperDeleteDocument(baseModel, timelineModel)
 );
@@ -86,7 +87,7 @@ documentRoutes.put(
 );
 
 documentRoutes.delete(
-  '/account/:_id',
+  '/account',
   wrapperRoleAuthorizer('account'),
   wrapperDeleteDocument(baseModel, timelineModel)
 );
@@ -124,7 +125,7 @@ documentRoutes.put(
 );
 
 documentRoutes.delete(
-  '/deal/:_id',
+  '/deal',
   wrapperRoleAuthorizer('deal'),
   wrapperDeleteDocument(baseModel, timelineModel)
 );
@@ -134,6 +135,12 @@ documentRoutes.get(
   '/deals/assc/:_id',
   wrapperRoleAuthorizer('deal'),
   wrapperGetDeals(baseModel)
+);
+
+documentRoutes.get(
+  '/deals/range',
+  wrapperRoleAuthorizer('deal'),
+  wrapperGetDealsOverRange(dealModel)
 );
 
 export default documentRoutes;

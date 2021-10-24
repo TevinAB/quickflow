@@ -1,7 +1,9 @@
+import { OpUnitType } from 'dayjs';
 import { getPaginationData } from '../utils/pagination';
+import { dateStartOf, dateEndOf, isValidDate } from '../../../utils/helpers';
 import { Request, Response, NextFunction } from 'express';
 import { Model } from 'mongoose';
-import { BaseDocument } from './model';
+import { BaseDocument, Deal } from './model';
 import { Timeline } from '../timeline/model';
 import RequestException from '../../../exceptions/requestException';
 
@@ -123,10 +125,10 @@ export function wrapperCreateDocument<
         title: `${options.type} created by ${initiator}`,
       };
 
-      //add things for notif middleware if owner _id is detected
-      if (data.owner._id) {
+      //add things for notif middleware if owner is detected
+      if (data.owner.value) {
         request.middlewareInfo.notifData = {
-          profileIds: [data.owner._id],
+          profileIds: [data.owner.value],
           notifType: options.type,
           title: `You were assigned to ${document.name}.`,
         };
@@ -176,11 +178,12 @@ export function wrapperEditDocument<T extends Model<BaseDocument>>(
       };
 
       //to alert new owner, if any.
-      const reassigned = String(document?.owner._id) === String(data.owner._id);
+      const reassigned =
+        String(document?.owner.value) === String(data.owner.value);
 
       if (document && reassigned) {
         request.middlewareInfo.notifData = {
-          profileIds: [data.owner._id],
+          profileIds: [data.owner.value],
           notifType: options.type,
           title: `You were assigned to ${document.name}.`,
         };
@@ -204,9 +207,11 @@ export function wrapperDeleteDocument<
     response: Response,
     next: NextFunction
   ) {
-    const { _id } = request.params;
+    const { _ids } = request.body;
 
     try {
+      //temp until server rewrite
+      const _id = [...(_ids as Array<string>)].pop();
       const document = await baseModel.findOne({ _id });
 
       if (document) {
@@ -214,7 +219,7 @@ export function wrapperDeleteDocument<
         await timelineModel.findOneAndDelete({ _id: document.timeline_id });
 
         await document.remove();
-        response.json({ message: 'Document deleted.' });
+        response.json({ result: 'Document deleted.' });
       } else {
         throw new RequestException('Document not found.', 404);
       }
@@ -243,6 +248,51 @@ export function wrapperGetDeals<T extends Model<BaseDocument>>(baseModel: T) {
         response.json({ result: associated });
       } else {
         throw new RequestException('Documents not found.', 404);
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+}
+
+export function wrapperGetDealsOverRange<T extends Model<Deal>>(baseModel: T) {
+  return async function getOverRange(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ) {
+    const { range, value, status } = request.query;
+
+    try {
+      const dateValue = value as string;
+      if (!isValidDate(dateValue))
+        throw new RequestException('Invalid date value.', 400);
+
+      const rangeType = range as string;
+      if (!['year', 'quarter'].includes(rangeType.toLowerCase()))
+        throw new RequestException('Invalid range type', 400);
+
+      const dealStatus = status as string;
+      if (!['all', 'open', 'won', 'lost'].includes(dealStatus.toLowerCase()))
+        throw new RequestException('Invalid deal status type', 400);
+
+      const startDate = dateStartOf(dateValue, rangeType as OpUnitType);
+      const endDate = dateEndOf(dateValue, rangeType as OpUnitType);
+
+      const filters: Record<string, string> = {};
+      if (dealStatus.toLowerCase() !== 'all') {
+        filters['deal_status'] = dealStatus;
+      }
+
+      const deals = await baseModel.find({
+        ...filters,
+        created_date: { $lte: endDate, $gte: startDate },
+      });
+
+      if (deals.length) {
+        response.json({ result: deals });
+      } else {
+        throw new RequestException('No deals found', 404);
       }
     } catch (error) {
       next(error);

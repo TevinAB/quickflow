@@ -23,7 +23,7 @@ export default function wrapperTimelineManager<T extends Model<Timeline>>(
 
     try {
       const timelineItem = {
-        title,
+        name: title,
         item_type: itemType,
         body: itemBody,
         date: new Date().toISOString(),

@@ -15,7 +15,11 @@ export const formDataHanlders = [
       });
 
       if (valid) {
-        return response(ctx.status(200), ctx.json(getFormData));
+        return response(
+          ctx.status(200),
+          ctx.json(getFormData),
+          ctx.delay(1200)
+        );
       } else {
         return response(ctx.status(400));
       }
@@ -28,7 +32,7 @@ export const formDataHanlders = [
     });
 
     if (valid) {
-      return response(ctx.status(200), ctx.json(editFormData));
+      return response(ctx.status(200), ctx.json(editFormData), ctx.delay(1200));
     } else {
       return response(ctx.status(400));
     }
@@ -37,7 +41,7 @@ export const formDataHanlders = [
     const valid = validateRequest(request, { headers: [AUTH_HEADER] });
 
     if (valid) {
-      return response(ctx.status(200), ctx.json(listData));
+      return response(ctx.status(200), ctx.json(listData), ctx.delay(1200));
     } else {
       return response(ctx.status(400));
     }

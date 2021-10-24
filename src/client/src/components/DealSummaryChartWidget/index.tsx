@@ -25,7 +25,7 @@ type ChartDataType = {
 export default function DealSummaryChartWidget() {
   const [rangeType] = useState<DealRangeTypes>('Year');
   const [dealType] = useState<DealCategory>('All');
-  const [rangeValue] = useState('2021');
+  const [rangeValue] = useState(new Date());
   const [formattedDeals, setFormattedDeals] = useState<Array<ChartDataType>>(
     []
   );

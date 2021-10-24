@@ -35,7 +35,8 @@ export function useViewEvents(
 export function useViewTasks(
   dateStart: string,
   dateEnd: string,
-  token: string
+  token: string,
+  completed?: boolean
 ) {
   const [tasksData, setTasksData] = useState<Array<Task>>([]);
   const [loading, setLoading] = useState(false);
@@ -46,7 +47,13 @@ export function useViewTasks(
       setLoading(true);
 
       try {
-        const result = await getActivities('Task', dateStart, dateEnd, token);
+        const result = await getActivities(
+          'Task',
+          dateStart,
+          dateEnd,
+          token,
+          completed
+        );
 
         setTasksData(result?.data.result as Array<Task>);
         setLoading(false);
@@ -57,7 +64,7 @@ export function useViewTasks(
     }
 
     getTasks();
-  }, [dateStart, dateEnd, token]);
+  }, [dateStart, dateEnd, token, completed]);
 
   return { tasksData, setTasksData, error, loading };
 }

@@ -68,20 +68,12 @@ export async function deleteDocument(
 export async function getDealsOverRange(
   rangeType: DealRangeTypes,
   dealType: DealCategory,
-  value: string,
+  value: Date,
   token?: string
 ) {
-  /**Uncomment after fixing server */
-
-  // return await get(
-  //   `/api/resource/document/deals/range` +
-  //     `?dealType=${dealType}&rangeType=${rangeType.toLowerCase()}&value=${value}`,
-  //   buildHeaders({ auth: token })
-  // );
-
-  //temp
   return await get(
-    `/api/resource/document/deals?pageNum=1&itemsPerPage=20`,
+    `/api/resource/document/deals/range` +
+      `?status=${dealType}&range=${rangeType.toLowerCase()}&value=${value.toISOString()}`,
     buildHeaders({ auth: token })
   );
 }

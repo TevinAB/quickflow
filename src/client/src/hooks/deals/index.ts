@@ -5,7 +5,7 @@ import { getDealsOverRange } from '../../services/document';
 export function useGetDealsOverRange(
   rangeType: DealRangeTypes,
   dealType: DealCategory,
-  value: string,
+  value: Date,
   token: string
 ) {
   const [dealData, setDealData] = useState<Array<Deal>>([]);

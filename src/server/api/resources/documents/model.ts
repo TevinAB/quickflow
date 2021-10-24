@@ -33,7 +33,7 @@ export interface Deal {
   deal_status: string;
   current_stage: number;
   pipeline: Schema.Types.ObjectId;
-  close_date: Schema.Types.Date;
+  closed_date: Schema.Types.Date;
   associated_contacts: [
     { _id: Schema.Types.ObjectId; firstName: string; lastName: string }
   ];
@@ -45,7 +45,7 @@ const dealSchema = new Schema<Deal>(
     deal_status: String,
     current_stage: { type: Number, required: true },
     pipeline: { type: Schema.Types.ObjectId, required: true },
-    close_date: { type: Schema.Types.Date, required: false },
+    closed_date: { type: Schema.Types.Date, required: false },
     associated_contacts: [],
   },
   { strict: false, collection: COLLECTION_NAME }
@@ -55,8 +55,8 @@ export interface BaseDocument {
   name: string;
   org_id: Schema.Types.ObjectId;
   timeline_id: Schema.Types.ObjectId;
-  created: Schema.Types.Date;
-  owner: { first_name: string; last_name: string; _id: Schema.Types.ObjectId };
+  created_date: Schema.Types.Date;
+  owner: { __type: string; text: string; value: string };
 }
 
 export const baseSchema = new Schema<BaseDocument>(
@@ -69,12 +69,12 @@ export const baseSchema = new Schema<BaseDocument>(
     timeline_id: {
       type: Schema.Types.ObjectId,
     },
-    created: { type: Schema.Types.Date, default: Date.now },
+    created_date: { type: Schema.Types.Date, default: Date.now },
     owner: {
       type: {
-        first_name: String,
-        last_name: String,
-        _id: Schema.Types.ObjectId,
+        __type: String,
+        text: String,
+        value: String,
       },
     },
   },
@@ -91,4 +91,4 @@ baseSchema.index({ name: 'text' });
 export const baseModel = model('documents', baseSchema);
 baseModel.discriminator('Contact', contactSchema);
 baseModel.discriminator('Account', accountSchema);
-baseModel.discriminator('Deal', dealSchema);
+export const dealModel = baseModel.discriminator('Deal', dealSchema);

@@ -30,7 +30,7 @@ const customizationRoutes = Router();
 
 //form and list
 customizationRoutes.get('/form/:type', wrapperGetFormData(customizationModel));
-customizationRoutes.put('/form', wrapperEditFormData(customizationModel));
+customizationRoutes.put('/form/:_id', wrapperEditFormData(customizationModel));
 customizationRoutes.get('/lists', wrapperGetListViews(customizationModel));
 
 //pipelines
@@ -48,7 +48,7 @@ customizationRoutes.put(
   wrapperEditPipeline(customizationModel)
 );
 customizationRoutes.delete(
-  '/pipeline/:_id',
+  '/pipeline',
   wrapperPipelineCheck(baseModel),
   wrapperDeletePipeline(customizationModel)
 );
@@ -74,6 +74,6 @@ customizationRoutes.put(
   '/profile/:_id',
   wrapperEditProfile(profileModel, bcrypt.hash.bind(bcrypt))
 );
-customizationRoutes.delete('/profile/:_id', wrapperDeleteProfile(profileModel));
+customizationRoutes.delete('/profile', wrapperDeleteProfile(profileModel));
 
 export default customizationRoutes;

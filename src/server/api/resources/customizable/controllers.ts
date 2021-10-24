@@ -45,7 +45,8 @@ export function wrapperEditFormData<T extends Model<CustomizationInfo>>(
     response: Response,
     next: NextFunction
   ) {
-    const { _id, form_data } = request.body;
+    const { form_data } = request.body;
+    const { _id } = request.params;
     try {
       await customModel.findOneAndUpdate({ _id }, { form_data: [] });
 
@@ -148,7 +149,8 @@ export function wrapperGetPipeline<T extends Model<CustomizationInfo>>(
       );
 
       if (pipeline) {
-        response.json({ result: pipeline });
+        const resultData = pipeline[0].stages.sort((a, b) => a.order - b.order);
+        response.json({ result: resultData });
       } else {
         throw new RequestException('Pipeline not found.', 404);
       }
@@ -253,15 +255,16 @@ export function wrapperDeletePipeline<T extends Model<CustomizationInfo>>(
     next: NextFunction
   ) {
     const { deletePipeline } = request.middlewareInfo;
-    const { _id } = request.params;
+    const { _ids } = request.body;
 
     try {
+      const _id = [...(_ids as Array<string>)].pop();
       if (!deletePipeline)
         throw new RequestException('Cannot delete active pipelines.', 400);
 
       await customModel.findOneAndUpdate(
         { 'pipeline_data._id': _id },
-        { $pull: { 'pipeline_data._id': _id } }
+        { $pull: { pipeline_data: { _id } } }
       );
 
       response.json({ result: 'Pipeline deleted' });
@@ -434,7 +437,9 @@ export function wrapperGetProfile<T extends Model<Profile>>(profileModel: T) {
     const { _id } = request.params;
 
     try {
-      const profile = await profileModel.findOne({ _id });
+      const profile = await profileModel
+        .findOne({ _id })
+        .select('-password_hash -__v');
 
       if (profile) {
         response.json({ result: profile });
@@ -530,9 +535,10 @@ export function wrapperDeleteProfile<T extends Model<Profile>>(
     response: Response,
     next: NextFunction
   ) {
-    const { _id } = request.params;
+    const { _ids } = request.body;
 
     try {
+      const _id = [...(_ids as Array<string>)].pop();
       await profileModel.findByIdAndDelete(_id);
 
       response.json({ result: 'Profile deleted.' });

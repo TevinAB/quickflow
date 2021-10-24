@@ -25,6 +25,6 @@ searchRoutes.get('/documents/:__type', wrapperSearchDocuments(baseModel));
  *
  * ?q='some query text'
  */
-searchRoutes.get('/profiles/', wrapperSearchProfiles(profileModel));
+searchRoutes.get('/profiles', wrapperSearchProfiles(profileModel));
 
 export default searchRoutes;

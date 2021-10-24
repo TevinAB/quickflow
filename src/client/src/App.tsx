@@ -1,36 +1,44 @@
 import './App.css';
-import { Provider } from 'react-redux';
-import store from './store';
-import { ThemeProvider } from '@mui/material';
-import { theme } from './theme';
-import { StyledEngineProvider } from '@mui/material/styles';
-import { BrowserRouter as Router } from 'react-router-dom';
-
-import DealSummaryChartWidget from './components/DealSummaryChartWidget';
+import FormManager from './components/FormManager';
+import { useAppDispatch } from './hooks/redux';
+//import { useDispatch } from 'react-redux';
+import { showForm } from './store/slices/formManager';
+import { useEffect } from 'react';
+import {
+  isAuthenticatedThunk,
+  logout,
+  resumeSession,
+} from './store/slices/user';
+import { getFromLocalStorage } from './utils/localStorage';
+import { TOKEN_NAME } from './constants';
 
 function App() {
+  const dispatch = useAppDispatch();
+  const onClick = () =>
+    dispatch(showForm({ formType: 'Contact', formMode: 'New', _id: 'id' }));
+
+  useEffect(() => {
+    async function sessionCheck() {
+      const token = getFromLocalStorage(TOKEN_NAME) || '';
+
+      try {
+        const result = await dispatch(isAuthenticatedThunk(token)).unwrap();
+        result.token = token;
+
+        dispatch(resumeSession({ userData: result }));
+      } catch (error) {
+        dispatch(logout());
+      }
+    }
+
+    sessionCheck();
+  }, [dispatch]);
+
   return (
-    <StyledEngineProvider injectFirst>
-      <div
-        style={{
-          height: '120vh',
-          paddingTop: '2rem',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-        className="App"
-      >
-        <Router>
-          <ThemeProvider theme={theme}>
-            <Provider store={store}>
-              <div style={{ width: '80%' }}>
-                <DealSummaryChartWidget />
-              </div>
-            </Provider>
-          </ThemeProvider>
-        </Router>
-      </div>
-    </StyledEngineProvider>
+    <div style={{ width: '80%' }}>
+      <button onClick={onClick}>Show form</button>
+      <FormManager />
+    </div>
   );
 }
 

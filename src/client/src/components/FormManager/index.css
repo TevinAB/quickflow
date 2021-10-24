@@ -1,0 +1,24 @@
+.form-manager {
+  width: 100%;
+  padding: var(--padding-2);
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+.form > div:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.form__title {
+  padding: 16px;
+  font-size: 17px;
+  background-color: var(--primary-color-main);
+  color: var(--secondary-color-main);
+  text-transform: capitalize;
+}
+
+.form__footer {
+  display: flex;
+  justify-content: flex-end;
+}
