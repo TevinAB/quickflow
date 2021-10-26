@@ -181,7 +181,9 @@ export function wrapperDeleteActivity<T extends Model<Activity>>(
   ) {
     try {
       const { _id } = request.params;
-      const { initiator } = request.body;
+      const {
+        meta: { initiator },
+      } = request.body;
 
       const activity = await activityModel.findOne({ _id });
 

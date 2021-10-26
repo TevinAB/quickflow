@@ -33,7 +33,11 @@ export function addTimelineItem(
   next: NextFunction
 ) {
   const { _id } = request.params;
-  const { item_type: itemType, item_body: itemBody, initiator } = request.body;
+  const {
+    item_type: itemType,
+    item_body: itemBody,
+    meta: { initiator },
+  } = request.body;
 
   request.middlewareInfo.timelineData = {
     timelineIds: [_id],
