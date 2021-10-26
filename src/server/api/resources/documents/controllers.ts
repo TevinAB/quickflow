@@ -87,12 +87,12 @@ export function wrapperCreateDocument<
     next: NextFunction
   ) {
     const { org_id } = request.middlewareInfo.jwtData;
-    const {
-      data,
-      meta: { initiator },
-    } = request.body;
 
     try {
+      const {
+        data,
+        meta: { initiator },
+      } = request.body;
       const document = new baseModel({
         ...data,
         org_id,
@@ -153,12 +153,13 @@ export function wrapperEditDocument<T extends Model<BaseDocument>>(
     next: NextFunction
   ) {
     const { _id } = request.params;
-    const {
-      data,
-      meta: { initiator },
-    } = request.body;
 
     try {
+      const {
+        data,
+        meta: { initiator },
+      } = request.body;
+
       const document = await baseModel.findOneAndUpdate(
         { _id },
         { ...data },

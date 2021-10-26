@@ -21,11 +21,11 @@ export default function wrapperOrgBuilder<
     response: Response,
     next: NextFunction
   ) {
-    const { org_id, role_id } = request.middlewareInfo.orgSetupData;
-
-    if (!org_id || !role_id) return next();
-
     try {
+      const { org_id, role_id } = request.middlewareInfo.orgSetupData;
+
+      if (!org_id || !role_id) return next();
+
       const contact = new customizationModel({
         org_id,
         res_type: 'contact',

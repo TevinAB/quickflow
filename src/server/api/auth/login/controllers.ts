@@ -14,9 +14,8 @@ export function wrapperIsAuthenticated<
     response: Response,
     next: NextFunction
   ) {
-    const { email } = request.middlewareInfo.jwtData;
-
     try {
+      const { email } = request.middlewareInfo.jwtData;
       const user = await profile.findOne({ email });
 
       if (user) {
@@ -50,8 +49,8 @@ export function wrapperLogin<T extends Model<Profile>, R extends Model<Role>>(
     response: Response,
     next: NextFunction
   ) {
-    const { email, password } = request.body;
     try {
+      const { email, password } = request.body;
       if (!email) throw new Error('Email not provided.');
       if (!password) throw new Error('Password not provided.');
 

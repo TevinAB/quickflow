@@ -13,9 +13,9 @@ export function wrapperSignUp<T extends Model<Profile>>(
     response: Response,
     next: NextFunction
   ) {
-    const { name, first_name, last_name, email, password, org_name } =
-      request.body;
     try {
+      const { name, first_name, last_name, email, password, org_name } =
+        request.body;
       if (!password) throw new RequestException('Missing password', 400);
 
       const userExists = await profile.exists({ email });

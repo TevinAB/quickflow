@@ -20,7 +20,6 @@ export function wrapperGetFormData<T extends Model<CustomizationInfo>>(
   ) {
     const { type } = request.params;
     const { org_id } = request.middlewareInfo.jwtData;
-
     try {
       const formDoc = await customModel
         .findOne({ org_id, res_type: type })

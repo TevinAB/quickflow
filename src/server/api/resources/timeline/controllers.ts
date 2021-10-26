@@ -33,7 +33,11 @@ export function addTimelineItem(
   next: NextFunction
 ) {
   const { _id } = request.params;
-  const { item_type: itemType, item_body: itemBody, initiator } = request.body;
+  const {
+    item_type: itemType,
+    item_body: itemBody,
+    meta: { initiator },
+  } = request.body;
 
   request.middlewareInfo.timelineData = {
     timelineIds: [_id],
@@ -56,14 +60,14 @@ export function wrapperEditTimelineItem<T extends Model<Timeline>>(
     next: NextFunction
   ) {
     const { _id } = request.params;
-    const {
-      _id: itemId,
-      item_type: itemType,
-      item_body: itemBody,
-      initiator,
-    } = request.body;
 
     try {
+      const {
+        _id: itemId,
+        item_type: itemType,
+        item_body: itemBody,
+        meta: { initiator },
+      } = request.body;
       await timelineModel.updateOne(
         { _id },
         { $pull: { timeline_items: { _id: itemId } } }
