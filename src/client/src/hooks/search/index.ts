@@ -23,6 +23,7 @@ export function useSearch(
 
   useEffect(() => {
     async function search() {
+      if (query.length < 3) return;
       setLoading(true);
 
       if (cancelToken.current) cancelToken.current.cancel();

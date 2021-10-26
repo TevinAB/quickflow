@@ -21,7 +21,8 @@ export default function TaskTodayWidget() {
   const { tasksData, setTasksData, error, loading } = useViewTasks(
     startDate,
     endDate,
-    token
+    token,
+    false
   );
   const [markedTasks, setMarkedTasks] = useState<Array<string>>([]);
 

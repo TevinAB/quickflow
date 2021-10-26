@@ -13,7 +13,8 @@ export function wrapperSignUp<T extends Model<Profile>>(
     response: Response,
     next: NextFunction
   ) {
-    const { first_name, last_name, email, password, org_name } = request.body;
+    const { name, first_name, last_name, email, password, org_name } =
+      request.body;
     try {
       if (!password) throw new RequestException('Missing password', 400);
 
@@ -23,6 +24,7 @@ export function wrapperSignUp<T extends Model<Profile>>(
         const password_hash = await hash(password, 10);
 
         const newProfile = new profile({
+          name,
           first_name,
           last_name,
           email,
@@ -47,6 +49,15 @@ export function wrapperSignUp<T extends Model<Profile>>(
           org_id,
           role_id,
         };
+
+        const userData = Object.assign(
+          {},
+          newProfile.toObject() as Record<string, unknown>
+        );
+        delete userData.password_hash;
+
+        userData['is_admin'] = true;
+        request.middlewareInfo.response.data.result = userData;
 
         next();
       } else {

@@ -4,17 +4,17 @@ import {
   SignUpData,
   Notification,
 } from './../../types/index';
+import { TOKEN_NAME } from '../../constants';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { login, signUp } from '../../services/auth';
+import { login, signUp, isAuthenticated } from '../../services/auth';
 import { readNotifications } from '../../services/profiles';
 import {
   removeFromLocalStorage,
   writeToLocalStorage,
 } from '../../utils/localStorage';
 
-const TOKEN_NAME = 'auth_token';
-
 interface UserState {
+  is_authenticated: boolean;
   _id: string;
   first_name: string;
   last_name: string;
@@ -28,6 +28,22 @@ interface UserState {
   notif_error_msg: string;
 }
 
+export const isAuthenticatedThunk = createAsyncThunk<
+  UserState,
+  string,
+  { rejectValue: boolean }
+>('user/is_authenticated', async (token, { rejectWithValue }) => {
+  try {
+    const result = await isAuthenticated(token);
+
+    const userState = result?.data.result as UserState;
+
+    return userState;
+  } catch (error) {
+    return rejectWithValue(false);
+  }
+});
+
 export const loginThunk = createAsyncThunk<
   UserState,
   LoginData,
@@ -36,7 +52,13 @@ export const loginThunk = createAsyncThunk<
   try {
     const result = await login(data);
 
-    return result.data as UserState;
+    const userData = result.data;
+    const state = {
+      ...userData.result,
+      token: userData.token,
+    } as UserState;
+
+    return state;
   } catch (error) {
     return rejectWithValue(error as ApiError);
   }
@@ -50,7 +72,13 @@ export const signUpThunk = createAsyncThunk<
   try {
     const result = await signUp(data);
 
-    return result.data as UserState;
+    const userData = result.data;
+    const state = {
+      ...userData.result,
+      token: userData.token,
+    } as UserState;
+
+    return state;
   } catch (error) {
     return rejectWithValue(error as ApiError);
   }
@@ -74,6 +102,7 @@ export const readNotifThunk = createAsyncThunk<
 const userSlice = createSlice({
   name: 'user',
   initialState: {
+    is_authenticated: false,
     token: '',
     _id: '',
     first_name: '',
@@ -88,6 +117,7 @@ const userSlice = createSlice({
   } as UserState,
   reducers: {
     logout(state) {
+      state.is_authenticated = false;
       state._id = '';
       state.token = '';
       state.first_name = '';
@@ -102,6 +132,19 @@ const userSlice = createSlice({
 
       removeFromLocalStorage(TOKEN_NAME);
     },
+    resumeSession(
+      state,
+      action: {
+        payload: { userData: UserState };
+      }
+    ) {
+      return {
+        ...action.payload.userData,
+        is_authenticated: true,
+        is_loading: false,
+        error_message: '',
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -109,25 +152,32 @@ const userSlice = createSlice({
         state.is_loading = true;
       })
       .addCase(loginThunk.fulfilled, (state, action) => {
-        state = action.payload;
-        state.is_loading = false;
-        state.error_message = '';
-
         writeToLocalStorage(TOKEN_NAME, action.payload.token);
+
+        return {
+          ...action.payload,
+          is_authenticated: true,
+          is_loading: false,
+          error_message: '',
+        };
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.is_loading = false;
+        state.is_authenticated = false;
         state.error_message = action.payload?.message || 'Login failed.';
       })
       .addCase(signUpThunk.pending, (state) => {
         state.is_loading = true;
       })
       .addCase(signUpThunk.fulfilled, (state, action) => {
-        state = action.payload;
-        state.is_loading = false;
-        state.error_message = '';
-
         writeToLocalStorage(TOKEN_NAME, action.payload.token);
+
+        return {
+          ...action.payload,
+          is_authenticated: true,
+          is_loading: false,
+          error_message: '',
+        };
       })
       .addCase(signUpThunk.rejected, (state, action) => {
         state.is_loading = false;
@@ -147,4 +197,4 @@ const userSlice = createSlice({
 export const userReducer = userSlice.reducer;
 
 //export logout action creator
-export const { logout } = userSlice.actions;
+export const { logout, resumeSession } = userSlice.actions;

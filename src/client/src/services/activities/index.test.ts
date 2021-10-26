@@ -14,8 +14,8 @@ describe('test the function that fetches activites', () => {
       'token'
     );
 
-    expect(result.responseHeaders.statusText).toBe('OK');
-    expect(result.data).toEqual(
+    expect(result?.responseHeaders.statusText).toBe('OK');
+    expect(result?.data).toEqual(
       expect.objectContaining({ result: expect.any(Array) })
     );
   });

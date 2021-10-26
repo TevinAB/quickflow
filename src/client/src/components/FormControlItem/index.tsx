@@ -23,8 +23,9 @@ type FormControlItemProps = {
 
   /**props from using react-hook-form */
   name?: string;
-  onChange?: ChangeEventHandler;
+  onChange?: (val: any) => void;
   onBlur?: ChangeEventHandler;
+  value?: unknown;
 };
 
 const FormControlItem = forwardRef<Ref<any>, FormControlItemProps>(
@@ -36,11 +37,14 @@ const FormControlItem = forwardRef<Ref<any>, FormControlItemProps>(
       selectedAssocContacts,
       onContactSelect,
       onContactRemove,
+      value,
+      onChange,
+      onBlur,
     },
     ref
   ) {
     const { input_label, input_type, help_text, _id } = formFieldData;
-    const [value, setValue] = useState<Date | null>(new Date());
+    const [dateValue] = useState<Date | null>(new Date());
     let renderItem: JSX.Element;
 
     switch (input_type) {
@@ -48,9 +52,13 @@ const FormControlItem = forwardRef<Ref<any>, FormControlItemProps>(
       case 'Email':
       case 'Number':
       case 'Url':
+      case 'Password':
         renderItem = (
           <TextField
             inputRef={ref}
+            inputProps={{ onChange: onChange }}
+            onBlur={onBlur}
+            value={value}
             fullWidth
             id={_id}
             size="small"
@@ -68,6 +76,8 @@ const FormControlItem = forwardRef<Ref<any>, FormControlItemProps>(
             name={name}
             optionsData={options}
             selectRef={ref}
+            afterChange={onChange}
+            value={value}
           />
         );
         break;
@@ -106,8 +116,11 @@ const FormControlItem = forwardRef<Ref<any>, FormControlItemProps>(
                   {...props}
                 />
               )}
-              value={value}
-              onChange={(newValue) => setValue(newValue)}
+              value={(value as Date) || dateValue}
+              onChange={(newValue) => {
+                if (onChange)
+                  onChange(new Date(newValue as Date).toUTCString());
+              }}
             />
           </LocalizationProvider>
         );
@@ -117,6 +130,9 @@ const FormControlItem = forwardRef<Ref<any>, FormControlItemProps>(
         renderItem = (
           <TextField
             inputRef={ref}
+            inputProps={{ onChange: onChange }}
+            onBlur={onBlur}
+            value={value}
             fullWidth
             id={_id}
             size="small"

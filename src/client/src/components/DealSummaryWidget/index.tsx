@@ -12,10 +12,11 @@ import { CURRENCY_DECIMAL } from '../../constants';
 export default function DealSummaryWidget() {
   const [formattedDeals, setFormattedDeals] = useState<GroupedDeals>([]);
   const token = useAppSelector((state) => state.user.token);
+  const [rangeValue] = useState(new Date());
   const { dealData, error, loading } = useGetDealsOverRange(
     'Year',
     'All',
-    '2021',
+    rangeValue,
     token
   );
 
@@ -28,7 +29,7 @@ export default function DealSummaryWidget() {
   );
 
   useEffect(() => {
-    setFormattedDeals(groupBy(dealData, (item) => item.category));
+    setFormattedDeals(groupBy(dealData, (item) => item.deal_status));
   }, [dealData]);
 
   return (

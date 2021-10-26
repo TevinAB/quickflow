@@ -17,7 +17,7 @@ export function wrapperSearchDocuments<T extends Model<BaseDocument>>(
 
     try {
       const searchText = String(queryText);
-      const allowedTypes = ['all', 'Contact', 'Account', 'Deal'];
+      const allowedTypes = ['all', 'contact', 'account', 'deal'];
 
       if (allowedTypes.includes(__type)) {
         let results = [];
@@ -31,7 +31,7 @@ export function wrapperSearchDocuments<T extends Model<BaseDocument>>(
         } else {
           results = await baseModel
             .find({
-              __type,
+              __type: __type[0].toUpperCase() + __type.slice(1),
               $text: { $search: searchText },
             })
             .select('name _id timeline_id');

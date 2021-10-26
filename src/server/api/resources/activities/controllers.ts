@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Model } from 'mongoose';
 import RequestException from '../../../exceptions/requestException';
+import { dateStartOf, dateEndOf, isValidDate } from '../../../utils/helpers';
 import { Activity } from './model';
 
 interface ActivityOptions {
@@ -16,21 +17,32 @@ export function wrapperGetActivity<T extends Model<Activity>>(
     response: Response,
     next: NextFunction
   ) {
-    const { key, from, to } = request.query;
+    const { key, from, to, completed } = request.query;
     const { org_id } = request.middlewareInfo.jwtData;
 
     try {
-      const searchKey = String(key) || 'end';
-      if (!from || !to)
+      const searchKey = String(key) || 'end_date';
+      if (!isValidDate(String(from)) || !isValidDate(String(from)))
         throw new RequestException('Missing query parameters from or to', 400);
 
-      const start = String(from);
-      const end = String(to);
+      const start = dateStartOf(String(from), 'day');
+      const end = dateEndOf(String(to), 'day');
+
+      const isCompleted = String(completed);
+
+      const filters: Record<string, boolean> = {};
+      if (isCompleted.toLowerCase() === 'true') {
+        filters['completed'] = true;
+      } else if (isCompleted.toLowerCase() === 'false') {
+        filters['completed'] = false;
+      }
 
       const results = await activityModel.find({
         org_id,
+        ...filters,
         __type: options.type,
-        [searchKey]: { $gte: new Date(start), $lte: new Date(end) },
+        completed,
+        [searchKey]: { $gte: start, $lte: end },
       });
 
       if (results.length) {
@@ -68,7 +80,7 @@ export function wrapperCreateActivity<T extends Model<Activity>>(
 
       await activity.save();
 
-      request.middlewareInfo.response.data.activity = activity;
+      request.middlewareInfo.response.data.result = activity;
 
       const affectedTimelines = activity.related_to.map(
         (doc: { timeline_id: any }) => doc.timeline_id
@@ -80,12 +92,12 @@ export function wrapperCreateActivity<T extends Model<Activity>>(
         addResponse: false,
         title: `${options.type} created by ${initiator}`,
         itemType: options.type,
-        itemBody: activity.title,
+        itemBody: activity.name,
       };
 
       //notif data
       request.middlewareInfo.notifData = {
-        title: `Added to ${options.type}: ${activity.title}`,
+        title: `Added to ${options.type}: ${activity.name}`,
         notifType: options.type,
         profileIds: [...activity.involved],
       };
@@ -122,7 +134,7 @@ export function wrapperEditActivity<T extends Model<Activity>>(
         { new: true }
       );
 
-      request.middlewareInfo.response.data.activity = activity;
+      request.middlewareInfo.response.data.result = activity;
 
       if (activity) {
         const affectedTimelines = activity.related_to.map(
@@ -135,12 +147,12 @@ export function wrapperEditActivity<T extends Model<Activity>>(
           addResponse: false,
           title: `${options.type} edited by ${initiator}`,
           itemType: options.type,
-          itemBody: activity.title,
+          itemBody: activity.name,
         };
 
         //notif data
         request.middlewareInfo.notifData = {
-          title: `Change in ${options.type}: ${activity.title}`,
+          title: `Change in ${options.type}: ${activity.name}`,
           notifType: options.type,
           profileIds: [...activity.involved],
         };
@@ -184,12 +196,12 @@ export function wrapperDeleteActivity<T extends Model<Activity>>(
           addResponse: false,
           title: `${options.type} deleted by ${initiator}`,
           itemType: options.type,
-          itemBody: activity.title,
+          itemBody: activity.name,
         };
 
         //notif data
         request.middlewareInfo.notifData = {
-          title: `${options.type}: ${activity.title} was canceled`,
+          title: `${options.type}: ${activity.name} was canceled`,
           notifType: options.type,
           profileIds: [...activity.involved],
         };

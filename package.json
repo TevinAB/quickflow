@@ -4,6 +4,8 @@
   "description": "CRM project",
   "main": "index.js",
   "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\" ",
+    "client": "npm start --prefix src/client",
     "server": "nodemon --watch src/server -e ts --exec npm start",
     "start": "node --loader ts-node/esm -r dotenv/config src/server/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,6 +26,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/jsonwebtoken": "^8.5.5",
     "bcrypt": "^5.0.1",
+    "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "google-auth-library": "^7.9.1",

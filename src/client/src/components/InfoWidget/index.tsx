@@ -1,12 +1,10 @@
 import './index.css';
 import { Typography } from '@mui/material';
+import type { InfoData } from '../../types';
 
 type InfoWidgetProps = {
   title: string;
-  data: Array<{
-    label: string;
-    value: string | number;
-  }>;
+  data: Array<InfoData>;
 };
 
 export default function InfoWidget({ title, data }: InfoWidgetProps) {

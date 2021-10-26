@@ -2,7 +2,7 @@
   width: 100%;
   display: flex;
   text-align: left;
-  margin-bottom: 4rem;
+  border-radius: 10px;
 }
 
 .review-card--reverse {
@@ -10,17 +10,20 @@
   flex-direction: row-reverse;
 }
 
+.review-card_img-container {
+  width: 100%;
+}
+
 .review-card__img {
   display: block;
-  width: 150px;
-  height: 150px;
+  width: 170px;
+  height: 170px;
   object-fit: cover;
-  border-radius: 10px;
 }
 
 .review-card__text {
   font-style: italic;
-  padding: 0 20px;
+  padding: 20px;
 }
 
 .review-card__text::before {
@@ -37,14 +40,21 @@
   .review-card {
     flex-direction: column;
     align-items: center;
-    margin-bottom: 4rem;
   }
 
   .review-card__img {
+    width: 100%;
     margin-bottom: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
   .review-card--reverse {
     text-align: left;
+  }
+
+  .review-card__text {
+    font-style: italic;
+    padding: 20px 20px 30px;
   }
 }

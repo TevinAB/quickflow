@@ -1,33 +1,34 @@
 {
   "result": {
-      "_id": "61565cba5fe7d02c7753c12a",
-      "org_name": "zwtches",
-      "first_name": "Tevin",
-      "last_name": "Banton",
-      "email": "tb@gmail.com",
-      "ceo": true,
-      "notifications": [
-          {
-              "title": "You were assigned to johnny flame.",
-              "read": false,
-              "type": "Contact",
-              "added": "2021-10-01T01:40:54.311Z"
-          },
-          {
-              "title": "You were assigned to lui yang.",
-              "read": false,
-              "type": "Contact",
-              "added": "2021-10-01T01:43:04.388Z"
-          },
-          {
-              "title": "You were assigned to johnny flame.",
-              "read": false,
-              "type": "Contact",
-              "added": "2021-10-01T01:44:33.342Z"
-          }
-      ],
-      "org_id": "61565cba5fe7d02c7753c12b",
-      "role_id": "61565cba5fe7d02c7753c12c",
-      "__v": 0
+    "_id": "61565cba5fe7d02c7753c12a",
+    "org_name": "zwtches",
+    "first_name": "Tevin",
+    "name": "Tevin Banton",
+    "last_name": "Banton",
+    "email": "tb@gmail.com",
+    "ceo": true,
+    "notifications": [
+      {
+        "title": "You were assigned to johnny flame.",
+        "read": false,
+        "type": "Contact",
+        "added": "2021-10-01T01:40:54.311Z"
+      },
+      {
+        "title": "You were assigned to lui yang.",
+        "read": false,
+        "type": "Contact",
+        "added": "2021-10-01T01:43:04.388Z"
+      },
+      {
+        "title": "You were assigned to johnny flame.",
+        "read": false,
+        "type": "Contact",
+        "added": "2021-10-01T01:44:33.342Z"
+      }
+    ],
+    "org_id": "61565cba5fe7d02c7753c12b",
+    "role_id": "61565cba5fe7d02c7753c12c",
+    "__v": 0
   }
 }

@@ -9,6 +9,7 @@ type PickListProps = {
   id?: string;
   name?: string;
   selectRef?: Ref<any>;
+  value?: unknown;
 };
 
 export default function PickList({
@@ -17,9 +18,10 @@ export default function PickList({
   id,
   afterChange,
   selectRef,
+  value,
 }: PickListProps) {
   const [selected, setSelected] = useState(
-    optionsData.filter((option) => option.selected).pop()?.value
+    optionsData.filter((option) => option.selected).pop()?.value || ''
   );
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -33,7 +35,7 @@ export default function PickList({
     <Select
       inputRef={selectRef}
       style={{ backgroundColor: 'white' }}
-      value={selected}
+      value={(value as string) || selected}
       size="small"
       fullWidth
       onChange={handleChange}

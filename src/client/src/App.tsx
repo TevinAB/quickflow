@@ -1,36 +1,22 @@
 import './App.css';
-import { Provider } from 'react-redux';
-import store from './store';
-import { ThemeProvider } from '@mui/material';
-import { theme } from './theme';
-import { StyledEngineProvider } from '@mui/material/styles';
-import { BrowserRouter as Router } from 'react-router-dom';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-import DealSummaryChartWidget from './components/DealSummaryChartWidget';
+import FormManager from './components/FormManager';
+import LandingPage from './pages/LandingPage';
+import { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
+
   return (
-    <StyledEngineProvider injectFirst>
-      <div
-        style={{
-          height: '120vh',
-          paddingTop: '2rem',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-        className="App"
-      >
-        <Router>
-          <ThemeProvider theme={theme}>
-            <Provider store={store}>
-              <div style={{ width: '80%' }}>
-                <DealSummaryChartWidget />
-              </div>
-            </Provider>
-          </ThemeProvider>
-        </Router>
-      </div>
-    </StyledEngineProvider>
+    <>
+      <LandingPage />
+      <FormManager />
+    </>
   );
 }
 

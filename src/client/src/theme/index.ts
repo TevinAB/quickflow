@@ -29,6 +29,7 @@ declare module '@mui/material/styles' {
     xl: false;
     mobile_sm: true;
     mobile: true;
+    form: true;
     tablet: true;
     laptop: true;
     desktop: true;
@@ -60,6 +61,7 @@ export const theme = createTheme({
     values: {
       mobile_sm: 0,
       mobile: 425,
+      form: 580,
       tablet: 768,
       laptop: 1024,
       desktop: 1440,

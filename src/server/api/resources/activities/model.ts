@@ -13,9 +13,20 @@ const eventSchema = new Schema<Event>(
   { strict: false, collection: COLLECTION_NAME }
 );
 
+interface Task {
+  completed: boolean;
+}
+
+const taskSchema = new Schema<Task>(
+  {
+    completed: { type: Boolean, required: true },
+  },
+  { strict: false, collection: COLLECTION_NAME }
+);
+
 export interface Activity {
   org_id: Schema.Types.ObjectId;
-  title: string;
+  name: string;
   description: string;
   start_date: Schema.Types.Date;
   end_date: Schema.Types.Date;
@@ -32,7 +43,7 @@ export interface Activity {
 const activitySchema = new Schema<Activity>(
   {
     org_id: { type: Schema.Types.ObjectId, required: true },
-    title: { type: String, required: true },
+    name: { type: String, required: true },
     description: { type: String },
     start_date: { type: Schema.Types.Date },
     end_date: { type: Schema.Types.Date },
@@ -44,10 +55,4 @@ const activitySchema = new Schema<Activity>(
 
 export const activityModel = model('activities', activitySchema);
 activityModel.discriminator('Event', eventSchema);
-activityModel.discriminator(
-  'Task',
-  new Schema<any>(
-    {},
-    { strict: false, collection: COLLECTION_NAME, discriminatorKey: '__type' }
-  )
-);
+activityModel.discriminator('Task', taskSchema);

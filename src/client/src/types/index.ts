@@ -8,12 +8,13 @@ export type Cancel_Token_Source = CancelTokenSource;
 export type DocumentType = 'Contact' | 'Account' | 'Deal';
 
 export type DealRangeTypes = 'Year';
-export type DealCategory = 'Open' | 'Won' | 'Lost' | 'Closed' | 'All';
+export type DealStatus = 'Open' | 'Won' | 'Lost';
+export type DealCategory = DealStatus | 'All';
 
 export type Deal = {
   value: number;
   timeline_id: string;
-  category: DealCategory;
+  deal_status: DealStatus;
   created_date: string;
   closed_date: string;
 } & SearchResultItem;
@@ -23,10 +24,20 @@ export type GroupedDeals = Array<{
   categoryItems: Deal[];
 }>;
 
-export type FormType = DocumentType;
+export type FormMode = 'New' | 'Edit' | 'none';
+export type FormType =
+  | DocumentType
+  | 'Note'
+  | 'Event'
+  | 'Task'
+  | 'Login'
+  | 'SignUp'
+  | 'FormField'
+  | 'none';
 
 export type FormFieldTypes =
   | 'Text'
+  | 'Password'
   | 'Email'
   | 'Number'
   | 'Picklist'
@@ -35,11 +46,14 @@ export type FormFieldTypes =
   | 'Date';
 
 export type FormFieldDataSources =
+  | 'Roles'
   | 'Profiles'
   | 'Contacts'
   | 'Pipelines'
   | 'Currency'
-  | 'Deal Status';
+  | 'Deal Status'
+  | 'Field Types'
+  | 'Field Sources';
 
 export type FormFieldData = {
   form: {
@@ -58,6 +72,12 @@ export type FormFieldData = {
   data_source: FormFieldDataSources;
   _id: string;
 };
+
+//contact type
+
+//account type
+
+//profile type
 
 export type ActivityType = 'Task' | 'Event';
 
@@ -121,4 +141,9 @@ export type PicklistOption = {
   value: string;
   text: string;
   selected: boolean;
+};
+
+export type InfoData = {
+  label: string;
+  value: string | number;
 };

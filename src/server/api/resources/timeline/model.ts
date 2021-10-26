@@ -2,7 +2,7 @@ import { TimelineBody } from './../../../types';
 import { model, Schema } from 'mongoose';
 
 export interface TimelineItem {
-  title: string;
+  name: string;
   body: TimelineBody;
   item_type: string;
   date: Schema.Types.Date;
@@ -10,7 +10,7 @@ export interface TimelineItem {
 
 const timelineItemSchema = new Schema<TimelineItem>(
   {
-    title: { type: String, required: true },
+    name: { type: String, required: true },
     item_type: { type: String, required: true },
     date: { type: Schema.Types.Date, default: Date.now },
   },

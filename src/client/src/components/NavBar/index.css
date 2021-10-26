@@ -5,6 +5,11 @@
   border-bottom: 1px solid var(--grey-2);
   width: 100%;
   padding: 1rem var(--padding-1);
+  background-color: var(--secondary-color-main);
+  top: 0;
+  left: 0;
+  z-index: 10;
+  position: fixed;
 }
 
 .nav-bar a {

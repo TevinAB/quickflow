@@ -1,6 +1,10 @@
-import { post } from '../requests';
+import { post, get } from '../requests';
 import { LoginData, SignUpData } from '../../types';
 import { buildHeaders } from '../headers';
+
+export async function isAuthenticated(token: string) {
+  return await get('/api/auth/authenticated', buildHeaders({ auth: token }));
+}
 
 export async function login(data: LoginData) {
   return await auth('/api/auth/login', data);

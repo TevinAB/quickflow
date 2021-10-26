@@ -1,4 +1,4 @@
-import { FormType } from '../../types';
+import type { FormType } from '../../types';
 import { buildHeaders } from '../headers';
 import { get, put } from '../requests';
 

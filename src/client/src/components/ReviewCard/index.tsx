@@ -5,14 +5,16 @@ type ReviewCardProps = {
   imgSrc: string;
   children?: ReactNode;
   reverse?: boolean;
+  className?: string;
 };
 
 export default function ReviewCard({
   imgSrc,
   children,
   reverse,
+  className,
 }: ReviewCardProps) {
-  let classes = 'review-card';
+  let classes = `review-card ${className ? className : ''}`;
 
   if (reverse) classes += ' review-card--reverse';
 
