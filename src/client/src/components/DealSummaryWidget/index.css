@@ -1,8 +1,6 @@
 .deal-summary__body {
-  display: flex;
-  justify-content: center;
-  min-height: 50px;
-  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .deal-summary__items {

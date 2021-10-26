@@ -1,3 +1,5 @@
+import { TOKEN_NAME } from './../constants/index';
+
 let storageEnabled: boolean | null = null;
 const LOCAL_STORAGE_ERROR = 'Local storage not enabled.';
 
@@ -42,7 +44,7 @@ export function removeFromLocalStorage(storageKey: string) {
 }
 
 export function defaultToken(token: string | undefined) {
-  return token || getFromLocalStorage('token');
+  return token || getFromLocalStorage(TOKEN_NAME);
 }
 
 export function toStringArray(str: string | Array<string>) {

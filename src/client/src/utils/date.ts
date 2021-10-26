@@ -15,6 +15,6 @@ export function timeFromNow(date: string | Date) {
   return dayjs(date).fromNow();
 }
 
-export function subtractDays(date: Date, days: number) {
+export function subtractDays(date: Date | string, days: number) {
   return dayjs(date).subtract(days, 'day').toISOString();
 }

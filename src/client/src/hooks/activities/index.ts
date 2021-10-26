@@ -1,70 +1,45 @@
 import { useState, useEffect } from 'react';
 import { getActivities } from '../../services/activities';
-import { Event, Task } from '../../types';
+import { Event, Task, RequestError, ActivityType } from '../../types';
 
-export function useViewEvents(
-  dateStart: string,
-  dateEnd: string,
-  token: string
-) {
-  const [eventsData, setEventsData] = useState<Array<Event>>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    async function getEvents() {
-      setLoading(true);
-
-      try {
-        const result = await getActivities('Event', dateStart, dateEnd, token);
-
-        setEventsData(result?.data.result as Array<Event>);
-        setLoading(false);
-      } catch (error) {
-        setError(true);
-        setLoading(false);
-      }
-    }
-
-    getEvents();
-  }, [dateStart, dateEnd, token]);
-
-  return { eventsData, error, loading };
-}
-
-export function useViewTasks(
+export function useViewActivity(
+  activityType: ActivityType,
   dateStart: string,
   dateEnd: string,
   token: string,
   completed?: boolean
 ) {
-  const [tasksData, setTasksData] = useState<Array<Task>>([]);
+  const [activityData, setActivityData] = useState<Array<Task | Event>>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    async function getTasks() {
+    async function getActivity() {
       setLoading(true);
 
       try {
         const result = await getActivities(
-          'Task',
+          activityType,
           dateStart,
           dateEnd,
           token,
           completed
         );
 
-        setTasksData(result?.data.result as Array<Task>);
+        setActivityData(result?.data.result as Array<Task | Event>);
         setLoading(false);
       } catch (error) {
-        setError(true);
+        const responseErr = error as RequestError;
+
+        if (responseErr.response?.status !== 404) {
+          setError(true);
+        }
         setLoading(false);
       }
     }
 
-    getTasks();
-  }, [dateStart, dateEnd, token, completed]);
+    getActivity();
+  }, [activityType, dateStart, dateEnd, token, completed]);
 
-  return { tasksData, setTasksData, error, loading };
+  return { activityData, setActivityData, error, loading };
 }

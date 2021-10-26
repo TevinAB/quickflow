@@ -22,7 +22,11 @@ type ChartDataType = {
   value: number;
 };
 
-export default function DealSummaryChartWidget() {
+type DSCWPropTypes = {
+  classes?: string;
+};
+
+export default function DealSummaryChartWidget({ classes }: DSCWPropTypes) {
   const [rangeType] = useState<DealRangeTypes>('Year');
   const [dealType] = useState<DealCategory>('All');
   const [rangeValue] = useState(new Date());
@@ -73,7 +77,7 @@ export default function DealSummaryChartWidget() {
   );
 
   return (
-    <div>
+    <div className={classes}>
       <div className="widget widget--with-footer">
         <div className="widget__title">
           <Typography fontWeight="bold">Annual Report</Typography>

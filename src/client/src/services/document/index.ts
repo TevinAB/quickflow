@@ -1,4 +1,9 @@
-import type { DealCategory, DealRangeTypes, DocumentType } from '../../types';
+import type {
+  DealCategory,
+  DealRangeTypes,
+  DocumentType,
+  HttpRequestMetaData,
+} from '../../types';
 import { toStringArray } from '../../utils/localStorage';
 import { buildHeaders } from '../headers';
 import { get, post, put, _delete } from '../requests';
@@ -6,7 +11,7 @@ import { get, post, put, _delete } from '../requests';
 export async function getDocumentOne(
   docType: DocumentType,
   id: string,
-  token?: string
+  token: string
 ) {
   return await get(
     `/api/resource/document/${docType.toLowerCase()}/${id}`,
@@ -17,8 +22,8 @@ export async function getDocumentOne(
 export async function getDocumentMany(
   docType: DocumentType,
   pageNum: number,
-  itemsPerPage = 15,
-  token?: string
+  token: string,
+  itemsPerPage = 15
 ) {
   return await get(
     `/api/resource/document/${docType.toLowerCase()}s?pageNum=${pageNum}&itemsPerPage=${itemsPerPage}`,
@@ -29,12 +34,13 @@ export async function getDocumentMany(
 export async function createDocument(
   docType: DocumentType,
   data: {},
-  token?: string
+  requestMetaData: HttpRequestMetaData,
+  token: string
 ) {
   return await post(
     `/api/resource/document/${docType.toLowerCase()}`,
     buildHeaders({ auth: token, contentType: 'application/json' }),
-    data
+    { ...data, meta: { ...requestMetaData } }
   );
 }
 
@@ -42,19 +48,20 @@ export async function editDocument(
   docType: DocumentType,
   id: string,
   data: {},
-  token?: string
+  requestMetaData: HttpRequestMetaData,
+  token: string
 ) {
   return await put(
     `/api/resource/document/${docType.toLowerCase()}/${id}`,
     buildHeaders({ auth: token, contentType: 'application/json' }),
-    data
+    { ...data, meta: { ...requestMetaData } }
   );
 }
 
 export async function deleteDocument(
   docType: DocumentType,
   id: string | Array<string>,
-  token?: string
+  token: string
 ) {
   return await _delete(
     `/api/resource/document/${docType.toLowerCase()}`,
@@ -69,7 +76,7 @@ export async function getDealsOverRange(
   rangeType: DealRangeTypes,
   dealType: DealCategory,
   value: Date,
-  token?: string
+  token: string
 ) {
   return await get(
     `/api/resource/document/deals/range` +
