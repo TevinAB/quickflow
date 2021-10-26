@@ -9,8 +9,11 @@ interface Headers {
 export function buildHeaders(headers: Headers) {
   const result: { [key: string]: any } = {};
 
-  if (headers.auth) result[AUTH_HEADER] = defaultToken(headers.auth);
-  if (headers.contentType) result['content-type'] = headers.contentType;
+  if (headers.hasOwnProperty('auth'))
+    result[AUTH_HEADER] = defaultToken(headers.auth);
+
+  if (headers.hasOwnProperty('contentType'))
+    result['content-type'] = headers.contentType;
 
   return result;
 }

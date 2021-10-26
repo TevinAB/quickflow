@@ -61,23 +61,26 @@ export default function FormManager() {
   });
 
   const onSubmit = async (data: any) => {
-    const finalData: any = { ...data };
+    const finalData: Record<string, any> = { ...data };
 
-    //handle assoc contacts
     if (assocContact.length) {
       finalData['associated_contacts'] = assocContact;
     }
 
-    if (data['first_name'] && data['last_name']) {
+    if (
+      finalData.hasOwnProperty('first_name') &&
+      finalData.hasOwnProperty('last_name')
+    ) {
       finalData['name'] = `${data['first_name']} ${data['last_name']}`;
     }
 
-    //handle picklist data
+    //constructs picklist data obj
     for (let key in listOptionsMap) {
       if (listOptionsMap.hasOwnProperty(key)) {
         const selectedOption = listOptionsMap[key]
           .filter((option) => option.value === data[key])
           .pop();
+
         finalData[key] = {
           __type: 'Picklist',
           text: selectedOption?.text || '',
@@ -121,13 +124,11 @@ export default function FormManager() {
         if (formMode === 'Edit') {
           tempDefault = await getItemData(itemId, formType, token);
 
-          //check for associated contacts, if found --update with setAssoc contacts
           if (tempDefault['associated_contacts']) {
             setAssocContact(tempDefault['associated_contacts']);
           }
         }
 
-        //build an map to store the list options for each picklist field
         const tempListOptionsMap: typeof listOptionsMap = {};
         allSourceResults.forEach((sourceData, index) => {
           tempListOptionsMap[idList[index]] = toPicklistData<nameIdPair>(
@@ -139,8 +140,6 @@ export default function FormManager() {
             }
           );
         });
-
-        //set defaultData with data retrieved above
 
         setFormFieldData(formData);
         setDefaultData(tempDefault);
@@ -154,6 +153,7 @@ export default function FormManager() {
     }
 
     if (formType === 'none') return;
+
     buildForm();
   }, [formType, formMode, itemId]);
 

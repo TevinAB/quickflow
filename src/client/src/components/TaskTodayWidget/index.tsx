@@ -1,6 +1,6 @@
 import './index.css';
 import { setTaskCompleted } from '../../services/activities';
-import { useViewTasks } from '../../hooks/activities';
+import { useViewActivity } from '../../hooks/activities';
 import { subtractDays } from '../../utils/date';
 import { useState } from 'react';
 import { useAppSelector } from '../../hooks/redux';
@@ -13,17 +13,24 @@ import { WidgetLoadError, WidgetLoading } from '../WidgetUtils';
 
 const taskOverdueOffset = 1; //units = days
 
-export default function TaskTodayWidget() {
-  const [startDate] = useState(subtractDays(new Date(), taskOverdueOffset));
-  const [endDate] = useState(subtractDays(new Date(), 0));
+type TaskTodayWidgetProps = {
+  classes?: string;
+};
+
+export default function TaskTodayWidget({ classes }: TaskTodayWidgetProps) {
+  const [startDate] = useState(
+    subtractDays(new Date().toISOString(), taskOverdueOffset)
+  );
+  const [endDate] = useState(subtractDays(new Date().toISOString(), 0));
 
   const token = useAppSelector((state) => state.user.token);
-  const { tasksData, setTasksData, error, loading } = useViewTasks(
-    startDate,
-    endDate,
-    token,
-    false
-  );
+  const userName = useAppSelector((state) => state.user.first_name);
+  const {
+    activityData: tasksData,
+    setActivityData: setTasksData,
+    error,
+    loading,
+  } = useViewActivity('Task', startDate, endDate, token, false);
   const [markedTasks, setMarkedTasks] = useState<Array<string>>([]);
 
   const removeTaskAfterAnim = (taskId: string) => {
@@ -33,7 +40,12 @@ export default function TaskTodayWidget() {
 
   const handleCheckTask = async (taskId: string) => {
     try {
-      await setTaskCompleted(taskId, { completed: true }, 'token');
+      await setTaskCompleted(
+        taskId,
+        { completed: true },
+        { initiator: userName },
+        token
+      );
 
       setMarkedTasks([...markedTasks, taskId]);
 
@@ -66,18 +78,23 @@ export default function TaskTodayWidget() {
     </ul>
   );
 
+  const noTasks = <div>Nothing to show for today</div>;
+
   return (
-    <div className="widget widget--with-footer">
-      <div className="widget__title">
-        <Typography fontWeight="bold">Today's Tasks</Typography>
-      </div>
-      <div className="widget__body widget-body--med">
-        {error && <WidgetLoadError />}
-        {!error && loading && <WidgetLoading />}
-        {!error && !loading && renderItems}
-      </div>
-      <div className="widget__footer">
-        <Link to="/tasks">View all</Link>
+    <div className={classes}>
+      <div className="widget widget--with-footer">
+        <div className="widget__title">
+          <Typography fontWeight="bold">Today's Tasks</Typography>
+        </div>
+        <div className="widget__body widget-body--med">
+          {error && <WidgetLoadError />}
+          {!error && loading && <WidgetLoading />}
+          {!error && !loading && tasksData.length > 0 && renderItems}
+          {!error && !loading && !tasksData.length && noTasks}
+        </div>
+        <div className="widget__footer">
+          <Link to="/tasks">View all</Link>
+        </div>
       </div>
     </div>
   );

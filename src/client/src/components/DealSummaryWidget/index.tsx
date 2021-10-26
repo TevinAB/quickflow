@@ -9,7 +9,11 @@ import type { GroupedDeals, Deal } from '../../types';
 import { groupBy, numberFormat } from '../../utils';
 import { CURRENCY_DECIMAL } from '../../constants';
 
-export default function DealSummaryWidget() {
+type DealSummaryProps = {
+  classes?: string;
+};
+
+export default function DealSummaryWidget({ classes }: DealSummaryProps) {
   const [formattedDeals, setFormattedDeals] = useState<GroupedDeals>([]);
   const token = useAppSelector((state) => state.user.token);
   const [rangeValue] = useState(new Date());
@@ -21,7 +25,7 @@ export default function DealSummaryWidget() {
   );
 
   const renderItems = (
-    <div className="deal-chart">
+    <div className="deal-summary__body">
       {formattedDeals.map((group) => {
         return <SummaryBox group={group} />;
       })}
@@ -33,12 +37,12 @@ export default function DealSummaryWidget() {
   }, [dealData]);
 
   return (
-    <div>
+    <div className={classes}>
       <div className="widget widget--with-footer">
         <div className="widget__title">
           <Typography fontWeight="bold">Deal Summary [All Deals]</Typography>
         </div>
-        <div className="widget__body deal-chart__body">
+        <div className="widget__body">
           {error && <WidgetLoadError />}
           {!error && loading && <WidgetLoading />}
           {!error && !loading && renderItems}

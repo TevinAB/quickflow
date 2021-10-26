@@ -1,5 +1,5 @@
 import './index.css';
-import { useViewEvents } from '../../hooks/activities';
+import { useViewActivity } from '../../hooks/activities';
 import { subtractDays } from '../../utils/date';
 import { useAppSelector } from '../../hooks/redux';
 import { Typography } from '@mui/material';
@@ -8,16 +8,20 @@ import { useState } from 'react';
 import { timeFromNow } from '../../utils/date';
 import { WidgetLoadError, WidgetLoading } from '../WidgetUtils';
 
-export default function EventTodayWidget() {
+type EventTodayWidgetProps = {
+  classes?: string;
+};
+
+export default function EventTodayWidget({ classes }: EventTodayWidgetProps) {
   const [startDate] = useState(subtractDays(new Date(), 0));
   const [endDate] = useState(subtractDays(new Date(), 0));
 
   const token = useAppSelector((state) => state.user.token);
-  const { eventsData, error, loading } = useViewEvents(
-    startDate,
-    endDate,
-    token
-  );
+  const {
+    activityData: eventsData,
+    error,
+    loading,
+  } = useViewActivity('Event', startDate, endDate, token);
 
   const renderItems = (
     <ul className="widget-body--with-list">
@@ -32,8 +36,10 @@ export default function EventTodayWidget() {
     </ul>
   );
 
+  const noEvents = <div>No events today.</div>;
+
   return (
-    <div>
+    <div className={classes}>
       <div className="widget widget--with-footer">
         <div className="widget__title">
           <Typography fontWeight="bold">Today's Events</Typography>
@@ -41,7 +47,8 @@ export default function EventTodayWidget() {
         <div className="widget__body widget-body--med">
           {error && <WidgetLoadError />}
           {!error && loading && <WidgetLoading />}
-          {!error && !loading && renderItems}
+          {!error && !loading && eventsData.length > 0 && renderItems}
+          {!error && !loading && !eventsData.length && noEvents}
         </div>
         <div className="widget__footer">
           <Link to="/events">View all</Link>

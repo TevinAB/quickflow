@@ -16,6 +16,7 @@ import {
 interface UserState {
   is_authenticated: boolean;
   _id: string;
+  full_name: string;
   first_name: string;
   last_name: string;
   email: string;
@@ -101,49 +102,19 @@ export const readNotifThunk = createAsyncThunk<
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    is_authenticated: false,
-    token: '',
-    _id: '',
-    first_name: '',
-    last_name: '',
-    email: '',
-    org_name: '',
-    notifications: [],
-    is_admin: false,
-    is_loading: false,
-    error_message: '',
-    notif_error_msg: '',
-  } as UserState,
+  initialState: clearState(),
   reducers: {
-    logout(state) {
-      state.is_authenticated = false;
-      state._id = '';
-      state.token = '';
-      state.first_name = '';
-      state.last_name = '';
-      state.email = '';
-      state.notifications = [];
-      state.is_admin = false;
-      state.org_name = '';
-      state.is_loading = false;
-      state.error_message = '';
-      state.notif_error_msg = '';
-
+    logout() {
       removeFromLocalStorage(TOKEN_NAME);
+      return clearState();
     },
     resumeSession(
-      state,
+      _,
       action: {
         payload: { userData: UserState };
       }
     ) {
-      return {
-        ...action.payload.userData,
-        is_authenticated: true,
-        is_loading: false,
-        error_message: '',
-      };
+      return initUserStateOnAuth(action.payload.userData);
     },
   },
   extraReducers: (builder) => {
@@ -151,15 +122,10 @@ const userSlice = createSlice({
       .addCase(loginThunk.pending, (state) => {
         state.is_loading = true;
       })
-      .addCase(loginThunk.fulfilled, (state, action) => {
+      .addCase(loginThunk.fulfilled, (_, action) => {
         writeToLocalStorage(TOKEN_NAME, action.payload.token);
 
-        return {
-          ...action.payload,
-          is_authenticated: true,
-          is_loading: false,
-          error_message: '',
-        };
+        return initUserStateOnAuth(action.payload);
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.is_loading = false;
@@ -169,15 +135,10 @@ const userSlice = createSlice({
       .addCase(signUpThunk.pending, (state) => {
         state.is_loading = true;
       })
-      .addCase(signUpThunk.fulfilled, (state, action) => {
+      .addCase(signUpThunk.fulfilled, (_, action) => {
         writeToLocalStorage(TOKEN_NAME, action.payload.token);
 
-        return {
-          ...action.payload,
-          is_authenticated: true,
-          is_loading: false,
-          error_message: '',
-        };
+        return initUserStateOnAuth(action.payload);
       })
       .addCase(signUpThunk.rejected, (state, action) => {
         state.is_loading = false;
@@ -192,6 +153,34 @@ const userSlice = createSlice({
       });
   },
 });
+
+function initUserStateOnAuth(userData: UserState) {
+  return {
+    ...userData,
+    is_authenticated: true,
+    full_name: `${userData.first_name} ${userData.last_name}`,
+    is_loading: false,
+    error_message: '',
+  } as UserState;
+}
+
+function clearState() {
+  return {
+    is_authenticated: false,
+    token: '',
+    _id: '',
+    full_name: '',
+    first_name: '',
+    last_name: '',
+    email: '',
+    org_name: '',
+    notifications: [],
+    is_admin: false,
+    is_loading: false,
+    error_message: '',
+    notif_error_msg: '',
+  } as UserState;
+}
 
 //export reducers
 export const userReducer = userSlice.reducer;

@@ -3,7 +3,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 import FormManager from './components/FormManager';
-import LandingPage from './pages/LandingPage';
+import Dashboard from './pages/Dashboard';
 import { useEffect } from 'react';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
 
   return (
     <>
-      <LandingPage />
+      <Dashboard />
       <FormManager />
     </>
   );

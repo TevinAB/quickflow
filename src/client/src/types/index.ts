@@ -1,9 +1,10 @@
-import { CancelToken, CancelTokenSource } from 'axios';
+import { CancelToken, CancelTokenSource, AxiosError } from 'axios';
 import timeline from '../mock-sw/timeline/response/getTimeline.json';
 import { groupBy } from '../utils';
 
 export type Cancel_Token = CancelToken;
 export type Cancel_Token_Source = CancelTokenSource;
+export type RequestError = AxiosError;
 
 export type DocumentType = 'Contact' | 'Account' | 'Deal';
 
@@ -128,6 +129,10 @@ export interface SignUpData {
 
 export interface ApiError {
   message: string;
+}
+
+export interface HttpRequestMetaData {
+  initiator?: string;
 }
 
 export interface Notification {
