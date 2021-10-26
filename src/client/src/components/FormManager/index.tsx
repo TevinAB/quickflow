@@ -68,7 +68,7 @@ export default function FormManager() {
       finalData['associated_contacts'] = assocContact;
     }
 
-    if (data.hasOwnProperty('first_name') && data.hasOwnProperty('last_name')) {
+    if (data['first_name'] && data['last_name']) {
       finalData['name'] = `${data['first_name']} ${data['last_name']}`;
     }
 

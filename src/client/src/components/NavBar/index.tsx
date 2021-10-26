@@ -1,11 +1,21 @@
 import './index.css';
-import { useEffect, useState } from 'react';
+import { Ref, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from '../SideBar';
 import { debounce } from '../../utils';
+import Button from '../Button';
 
 const mobile = 425;
-export default function NavBar() {
+type NavProps = {
+  navRef?: Ref<HTMLElement>;
+  loginOnClick: () => void;
+  signUpOnClick: () => void;
+};
+export default function NavBar({
+  navRef,
+  loginOnClick,
+  signUpOnClick,
+}: NavProps) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -22,20 +32,20 @@ export default function NavBar() {
   }, []);
 
   return (
-    <nav className="nav-bar">
+    <nav ref={navRef} className="nav-bar">
       <Link to="/">
         <Logo showText={windowWidth >= mobile} />
       </Link>
       <ul className="nav-bar__items">
         <li>
-          <Link to="/login">
-            <span className="btn btn--login">Login</span>
-          </Link>
+          <Button className="btn btn--login" onClick={loginOnClick}>
+            Login
+          </Button>
         </li>
         <li>
-          <Link to="/sign-up">
-            <span className="btn btn--sign-up">Sign Up</span>
-          </Link>
+          <Button className="btn btn--sign-up" onClick={signUpOnClick}>
+            Sign Up
+          </Button>
         </li>
       </ul>
     </nav>

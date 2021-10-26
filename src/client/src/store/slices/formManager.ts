@@ -20,12 +20,12 @@ const formManager = createSlice({
       state,
       action: {
         type: string;
-        payload: { formMode: FormMode; formType: FormType; _id: string };
+        payload: { formMode: FormMode; formType: FormType; _id?: string };
       }
     ) {
       state.formMode = action.payload.formMode;
       state.formType = action.payload.formType;
-      state.itemId = action.payload._id;
+      state.itemId = action.payload._id || '';
     },
 
     hideForm(state) {

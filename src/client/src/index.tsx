@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import 'animate.css';
 import App from './App';
 
 import { Provider } from 'react-redux';
@@ -12,7 +13,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 
-if (process.env.NODE_ENV === 'development') {
+const useWorker = false;
+
+if (process.env.NODE_ENV === 'development' && useWorker) {
   const { worker } = require('./mock-sw/browserWorker');
   worker.start();
 }
@@ -20,15 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 ReactDOM.render(
   <React.StrictMode>
     <StyledEngineProvider injectFirst>
-      <div
-        style={{
-          height: '120vh',
-          paddingTop: '2rem',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-        className="App"
-      >
+      <div className="App">
         <Router>
           <ThemeProvider theme={theme}>
             <Provider store={store}>

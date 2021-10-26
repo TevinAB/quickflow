@@ -14,6 +14,7 @@ import {
 } from '../../utils/localStorage';
 
 interface UserState {
+  is_authenticated: boolean;
   _id: string;
   first_name: string;
   last_name: string;
@@ -101,6 +102,7 @@ export const readNotifThunk = createAsyncThunk<
 const userSlice = createSlice({
   name: 'user',
   initialState: {
+    is_authenticated: false,
     token: '',
     _id: '',
     first_name: '',
@@ -115,6 +117,7 @@ const userSlice = createSlice({
   } as UserState,
   reducers: {
     logout(state) {
+      state.is_authenticated = false;
       state._id = '';
       state.token = '';
       state.first_name = '';
@@ -135,7 +138,12 @@ const userSlice = createSlice({
         payload: { userData: UserState };
       }
     ) {
-      state = action.payload.userData;
+      return {
+        ...action.payload.userData,
+        is_authenticated: true,
+        is_loading: false,
+        error_message: '',
+      };
     },
   },
   extraReducers: (builder) => {
@@ -144,25 +152,32 @@ const userSlice = createSlice({
         state.is_loading = true;
       })
       .addCase(loginThunk.fulfilled, (state, action) => {
-        state = action.payload;
-        state.is_loading = false;
-        state.error_message = '';
-
         writeToLocalStorage(TOKEN_NAME, action.payload.token);
+
+        return {
+          ...action.payload,
+          is_authenticated: true,
+          is_loading: false,
+          error_message: '',
+        };
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.is_loading = false;
+        state.is_authenticated = false;
         state.error_message = action.payload?.message || 'Login failed.';
       })
       .addCase(signUpThunk.pending, (state) => {
         state.is_loading = true;
       })
       .addCase(signUpThunk.fulfilled, (state, action) => {
-        state = action.payload;
-        state.is_loading = false;
-        state.error_message = '';
-
         writeToLocalStorage(TOKEN_NAME, action.payload.token);
+
+        return {
+          ...action.payload,
+          is_authenticated: true,
+          is_loading: false,
+          error_message: '',
+        };
       })
       .addCase(signUpThunk.rejected, (state, action) => {
         state.is_loading = false;
