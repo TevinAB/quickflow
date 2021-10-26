@@ -17,10 +17,10 @@ export function wrapperGetActivity<T extends Model<Activity>>(
     response: Response,
     next: NextFunction
   ) {
-    const { key, from, to, completed } = request.query;
-    const { org_id } = request.middlewareInfo.jwtData;
-
     try {
+      const { key, from, to, completed } = request.query;
+      const { org_id } = request.middlewareInfo.jwtData;
+
       const searchKey = String(key) || 'end_date';
       if (!isValidDate(String(from)) || !isValidDate(String(from)))
         throw new RequestException('Missing query parameters from or to', 400);
@@ -65,13 +65,13 @@ export function wrapperCreateActivity<T extends Model<Activity>>(
     reponse: Response,
     next: NextFunction
   ) {
-    const { org_id } = request.middlewareInfo.jwtData;
-    const {
-      data,
-      meta: { initiator },
-    } = request.body;
-
     try {
+      const { org_id } = request.middlewareInfo.jwtData;
+      const {
+        data,
+        meta: { initiator },
+      } = request.body;
+
       const activity = new activityModel({
         ...data,
         org_id,
@@ -118,13 +118,13 @@ export function wrapperEditActivity<T extends Model<Activity>>(
     response: Response,
     next: NextFunction
   ) {
-    const { _id } = request.params;
-    const {
-      data,
-      meta: { initiator },
-    } = request.body;
-
     try {
+      const { _id } = request.params;
+      const {
+        data,
+        meta: { initiator },
+      } = request.body;
+
       const activity = await activityModel.findOneAndUpdate(
         { _id },
         {
@@ -179,10 +179,10 @@ export function wrapperDeleteActivity<T extends Model<Activity>>(
     response: Response,
     next: NextFunction
   ) {
-    const { _id } = request.params;
-    const { initiator } = request.body;
-
     try {
+      const { _id } = request.params;
+      const { initiator } = request.body;
+
       const activity = await activityModel.findOne({ _id });
 
       if (activity) {
