@@ -1,6 +1,11 @@
-import type { Deal, DealRangeTypes, DealCategory } from './../../types/index';
+import type {
+  Deal,
+  DealRangeTypes,
+  DealCategory,
+  RequestError,
+} from './../../types/index';
 import { useState, useEffect } from 'react';
-import { getDealsOverRange } from '../../services/document';
+import { getDealsOverRange, getAssociatedDeals } from '../../services/document';
 
 export function useGetDealsOverRange(
   rangeType: DealRangeTypes,
@@ -35,4 +40,36 @@ export function useGetDealsOverRange(
   }, [rangeType, dealType, value, token]);
 
   return { dealData, error, loading };
+}
+
+export function useGetAssociatedDeals(mainDocId: string, token: string) {
+  const [loading, setLoading] = useState(false);
+  const [assoicatedDeals, setAssociatedDeals] = useState<Array<Deal>>([]);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    async function getAssocDeals() {
+      setLoading(true);
+      try {
+        const response = await getAssociatedDeals(mainDocId, token);
+
+        const deals = response?.data.result as Array<Deal>;
+
+        setAssociatedDeals(deals);
+        setLoading(false);
+      } catch (error) {
+        const requestErr = error as RequestError;
+
+        if (requestErr.response?.status !== 404) {
+          setError(true);
+        }
+
+        setLoading(false);
+      }
+    }
+
+    getAssocDeals();
+  }, [token, mainDocId]);
+
+  return { assoicatedDeals, loading, error };
 }
