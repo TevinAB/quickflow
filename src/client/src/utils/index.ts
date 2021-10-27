@@ -5,6 +5,7 @@ import type {
   FormType,
   FormFieldData,
   InfoData,
+  RequestError,
 } from './../types/index';
 import numeral from 'numeral';
 import { getProfileMany } from '../services/profiles';
@@ -139,6 +140,7 @@ const dealStatusOptions: Array<nameIdPair> = [
   { name: 'Lost', _id: 'Lost' },
 ];
 
+//field types for picklist when creating a new form field
 const formFieldTuple = [
   'Text',
   'Password',
@@ -150,6 +152,7 @@ const formFieldTuple = [
   'Date',
 ];
 
+//picklist source data when creating a new form field of type picklist
 const formFieldSourceTuple = [
   'Roles',
   'Profiles',
@@ -203,15 +206,9 @@ export function selectDataSource(source: FormFieldDataSources, token: string) {
 export async function getForm_Data(formType: FormType, token: string) {
   switch (formType) {
     case 'Account':
-      return (await getFormData('Account', token))?.data.result
-        .form_data as Array<FormFieldData>;
-
     case 'Contact':
-      return (await getFormData('Contact', token))?.data.result
-        .form_data as Array<FormFieldData>;
-
     case 'Deal':
-      return (await getFormData('Deal', token))?.data.result
+      return (await getFormData(formType, token))?.data.result
         .form_data as Array<FormFieldData>;
 
     case 'Login':
@@ -241,19 +238,15 @@ export async function getItemData(
 ) {
   switch (formType) {
     case 'Contact':
-      return (await getDocumentOne('Contact', _id, token))?.data.result;
-
     case 'Account':
-      return (await getDocumentOne('Account', _id, token))?.data.result;
-
     case 'Deal':
-      return (await getDocumentOne('Deal', _id, token))?.data.result;
+      return (await getDocumentOne(formType, _id, token))?.data.result;
   }
 
   return await Promise.resolve({});
 }
 
-export function infoComponentApadter(
+export function infoWidgetComponentAdapter(
   data: Record<string, any>,
   blacklistKeys: Array<string>
 ) {
@@ -274,6 +267,19 @@ export function infoComponentApadter(
 export function keyToLabel(key: string) {
   return key
     .split('_')
-    .map((word) => word[0].toUpperCase + word.slice(1))
+    .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(' ');
+}
+
+export function getRequestErrorData(error: RequestError) {
+  const statusCode = error.response?.status || 400;
+  let message;
+
+  if (statusCode !== 404) {
+    message = 'Oops, Something went wrong.';
+  } else {
+    message = error.response?.data.message || '';
+  }
+
+  return { statusCode, message };
 }
