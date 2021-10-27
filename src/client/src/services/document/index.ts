@@ -84,3 +84,10 @@ export async function getDealsOverRange(
     buildHeaders({ auth: token })
   );
 }
+
+export async function getAssociatedDeals(primaryDocId: string, token: string) {
+  return await get(
+    `/api/resource/document/deals/assc/${primaryDocId}`,
+    buildHeaders({ auth: token })
+  );
+}
