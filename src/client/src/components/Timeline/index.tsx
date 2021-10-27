@@ -1,15 +1,20 @@
 import './index.css';
 import { useState, useEffect } from 'react';
 import { timeFromNow } from '../../utils/date';
-import type { TimelineData, TimelineItemType } from '../../types';
+import type {
+  TimelineItem,
+  TimelineFormattedData,
+  TimelineItemType,
+} from '../../types';
 import PickList from '../PickList';
 
 type TimelineProps = {
-  timelineData: TimelineData;
+  timelineFormattedData: TimelineFormattedData;
 };
 
 type FilterType = 'All' | TimelineItemType;
 
+//for filter picklist
 const filterOptions: Array<{
   text: FilterType;
   value: FilterType;
@@ -22,14 +27,12 @@ const filterOptions: Array<{
   { text: 'Task', value: 'Task', selected: false },
 ];
 
-export default function Timeline({ timelineData }: TimelineProps) {
-  const [filteredData, setFilteredData] = useState(timelineData);
+export default function Timeline({ timelineFormattedData }: TimelineProps) {
+  const [filteredData, setFilteredData] = useState(timelineFormattedData);
   const [filterType, setFilterType] = useState<FilterType>('All');
 
   useEffect(() => {
-    //move outside
-    type argType = typeof timelineData[0]['categoryItems'][0];
-    let filterFunction: (item: argType) => boolean;
+    let filterFunction: (item: TimelineItem) => boolean;
 
     switch (filterType) {
       case 'Note':
@@ -49,17 +52,17 @@ export default function Timeline({ timelineData }: TimelineProps) {
         break;
     }
 
-    const res = timelineData
+    const res = timelineFormattedData
       .map((group) => {
         return {
           categoryTitle: group.categoryTitle,
           categoryItems: group.categoryItems.filter(filterFunction),
         };
       })
-      .reverse();
+      .reverse(); //for reverse chronological order
 
     setFilteredData(res);
-  }, [filterType, timelineData]);
+  }, [filterType, timelineFormattedData]);
 
   return (
     <div className="timeline">
@@ -71,15 +74,17 @@ export default function Timeline({ timelineData }: TimelineProps) {
           />
         </div>
       </div>
-      {filteredData.map((dateGroup) => (
-        <TimelineGroup dateGroup={dateGroup} />
-      ))}
+      <div className="timeline__items">
+        {filteredData.map((dateGroup) => (
+          <TimelineGroup dateGroup={dateGroup} />
+        ))}
+      </div>
     </div>
   );
 }
 
 type TimelineGroupProps = {
-  dateGroup: Pick<TimelineData[0], 'categoryItems' | 'categoryTitle'>;
+  dateGroup: Pick<TimelineFormattedData[0], 'categoryItems' | 'categoryTitle'>;
 };
 
 function TimelineGroup({ dateGroup }: TimelineGroupProps) {

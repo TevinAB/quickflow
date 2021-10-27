@@ -1,7 +1,7 @@
 import './index.css';
 import Tag from '../Tag';
 import Search from '../Search';
-import { SearchType, SearchResultItem } from '../../types';
+import type { SearchType, SearchResultItem } from '../../types';
 
 type AddAssocItemProps = {
   id?: string;
