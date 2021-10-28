@@ -110,14 +110,11 @@ export function wrapperGetPipelines<T extends Model<CustomizationInfo>>(
     try {
       const pipelines = await customModel
         .find({ org_id, res_type: 'pipeline' })
-        .select('-org_id -__v -form_data -res_type');
+        .select('pipeline_data');
 
       //get the first element of the pipeline list because each organization will only have
       //one document that stores all their pipelines
-      const finalResult = pipelines[0].pipeline_data?.map((pipeline) => ({
-        name: pipeline.name,
-        _id: pipeline._id,
-      }));
+      const finalResult = pipelines[0];
 
       if (finalResult) {
         response.json({ result: finalResult });
@@ -412,9 +409,7 @@ export function wrapperGetProfiles<T extends Model<Profile>>(profileModel: T) {
     const { org_id } = request.middlewareInfo.jwtData;
 
     try {
-      const profiles = await profileModel
-        .find({ org_id })
-        .select('first_name last_name _id');
+      const profiles = await profileModel.find({ org_id }).select('name _id');
 
       if (profiles.length) {
         response.json({ result: profiles });

@@ -34,3 +34,9 @@ export type NotificationType =
 export type TimelineBody =
   | string
   | Array<{ beforeEdit: string; afterEdit: string }>;
+
+export type PicklistData = {
+  __type: string;
+  text: string;
+  value: string;
+};

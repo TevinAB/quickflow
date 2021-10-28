@@ -197,7 +197,7 @@ export const dealForm = [
     list: { order: 6, visible: true },
     field_name: 'pipeline',
     deletable: false,
-    data_source: 'pipelines',
+    data_source: 'Pipelines',
   },
   {
     input_type: 'Picklist',
@@ -207,7 +207,7 @@ export const dealForm = [
     list: { order: 7, visible: true },
     field_name: 'current_stage',
     deletable: false,
-    data_source: 'pipelines',
+    data_source: 'Pipeline Stage',
   },
   {
     input_type: 'Assoc_Contact',
@@ -233,7 +233,12 @@ export const dealForm = [
 
 export const pipeline = {
   name: 'Deal',
-  stages: [{ stage_name: 'Start', order: 1 }],
+  stages: [
+    { stage_name: 'Start', order: 1 },
+    { stage_name: 'Progress', order: 2 },
+    { stage_name: 'Almost There', order: 3 },
+    { stage_name: 'Completed', order: 4 },
+  ],
 };
 
 //Roles
