@@ -41,7 +41,7 @@ export default function Search({
   const [type, setType] = useState<SearchType>('Contact');
   const [query, setQuery] = useState('');
   const { data, loading, error } = useSearch(type, query, {
-    authToken: authToken || 'REMOVE WHEN DONE',
+    authToken: authToken,
   });
 
   const [showResults, setShowResults] = useState(false);
@@ -94,7 +94,7 @@ export default function Search({
 
       setShowResults(false);
     } else if (activeResultRef.current) {
-      //use the currently active result to search
+      //use the currently highlighted result to search
       const docId = activeResultRef.current.getAttribute('data-id') || '';
 
       handleClick(docId);
@@ -135,6 +135,7 @@ export default function Search({
             {searchTypeList(setType)}
           </div>
         )}
+        {/*change from form to text field and handle onEnter*/}
         <form method="get" onSubmit={handleSubmit}>
           <TextField
             id={inputId || 'search-box'}
@@ -189,6 +190,8 @@ export function Typeahead({
     <CircularProgress style={{ width: '32px', height: '32px' }} />
   );
 
+  const showNothingFound = <div>No Results</div>;
+
   const showResults = searchResults.map((item, index) => {
     const isActive = activeResultIndex === index;
     const Icon = getIcon(item.__type);
@@ -218,7 +221,8 @@ export function Typeahead({
     <div className="typeahead" ref={typeaheadRef}>
       {error && showError}
       {!error && loading && showLoading}
-      {!error && !loading && showResults}
+      {!error && !loading && searchResults.length > 0 && showResults}
+      {!error && !loading && !searchResults.length && showNothingFound}
     </div>
   );
 }

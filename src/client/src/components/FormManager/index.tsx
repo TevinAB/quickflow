@@ -28,7 +28,7 @@ import type {
 import { WidgetLoading } from '../WidgetUtils';
 
 export default function FormManager() {
-  const token = 'token'; //useAppSelector((state) => state.user.token);
+  const token = useAppSelector((state) => state.user.token);
   const dispatch = useDispatch();
   const formType = useAppSelector((state) => state.formManager.formType);
   const formMode = useAppSelector((state) => state.formManager.formMode);
@@ -61,17 +61,17 @@ export default function FormManager() {
   });
 
   const onSubmit = async (data: any) => {
-    const finalData: Record<string, any> = { ...data };
+    const submitData: Record<string, any> = { ...data };
 
     if (assocContact.length) {
-      finalData['associated_contacts'] = assocContact;
+      submitData['associated_contacts'] = assocContact;
     }
 
     if (
-      finalData.hasOwnProperty('first_name') &&
-      finalData.hasOwnProperty('last_name')
+      submitData.hasOwnProperty('first_name') &&
+      submitData.hasOwnProperty('last_name')
     ) {
-      finalData['name'] = `${data['first_name']} ${data['last_name']}`;
+      submitData['name'] = `${data['first_name']} ${data['last_name']}`;
     }
 
     //constructs picklist data obj
@@ -81,7 +81,7 @@ export default function FormManager() {
           .filter((option) => option.value === data[key])
           .pop();
 
-        finalData[key] = {
+        submitData[key] = {
           __type: 'Picklist',
           text: selectedOption?.text || '',
           value: selectedOption?.value || '',
@@ -90,7 +90,7 @@ export default function FormManager() {
     }
 
     try {
-      await submit(itemId, finalData, formType, formMode, token);
+      await submit(itemId, submitData, formType, formMode, token);
 
       dispatch(hideForm());
 
@@ -155,7 +155,7 @@ export default function FormManager() {
     if (formType === 'none') return;
 
     buildForm();
-  }, [formType, formMode, itemId]);
+  }, [formType, formMode, itemId, token]);
 
   const action = formType === 'Login' || formType === 'SignUp' ? '' : formMode;
   const title = `${action} ${formType}`;
