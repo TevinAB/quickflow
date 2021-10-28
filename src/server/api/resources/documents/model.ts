@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { PicklistData } from '../../../types';
 
 const COLLECTION_NAME = 'document';
 
@@ -16,9 +17,7 @@ const contactSchema = new Schema<Contact>(
 );
 
 export interface Account {
-  associated_contacts: [
-    { _id: Schema.Types.ObjectId; first_name: string; last_name: string }
-  ];
+  associated_contacts: [{ _id: Schema.Types.ObjectId; name: string }];
 }
 
 const accountSchema = new Schema<Account>(
@@ -30,21 +29,47 @@ const accountSchema = new Schema<Account>(
 
 export interface Deal {
   value: number;
-  deal_status: string;
-  current_stage: number;
-  pipeline: Schema.Types.ObjectId;
+  deal_status: PicklistData;
+  current_stage: PicklistData;
+  pipeline: PicklistData;
   closed_date: Schema.Types.Date;
-  associated_contacts: [
-    { _id: Schema.Types.ObjectId; first_name: string; last_name: string }
-  ];
+  associated_contacts: [{ _id: Schema.Types.ObjectId; name: string }];
 }
 
 const dealSchema = new Schema<Deal>(
   {
     value: { type: Number, required: true },
-    deal_status: String,
-    current_stage: { type: Number, required: true },
-    pipeline: { type: Schema.Types.ObjectId, required: true },
+    deal_status: {
+      type: {
+        __type: String,
+        text: String,
+        value: String,
+      },
+      required: true,
+    },
+    current_stage: {
+      type: {
+        __type: String,
+        text: String,
+        value: String,
+      },
+      required: false,
+      default: () => {
+        return {
+          __type: 'Picklist',
+          value: '1',
+          text: 'Start',
+        };
+      },
+    },
+    pipeline: {
+      type: {
+        __type: String,
+        text: String,
+        value: String,
+      },
+      required: true,
+    },
     closed_date: { type: Schema.Types.Date, required: false },
     associated_contacts: [],
   },
@@ -56,7 +81,7 @@ export interface BaseDocument {
   org_id: Schema.Types.ObjectId;
   timeline_id: Schema.Types.ObjectId;
   created_date: Schema.Types.Date;
-  owner: { __type: string; text: string; value: string };
+  owner: PicklistData;
 }
 
 export const baseSchema = new Schema<BaseDocument>(
