@@ -17,7 +17,7 @@ const contactSchema = new Schema<Contact>(
 
 export interface Account {
   associated_contacts: [
-    { _id: Schema.Types.ObjectId; firstName: string; lastName: string }
+    { _id: Schema.Types.ObjectId; first_name: string; last_name: string }
   ];
 }
 
@@ -35,7 +35,7 @@ export interface Deal {
   pipeline: Schema.Types.ObjectId;
   closed_date: Schema.Types.Date;
   associated_contacts: [
-    { _id: Schema.Types.ObjectId; firstName: string; lastName: string }
+    { _id: Schema.Types.ObjectId; first_name: string; last_name: string }
   ];
 }
 

@@ -52,10 +52,10 @@ export function wrapperGetDocuments<T extends Model<BaseDocument>>(
   };
 }
 
-export function wrapperGetDocument<T extends Model<BaseDocument>>(
-  baseModel: T,
-  options: DocOptions
-) {
+export function wrapperGetDocument<
+  T extends Model<BaseDocument>,
+  U extends Model<Timeline>
+>(baseModel: T, timelineModel: U, options: DocOptions) {
   return async function getDocument(
     request: Request,
     response: Response,
@@ -65,9 +65,10 @@ export function wrapperGetDocument<T extends Model<BaseDocument>>(
 
     try {
       const document = await baseModel.findById(_id).select(options.select);
+      const timeline = await timelineModel.findById(document?.timeline_id);
 
       if (document) {
-        response.json({ result: document });
+        response.json({ result: document, timeline });
       } else {
         throw new RequestException(`${options.type} not found.`, 404);
       }
