@@ -11,6 +11,7 @@ import numeral from 'numeral';
 import { getProfileMany } from '../services/profiles';
 import { getRoleMany } from '../services/roles';
 import { getFormData } from '../services/forms';
+import { getPipelineMany } from '../services/pipelines';
 
 import {
   loginFormData,
@@ -175,16 +176,34 @@ export function selectDataSource(source: FormFieldDataSources, token: string) {
     case 'Profiles':
       return (async function () {
         const tempData = await getProfileMany(token);
+
         if (!tempData) return { result: [] as Array<nameIdPair> };
+
         return { result: tempData.data.result as Array<nameIdPair> };
       })();
 
     case 'Roles':
       return (async function () {
         const tempData = await getRoleMany(token);
+
         if (!tempData) return { result: [] as Array<nameIdPair> };
+
         return { result: tempData.data.result as Array<nameIdPair> };
       })();
+
+    case 'Pipelines':
+      return (async function () {
+        const response = await getPipelineMany(token);
+
+        if (!response) return { result: [] as Array<nameIdPair> };
+
+        return {
+          result: response.data.result.pipeline_data as Array<nameIdPair>,
+        };
+      })();
+
+    // case 'Pipeline Stage':
+    //   break
 
     case 'Deal Status':
       return Promise.resolve({ result: dealStatusOptions });
