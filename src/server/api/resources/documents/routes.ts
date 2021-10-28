@@ -30,7 +30,7 @@ documentRoutes.get(
 documentRoutes.get(
   '/contact/:_id',
   wrapperRoleAuthorizer('contact'),
-  wrapperGetDocument(baseModel, {
+  wrapperGetDocument(baseModel, timelineModel, {
     type: 'Contact',
     select: '-__v',
   })
@@ -68,7 +68,7 @@ documentRoutes.get(
 documentRoutes.get(
   '/account/:_id',
   wrapperRoleAuthorizer('account'),
-  wrapperGetDocument(baseModel, {
+  wrapperGetDocument(baseModel, timelineModel, {
     type: 'Account',
     select: '-__v',
   })
@@ -106,7 +106,7 @@ documentRoutes.get(
 documentRoutes.get(
   '/deal/:_id',
   wrapperRoleAuthorizer('deal'),
-  wrapperGetDocument(baseModel, {
+  wrapperGetDocument(baseModel, timelineModel, {
     type: 'Deal',
     select: '-__v',
   })
