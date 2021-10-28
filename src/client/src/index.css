@@ -11,7 +11,9 @@
   --secondary-color-dark: #d3d3dd;
   --secondary-color-dark-1: #aeaeb6;
   --error-color-main: rgb(196, 30, 30);
+  --error-color-dark: rgb(148, 44, 44);
   --logo-bg-color: #3a63c7;
+  --logo-bg-color-dark: #2d4c9b;
   --aqua-1: #1dc9b7;
   --yellow: #ffc241;
   --border-radius-1: 10px;

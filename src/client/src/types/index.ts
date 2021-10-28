@@ -83,6 +83,7 @@ export type FormFieldDataSources =
   | 'Profiles'
   | 'Contacts'
   | 'Pipelines'
+  | 'Pipeline Stage'
   | 'Currency'
   | 'Deal Status'
   | 'Field Types'
@@ -137,6 +138,11 @@ export type TimelineFormattedData = ReturnType<typeof wrapperGeneric>;
 
 export type TimelineItemType = 'Note' | 'Other' | ActivityType;
 
+export type TimelineItemSubmitData = {
+  item_type: TimelineItemType;
+  item_body: string;
+};
+
 export type SearchResultItem = {
   _id: string;
   __type: SearchType;
@@ -163,6 +169,11 @@ export interface ApiError {
 export interface HttpRequestMetaData {
   initiator?: string;
 }
+
+export type RequestPayload = {
+  data?: Record<string, any>;
+  metaData?: HttpRequestMetaData;
+};
 
 export interface Notification {
   title: string;
