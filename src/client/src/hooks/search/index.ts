@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { searchDocuments, searchProfiles } from '../../services/search';
-import { SearchType, SearchResultItem } from '../../types';
+import type { SearchType, SearchResultItem, RequestError } from '../../types';
 import { createCancelToken } from '../../services/requests';
+import { getRequestErrorData } from '../../utils';
 
 type UseSearchOptions = {
   authToken?: string;
@@ -56,8 +57,15 @@ export function useSearch(
           setData(data?.data.result);
         }
       } catch (error) {
+        const { statusCode } = getRequestErrorData(error as RequestError);
+
+        //don't treat 404's as an actual error during search
+        if (statusCode !== 404) {
+          setError(true);
+        }
+
+        setData([]);
         setLoading(false);
-        setError(true);
       }
     }
     search();
