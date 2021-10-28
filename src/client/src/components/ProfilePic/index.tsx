@@ -3,8 +3,8 @@ import { ReactNode } from 'react';
 
 type ProfilePicProps = {
   children: ReactNode;
-  backgroundColor?: string;
-  size?: string;
+  backgroundColor: string;
+  size: string;
 };
 
 export default function ProfilePic({

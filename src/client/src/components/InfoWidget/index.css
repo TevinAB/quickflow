@@ -16,3 +16,15 @@
   text-transform: capitalize;
   padding-bottom: 0.2rem;
 }
+
+.main-info-card {
+  display: flex;
+}
+
+.main-info-card__details {
+  margin-top: 5px;
+}
+
+.main-info-card__pfp-container {
+  margin-right: 10px;
+}
