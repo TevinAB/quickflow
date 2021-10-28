@@ -5,7 +5,7 @@
 
 .assc-deals__list {
   list-style-type: none;
-  height: 150px;
+  height: 100%;
 }
 
 .assc-deals__list > li:not(:last-child) {
