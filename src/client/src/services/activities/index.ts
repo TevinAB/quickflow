@@ -2,7 +2,7 @@ import type { ActivityType, HttpRequestMetaData } from '../../types';
 import { buildHeaders } from '../headers';
 import { isValidDate, formatDate } from '../../utils/date';
 import { DATE_STANDARD_2 } from '../../constants';
-import { get, post, put, _delete } from '../requests';
+import { get, post, put, _delete, buildRequestData } from '../requests';
 
 export async function getActivities(
   activityType: ActivityType,
@@ -32,7 +32,7 @@ export async function createActivity(
   return await post(
     `/api/resource/activity/${activityType.toLowerCase()}`,
     buildHeaders({ auth: token, contentType: 'application/json' }),
-    { ...data, meta: { ...requestMetaData } }
+    buildRequestData({ data, metaData: requestMetaData })
   );
 }
 
@@ -46,7 +46,7 @@ export async function editActivity(
   return await put(
     `/api/resource/activity/${activityType.toLowerCase()}/${id}`,
     buildHeaders({ auth: token, contentType: 'application/json' }),
-    { data: { ...data }, meta: { ...requestMetaData } }
+    buildRequestData({ data, metaData: requestMetaData })
   );
 }
 
@@ -59,7 +59,7 @@ export async function deleteActivity(
   return await _delete(
     `/api/resource/activity/${activityType}/${id}`,
     buildHeaders({ auth: token }),
-    { meta: { ...requestMetaData } }
+    buildRequestData({ metaData: requestMetaData })
   );
 }
 

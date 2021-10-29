@@ -6,7 +6,7 @@ import type {
 } from '../../types';
 import { toStringArray } from '../../utils/localStorage';
 import { buildHeaders } from '../headers';
-import { get, post, put, _delete } from '../requests';
+import { get, post, put, _delete, buildRequestData } from '../requests';
 
 export async function getDocumentOne(
   docType: DocumentType,
@@ -40,7 +40,7 @@ export async function createDocument(
   return await post(
     `/api/resource/document/${docType.toLowerCase()}`,
     buildHeaders({ auth: token, contentType: 'application/json' }),
-    { ...data, meta: { ...requestMetaData } }
+    buildRequestData({ data, metaData: requestMetaData })
   );
 }
 
@@ -54,7 +54,7 @@ export async function editDocument(
   return await put(
     `/api/resource/document/${docType.toLowerCase()}/${id}`,
     buildHeaders({ auth: token, contentType: 'application/json' }),
-    { ...data, meta: { ...requestMetaData } }
+    buildRequestData({ data, metaData: requestMetaData })
   );
 }
 

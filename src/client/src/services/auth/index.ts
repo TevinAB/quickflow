@@ -1,4 +1,4 @@
-import { post, get } from '../requests';
+import { post, get, buildRequestData } from '../requests';
 import { LoginData, SignUpData } from '../../types';
 import { buildHeaders } from '../headers';
 
@@ -18,6 +18,6 @@ async function auth(path: string, data: {}) {
   return await post(
     path,
     buildHeaders({ contentType: 'application/json' }),
-    data
+    buildRequestData({ data })
   );
 }
