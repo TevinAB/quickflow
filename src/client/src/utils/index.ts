@@ -284,7 +284,6 @@ export function infoWidgetComponentAdapter(
 }
 
 export function keyToLabel(key: string) {
-  console.log(key);
   return key
     .split('_')
     .filter((text) => text !== '')

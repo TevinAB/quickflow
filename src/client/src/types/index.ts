@@ -1,5 +1,4 @@
 import { CancelToken, CancelTokenSource, AxiosError } from 'axios';
-import timeline from '../mock-sw/timeline/response/getTimeline.json';
 import { groupBy } from '../utils';
 
 export type Cancel_Token = CancelToken;
@@ -133,14 +132,34 @@ export type Event = SearchResultItem & ActivityBase;
 
 export type SearchType = 'Profile' | DocumentType;
 
-export type TimelineItem = typeof timeline.timeline_items[0];
-export type TimelineData = typeof timeline;
+export type TimelineData = {
+  _id: string;
+  org_id: string;
+  parent_id: string;
+  timeline_items: Array<TimelineItem>;
+};
+
+export type TimelineItem = {
+  _id: string;
+  body: string;
+  name: string;
+  date: string;
+  item_type: string;
+};
 
 //A work around to take the type of a generic function.
 function wrapperGeneric() {
-  const obj = timeline.timeline_items;
+  const obj: Array<TimelineItem> = [
+    {
+      _id: '',
+      name: '',
+      body: '',
+      item_type: '',
+      date: '',
+    },
+  ];
 
-  return groupBy<typeof obj[0]>(obj, (item) => {
+  return groupBy<TimelineItem>(obj, (item) => {
     return 'Doesnt actually need to return anything here.';
   });
 }

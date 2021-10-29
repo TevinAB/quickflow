@@ -1,6 +1,12 @@
 import './index.css';
 import InfoWidget, { MainInfoCard } from '../../components/InfoWidget';
-import { WidgetLoading, WidgetLoadError } from '../../components/WidgetUtils';
+import PopUp from '../../components/PopUp';
+import Button from '../../components/Button';
+import {
+  WidgetLoading,
+  WidgetLoadError,
+  WidgetDocNotFound,
+} from '../../components/WidgetUtils';
 import Timeline from '../../components/Timeline';
 import AssociatedDeals from '../../components/AssociatedDeals';
 import DocumentActions from '../../components/DocumentActions';
@@ -8,7 +14,10 @@ import { infoWidgetComponentAdapter, groupBy } from '../../utils';
 import { DATE_STANDARD_3 } from '../../constants';
 import { formatDate } from '../../utils/date';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { getContactThunk } from '../../store/slices/contact';
+import {
+  getContactThunk,
+  deleteContactThunk,
+} from '../../store/slices/contact';
 import { useEffect, useState } from 'react';
 import { showForm } from '../../store/slices/formManager';
 import type {
@@ -44,8 +53,17 @@ export default function ContactPage() {
   const [formattedTimelineData, setFormattedTimelineData] =
     useState<TimelineFormattedData>([]);
 
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const handleDeleteConfirm = () => {
+    setShowDeleteConfirm(false);
+    dispatch(deleteContactThunk({ documentId: contactData._id, token }));
+  };
+
   const isLoading = useAppSelector((state) => state.contact.isLoading);
   const loadError = useAppSelector((state) => state.contact.documentLoadError);
+  const loadErrorMessage = useAppSelector(
+    (state) => state.contact.errorMessage
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -87,7 +105,7 @@ export default function ContactPage() {
 
   const renderError = (
     <div className="page-error-container">
-      <WidgetLoadError />
+      <WidgetLoadError errorMessage={loadErrorMessage} />
     </div>
   );
 
@@ -111,7 +129,7 @@ export default function ContactPage() {
               })
             )
           }
-          handleDeleteDocument={() => console.log('delete')}
+          handleDeleteDocument={() => setShowDeleteConfirm(true)}
         />
         <InfoWidget title="Contact Details" data={contactDataFormatted} />
       </div>
@@ -121,6 +139,28 @@ export default function ContactPage() {
       <div className="doc-page__widget-column">
         <AssociatedDeals mainDocId={tempId} />
       </div>
+      <div>
+        <PopUp
+          open={showDeleteConfirm}
+          handleClose={() => setShowDeleteConfirm(false)}
+          popUpTitle="confirm delete"
+          popUpBody="Would you like to delete this contact?"
+          popUpActions={() => (
+            <div>
+              <Button variant="outlined" onClick={handleDeleteConfirm}>
+                Confirm
+              </Button>
+            </div>
+          )}
+        />
+      </div>
+    </div>
+  );
+
+  //for when a user deletes a document while currently viewing it.
+  const renderDocumentNotFound = (
+    <div className="page-loading-container">
+      <WidgetDocNotFound />
     </div>
   );
 
@@ -128,7 +168,8 @@ export default function ContactPage() {
     <>
       {loadError && !isLoading && renderError}
       {!loadError && isLoading && renderLoading}
-      {!loadError && !isLoading && renderContact}
+      {!loadError && !isLoading && contactData._id && renderContact}
+      {!loadError && !isLoading && !contactData._id && renderDocumentNotFound}
     </>
   );
 }
