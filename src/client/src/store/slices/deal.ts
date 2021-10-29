@@ -1,21 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AppDispatch } from '..';
-import {
-  getDocumentOne,
-  editDocument,
-  createDocument,
-  deleteDocument,
-} from '../../services/document';
+import { deleteDocument } from '../../services/document';
 import type {
   Deal,
   DocumentStoreState,
   DocumentThunkArgs,
   RequestError,
   ApiError,
-  HttpRequestMetaData,
+  CreateDocumentThunkArgs,
+  EditDocumentThunkArgs,
 } from '../../types';
+import {
+  wrapperGetDocumentPayloadCreator,
+  wrapperCreateDocumentPayloadCreator,
+  wrapperEditDocumentPayloadCreator,
+} from './sharedUtils';
 import { getRequestErrorData } from '../../utils';
-import { newDealState, newTimelineState } from '../../utils/document';
+import { newDealState } from '../../utils/document';
 
 type DealState = DocumentStoreState<Deal>;
 
@@ -23,74 +24,19 @@ export const getDealThunk = createAsyncThunk<
   Omit<DealState, 'isLoading' | 'documentLoadError'>,
   DocumentThunkArgs,
   { rejectValue: ApiError }
->('deal/get', async (args, { rejectWithValue }) => {
-  try {
-    const { documentId, token } = args;
-
-    const response = await getDocumentOne('Deal', documentId, token);
-
-    if (!response) return rejectWithValue({ message: 'Error fetching deal' });
-
-    return {
-      documentData: response.data.result,
-      timelineData: response.data.timeline,
-    };
-  } catch (error) {
-    const requestError = getRequestErrorData(error as RequestError);
-
-    return rejectWithValue({ message: requestError.message });
-  }
-});
+>('deal/get', wrapperGetDocumentPayloadCreator('Deal'));
 
 export const createDealThunk = createAsyncThunk<
-  Omit<DealState, 'isLoading' | 'documentLoadError'>,
-  Omit<DocumentThunkArgs, 'documentId'> & {
-    dealData: Deal;
-    metaData: HttpRequestMetaData;
-  },
+  void,
+  CreateDocumentThunkArgs<Deal>,
   { rejectValue: ApiError }
->('deal/create', async (args, { rejectWithValue }) => {
-  try {
-    const { dealData, metaData, token } = args;
-
-    const response = await createDocument('Deal', dealData, metaData, token);
-
-    return {
-      documentData: response.data.result,
-      timelineData: response.data.timeline,
-    };
-  } catch (error) {
-    const requestError = getRequestErrorData(error as RequestError);
-
-    return rejectWithValue({ message: requestError.message });
-  }
-});
+>('deal/create', wrapperCreateDocumentPayloadCreator('Deal'));
 
 export const editDealThunk = createAsyncThunk<
   Omit<DealState, 'isLoading' | 'documentLoadError'>,
-  DocumentThunkArgs & { editedDealData: Deal; metaData: HttpRequestMetaData },
+  EditDocumentThunkArgs<Deal>,
   { rejectValue: ApiError }
->('deal/edit', async (args, { rejectWithValue }) => {
-  try {
-    const { editedDealData, metaData, documentId, token } = args;
-    const response = await editDocument(
-      'Deal',
-      documentId,
-      editedDealData,
-      metaData,
-      token
-    );
-
-    return {
-      documentData: response.data.result,
-      timelineData: response.data.timeline,
-    };
-  } catch (error) {
-    const requestError = getRequestErrorData(error as RequestError);
-
-    return rejectWithValue({ message: requestError.message });
-  }
-});
+>('deal/edit', wrapperEditDocumentPayloadCreator('Deal'));
 
 export const deleteDealThunk = createAsyncThunk<
   void,
@@ -106,7 +52,7 @@ export const deleteDealThunk = createAsyncThunk<
       dispatch({ type: 'deal/deleteDealFromState' });
     }
 
-    //dispatch remove deal from deal list action
+    //TODO: dispatch contact-list filter update
   } catch (error) {
     const requestError = getRequestErrorData(error as RequestError);
 
@@ -118,7 +64,6 @@ const dealSlice = createSlice({
   name: 'deal',
   initialState: {
     documentData: newDealState(),
-    timelineData: newTimelineState(),
     documentLoadError: false,
     errorMessage: '',
     isLoading: false,
@@ -126,7 +71,6 @@ const dealSlice = createSlice({
   reducers: {
     deleteDealFromState(state) {
       state.documentData = newDealState();
-      state.timelineData = newTimelineState();
     },
   },
   extraReducers: (builder) => {
@@ -137,7 +81,6 @@ const dealSlice = createSlice({
       })
       .addCase(getDealThunk.fulfilled, (state, action) => {
         state.documentData = action.payload.documentData;
-        state.timelineData = action.payload.timelineData;
         state.isLoading = false;
         state.documentLoadError = false;
       })
@@ -146,25 +89,12 @@ const dealSlice = createSlice({
         state.errorMessage = action.payload?.message;
         state.documentLoadError = true;
       })
-      .addCase(createDealThunk.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(createDealThunk.fulfilled, (state, action) => {
-        state.documentData = action.payload.documentData;
-        state.timelineData = action.payload.timelineData;
-        state.isLoading = false;
-      })
-      .addCase(createDealThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.errorMessage = action.payload?.message;
-      })
       .addCase(editDealThunk.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(editDealThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.documentData = action.payload.documentData;
-        state.timelineData = action.payload.timelineData;
       })
       .addCase(editDealThunk.rejected, (state, action) => {
         state.isLoading = false;
