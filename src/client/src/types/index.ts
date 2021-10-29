@@ -21,14 +21,13 @@ export type Contact = {
 
 export type Account = {
   associated_contacts?: Array<{ first_name: string; last_name: string }>;
-};
+} & BaseDocument;
 
 //profile type
 
 export type DocumentType = 'Contact' | 'Account' | 'Deal';
 export type DocumentStoreState<T extends BaseDocument> = {
   documentData: T;
-  timelineData: TimelineData;
   isLoading: boolean;
   documentLoadError: boolean;
   errorMessage?: string;
@@ -37,6 +36,17 @@ export type DocumentThunkArgs = {
   documentId: string;
   token: string;
 };
+
+export type CreateDocumentThunkArgs<T extends BaseDocument> = {
+  documentData: T;
+  metaData: HttpRequestMetaData;
+  token: string;
+};
+
+export type EditDocumentThunkArgs<T extends BaseDocument> = {
+  editedData: T;
+  metaData: HttpRequestMetaData;
+} & DocumentThunkArgs;
 
 export type DealRangeTypes = 'Year';
 export type DealStatus = 'Open' | 'Won' | 'Lost';
