@@ -30,6 +30,7 @@ const InfoWidgetOmitKeys = [
   'name',
   'first_name',
   'last_name',
+  '__v',
 ];
 export default function ContactPage() {
   const token = useAppSelector((state) => state.user.token);
@@ -39,7 +40,7 @@ export default function ContactPage() {
     Array<InfoData>
   >([]);
 
-  const timelineData = useAppSelector((state) => state.contact.timelineData);
+  const timelineData = useAppSelector((state) => state.timeline);
   const [formattedTimelineData, setFormattedTimelineData] =
     useState<TimelineFormattedData>([]);
 
@@ -56,23 +57,27 @@ export default function ContactPage() {
   }, [token, dispatch]);
 
   useEffect(() => {
-    const formatTimelineResult = groupBy<TimelineItem>(
-      timelineData.timeline_items,
-      (item) => {
-        return formatDate(item.date, DATE_STANDARD_3);
-      }
-    );
+    if (!isLoading) {
+      const formatTimelineResult = groupBy<TimelineItem>(
+        timelineData.timeline_items,
+        (item) => {
+          return formatDate(item.date, DATE_STANDARD_3);
+        }
+      );
 
-    setFormattedTimelineData(formatTimelineResult);
+      setFormattedTimelineData(formatTimelineResult);
+    }
   }, [timelineData, isLoading]);
 
   useEffect(() => {
-    const formatContactResult = infoWidgetComponentAdapter(
-      contactData,
-      InfoWidgetOmitKeys
-    );
-    setcontactDataFormatted(formatContactResult);
-  }, [contactData]);
+    if (!isLoading) {
+      const formatContactResult = infoWidgetComponentAdapter(
+        contactData,
+        InfoWidgetOmitKeys
+      );
+      setcontactDataFormatted(formatContactResult);
+    }
+  }, [contactData, isLoading]);
 
   const renderLoading = (
     <div className="page-loading-container">
@@ -87,8 +92,8 @@ export default function ContactPage() {
   );
 
   const renderContact = (
-    <div className="contact-page">
-      <div className="contact-page__info-column">
+    <div className="doc-page">
+      <div className="doc-page__info-column">
         <MainInfoCard name={contactData.name} owner={contactData.owner.text} />
         <DocumentActions
           handleAddDeal={() =>
@@ -110,10 +115,10 @@ export default function ContactPage() {
         />
         <InfoWidget title="Contact Details" data={contactDataFormatted} />
       </div>
-      <div className="contact-page__timeline-column">
+      <div className="doc-page__timeline-column">
         <Timeline timelineFormattedData={formattedTimelineData} />
       </div>
-      <div className="contact-page__widget-column">
+      <div className="doc-page__widget-column">
         <AssociatedDeals mainDocId={tempId} />
       </div>
     </div>
