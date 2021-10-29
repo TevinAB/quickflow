@@ -284,8 +284,10 @@ export function infoWidgetComponentAdapter(
 }
 
 export function keyToLabel(key: string) {
+  console.log(key);
   return key
     .split('_')
+    .filter((text) => text !== '')
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(' ');
 }
