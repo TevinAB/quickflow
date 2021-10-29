@@ -83,7 +83,7 @@ export function wrapperGetListViews<T extends Model<CustomizationInfo>>(
     try {
       const listTypes = await customModel
         .find({ org_id, res_type: { $ne: 'pipeline' } })
-        .select('-_id -org_id -__v -form_data -pipeline_data');
+        .select('-org_id -__v -pipeline_data');
 
       if (listTypes) {
         response.json({ result: listTypes });

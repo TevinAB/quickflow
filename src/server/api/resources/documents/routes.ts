@@ -13,6 +13,8 @@ import wrapperRoleAuthorizer from '../middleware/roleAuthorizer/roleAuthorizer';
 import { Router } from 'express';
 
 const documentRoutes = Router();
+const fieldsToRemove =
+  '-__v -__type -org_id -created_date -closed_date -timeline_id -associated_contacts';
 
 //contacts
 
@@ -23,7 +25,7 @@ documentRoutes.get(
   wrapperGetDocuments(baseModel, {
     type: 'Contact',
     sortBy: 'first_name',
-    select: 'first_name last_name _id timeline_id',
+    select: fieldsToRemove,
   })
 );
 
@@ -61,7 +63,7 @@ documentRoutes.get(
   wrapperGetDocuments(baseModel, {
     type: 'Account',
     sortBy: 'name',
-    select: 'name _id timeline_id',
+    select: fieldsToRemove,
   })
 );
 
@@ -99,7 +101,7 @@ documentRoutes.get(
   wrapperGetDocuments(baseModel, {
     type: 'Deal',
     sortBy: 'name',
-    select: 'name value _id timeline_id',
+    select: fieldsToRemove,
   })
 );
 
