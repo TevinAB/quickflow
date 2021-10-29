@@ -167,33 +167,40 @@ export function wrapperEditDocument<T extends Model<BaseDocument>>(
         { new: true }
       );
 
-      const TIMELINE_ID = data.timeline_id;
+      if (document) {
+        const TIMELINE_ID = document.timeline_id;
 
-      //set timeline data
-      request.middlewareInfo.timelineData = {
-        timelineIds: [TIMELINE_ID],
-        timelineToReturn: TIMELINE_ID,
-        addResponse: true,
-        itemType: 'other',
-        body: '',
-        title: `${options.type} edited by ${initiator}`,
-      };
-
-      //to alert new owner, if any.
-      const reassigned =
-        String(document?.owner.value) === String(data.owner.value);
-
-      if (document && reassigned) {
-        request.middlewareInfo.notifData = {
-          profileIds: [data.owner.value],
-          notifType: options.type,
-          title: `You were assigned to ${document.name}.`,
+        //set timeline data
+        request.middlewareInfo.timelineData = {
+          timelineIds: [TIMELINE_ID],
+          timelineToReturn: TIMELINE_ID,
+          addResponse: true,
+          itemType: 'other',
+          body: '',
+          title: `${options.type} edited by ${initiator}`,
         };
+
+        //to alert new owner, if any.
+        const reassigned =
+          String(document?.owner.value) === String(data.owner.value);
+
+        if (document && reassigned) {
+          request.middlewareInfo.notifData = {
+            profileIds: [data.owner.value],
+            notifType: options.type,
+            title: `You were assigned to ${document.name}.`,
+          };
+        }
+
+        request.middlewareInfo.response.data.result = document;
+
+        next();
+      } else {
+        throw new RequestException(
+          'Failed to update document; document not found',
+          404
+        );
       }
-
-      request.middlewareInfo.response.data.result = document;
-
-      next();
     } catch (error) {
       next(error);
     }
