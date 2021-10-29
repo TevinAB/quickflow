@@ -106,7 +106,7 @@ function TimelineGroup({ dateGroup }: TimelineGroupProps) {
             return (
               <div className={itemClasses}>
                 <div className={headClasses}>
-                  <div className="tl-item__title">{item.title}</div>
+                  <div className="tl-item__title">{item.name}</div>
                   <span className="tl-item__date" title={item.date}>
                     {timeFromNow(item.date)}
                   </span>
