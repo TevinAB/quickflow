@@ -1,3 +1,4 @@
+import type { RequestPayload } from './../types/index';
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 
 export async function get(
@@ -46,4 +47,8 @@ function extractData(result: AxiosResponse<{ [key: string]: any }>) {
     },
     data: result.data,
   };
+}
+
+export function buildRequestData(args: RequestPayload) {
+  return { data: { ...args?.data }, meta: { ...args.metaData } };
 }
