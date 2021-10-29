@@ -1,7 +1,12 @@
 import { CircularProgress } from '@mui/material';
 
-export function WidgetLoadError() {
-  return <div className="error error--text">An error has occured</div>;
+type LoadErrorProps = {
+  errorMessage?: string;
+};
+
+export function WidgetLoadError({ errorMessage }: LoadErrorProps) {
+  const errText = errorMessage || 'An error has occured';
+  return <div className="error error--text">{errText}</div>;
 }
 
 export function WidgetLoading() {
@@ -10,4 +15,8 @@ export function WidgetLoading() {
       <CircularProgress style={{ width: '32px', height: '32px' }} />
     </div>
   );
+}
+
+export function WidgetDocNotFound() {
+  return <div style={{ color: 'var(--grey-3)' }}>Document Not Found.</div>;
 }
