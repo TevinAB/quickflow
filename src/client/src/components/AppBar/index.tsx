@@ -1,11 +1,13 @@
 import './index.css';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, MutableRefObject } from 'react';
 import NotificationViewer from '../NotificationViewer';
 import Search from '../Search';
 import PickList from '../PickList';
 import { SearchType } from '../../types';
 import { NavLinks } from '../SideBar';
 import IconButton from '../IconButton';
+import PopUp from '../PopUp';
+import Button from '../Button';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
@@ -20,7 +22,11 @@ import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../hooks/redux';
 import { searchTypeOptions } from '../../utils/filterOptions';
 
-export default function AppBar() {
+type AppBarProps = {
+  navContainerRef?: MutableRefObject<HTMLDivElement | null>;
+};
+
+export default function AppBar({ navContainerRef }: AppBarProps) {
   const [showSideBar, setShowSideBar] = useState(false);
   const [showHiddenSearch, setShowHiddenSearch] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
@@ -84,13 +90,14 @@ export default function AppBar() {
     }
   }, [showNotification]);
 
+  const [showConfirmLogout, setShowConfirmLogout] = useState(false);
   const handleLogout = () => {
     dispatch(logout());
   };
 
   return (
     <div className="app-bar">
-      <div className="app-bar__main">
+      <div className="app-bar__main" ref={navContainerRef}>
         <div className="app-bar__left">
           <div className="show-sidebar__container">
             <IconButton
@@ -148,16 +155,22 @@ export default function AppBar() {
             </div>
           </div>
           <div>
-            <IconButton onClick={handleLogout} aria-label="logout">
+            <IconButton
+              onClick={() => setShowConfirmLogout(true)}
+              aria-label="logout"
+            >
               <LogoutOutlinedIcon />
             </IconButton>
           </div>
         </div>
       </div>
+
+      {/**Drawer to show search box on smaller screens */}
       <Collapse orientation="vertical" in={showHiddenSearch} collapsedSize={0}>
         <div className="app-bar__drawer">
           <div className="search-hidden__containe">
             <Search
+              inputId="app-search"
               searchTypeList={(setType) => (
                 <PickList
                   optionsData={searchTypeOptions}
@@ -170,6 +183,8 @@ export default function AppBar() {
           </div>
         </div>
       </Collapse>
+
+      {/**Nav links for when side nav is hidden */}
       <div>
         <Dialog
           aria-label="navigation links"
@@ -181,6 +196,14 @@ export default function AppBar() {
           </div>
         </Dialog>
       </div>
+
+      <PopUp
+        open={showConfirmLogout}
+        handleClose={() => setShowConfirmLogout(false)}
+        popUpTitle="confirm logout."
+        popUpBody="Do you want to continue with logout?"
+        popUpActions={() => <Button onClick={handleLogout}>Confirm</Button>}
+      />
     </div>
   );
 }

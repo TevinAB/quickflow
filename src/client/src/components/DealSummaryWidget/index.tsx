@@ -33,7 +33,7 @@ export default function DealSummaryWidget({ classes }: DealSummaryProps) {
   );
 
   useEffect(() => {
-    setFormattedDeals(groupBy(dealData, (item) => item.deal_status));
+    setFormattedDeals(groupBy(dealData, (item) => item.deal_status.text));
   }, [dealData]);
 
   return (

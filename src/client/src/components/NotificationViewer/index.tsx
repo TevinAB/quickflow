@@ -34,8 +34,10 @@ export default function NotificationViewer({
       className="notif-viewer"
       style={{ borderColor: theme.widgets.borderColor }}
     >
-      {notificationData.length ? (
-        notificationData.map((notif, i) => <Notif key={i} {...notif} />)
+      {notificationData?.length ? (
+        notificationData
+          .map((notif, i) => <Notif key={i} {...notif} />)
+          .reverse()
       ) : (
         <div className="notif__none">No notifications.</div>
       )}
