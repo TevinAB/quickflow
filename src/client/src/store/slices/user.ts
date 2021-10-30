@@ -12,6 +12,7 @@ import {
   removeFromLocalStorage,
   writeToLocalStorage,
 } from '../../utils/localStorage';
+import { RootState } from '..';
 
 interface UserState {
   is_authenticated: boolean;
@@ -88,10 +89,10 @@ export const signUpThunk = createAsyncThunk<
 export const readNotifThunk = createAsyncThunk<
   { notifications: Array<Notification> },
   unknown,
-  { state: UserState; rejectValue: ApiError }
+  { state: RootState; rejectValue: ApiError }
 >('user/read_notif', async (_, { getState, rejectWithValue }) => {
   try {
-    const { _id, token } = getState();
+    const { _id, token } = getState().user;
     const result = await readNotifications(_id, token);
 
     return result.data as { notifications: Array<Notification> };

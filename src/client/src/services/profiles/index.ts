@@ -42,7 +42,7 @@ export async function deleteProfile(id: string, token: string) {
 
 export async function readNotifications(profileId: string, token: string) {
   return await put(
-    `/api/resources/notifications/${profileId}`,
+    `/api/resource/notifications/${profileId}`,
     buildHeaders({ auth: token, contentType: 'application/json' }),
     {}
   );
