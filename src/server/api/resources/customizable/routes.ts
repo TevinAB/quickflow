@@ -9,6 +9,7 @@ import {
   wrapperGetFormData,
   wrapperEditFormData,
   wrapperGetListViews,
+  wrapperGetListData,
   wrapperGetPipelines,
   wrapperGetPipeline,
   wrapperCreatePipeline,
@@ -32,6 +33,7 @@ const customizationRoutes = Router();
 customizationRoutes.get('/form/:type', wrapperGetFormData(customizationModel));
 customizationRoutes.put('/form/:_id', wrapperEditFormData(customizationModel));
 customizationRoutes.get('/lists', wrapperGetListViews(customizationModel));
+customizationRoutes.get('/list/:type', wrapperGetListData(customizationModel));
 
 //pipelines
 customizationRoutes.get('/pipelines', wrapperGetPipelines(customizationModel));

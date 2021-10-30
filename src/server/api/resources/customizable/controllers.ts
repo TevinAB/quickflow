@@ -96,6 +96,36 @@ export function wrapperGetListViews<T extends Model<CustomizationInfo>>(
   };
 }
 
+export function wrapperGetListData<T extends Model<CustomizationInfo>>(
+  customModel: T
+) {
+  return async function getListData(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { type } = request.params;
+      const { org_id } = request.middlewareInfo.jwtData;
+
+      const listData = await customModel
+        .findOne({
+          org_id,
+          res_type: type.toLowerCase(),
+        })
+        .select('-org_id -__v');
+
+      if (listData) {
+        response.json({ result: listData });
+      } else {
+        throw new RequestException('No data found.', 404);
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+}
+
 //Pipelines
 
 export function wrapperGetPipelines<T extends Model<CustomizationInfo>>(

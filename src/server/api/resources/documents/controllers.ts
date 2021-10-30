@@ -219,19 +219,12 @@ export function wrapperDeleteDocument<
     const { _ids } = request.body;
 
     try {
-      //temp until server rewrite
-      const _id = [...(_ids as Array<string>)].pop();
-      const document = await baseModel.findOne({ _id });
+      const _id = [...(_ids as Array<string>)];
 
-      if (document) {
-        //delete timeline as well
-        await timelineModel.findOneAndDelete({ _id: document.timeline_id });
+      await baseModel.deleteMany({ _id: { $in: _id } });
+      await timelineModel.deleteMany({ parent_id: { $in: _id as Array<any> } });
 
-        await document.remove();
-        response.json({ result: 'Document deleted.' });
-      } else {
-        throw new RequestException('Document not found.', 404);
-      }
+      response.json({ message: 'Documents deleted.' });
     } catch (error) {
       next(error);
     }
