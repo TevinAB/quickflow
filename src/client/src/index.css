@@ -48,6 +48,11 @@ code {
   font-size: 15px;
 }
 
+.btn--action-btn {
+  padding: 7px;
+  font-size: 12px;
+}
+
 .widget {
   width: 100%;
   border: 1px solid var(--grey-2);
