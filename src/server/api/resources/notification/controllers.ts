@@ -14,11 +14,12 @@ export function wrapperReadNotifications<T extends Model<Profile>>(
     const { _id } = request.params;
 
     try {
-      const updatedDoc = await profileModel.findOneAndUpdate(
-        { _id, 'notifications.read': false },
-        { 'notifications.$.read': true },
+      const updatedDoc = await profileModel.findByIdAndUpdate(
+        { _id },
+        { $set: { 'notifications.$[].read': true } },
         { new: true }
       );
+
       if (updatedDoc) {
         response.json({ notifications: updatedDoc.notifications });
       } else {

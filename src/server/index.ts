@@ -5,6 +5,6 @@ import database from './connectDatabase';
 database(process.env.MONGODB || '');
 
 //start the server
-const PORT = process.env.PORT || 5005;
+const PORT = process.env.PORT || 5001;
 
 server.listen(PORT, () => console.log(`Started on port ${PORT}`));
