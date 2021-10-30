@@ -99,6 +99,7 @@ export function toPicklistData<T extends Object>(
     value: T[keyof T];
     text: T[keyof T];
     selected: boolean;
+    __type: string;
   }> = [];
 
   rawData.forEach((item) => {
@@ -106,6 +107,7 @@ export function toPicklistData<T extends Object>(
       text: item[options.textKey],
       value: item[options.valueKey],
       selected: checkPropEqual(item, options.selected),
+      __type: 'Picklist',
     };
 
     result.push(obj);
@@ -302,4 +304,12 @@ export function getRequestErrorData(error: RequestError) {
   }
 
   return { statusCode, message };
+}
+
+export function sortAscending(a: number, b: number) {
+  return a - b;
+}
+
+export function sortDescending(a: number, b: number) {
+  return b - a;
 }

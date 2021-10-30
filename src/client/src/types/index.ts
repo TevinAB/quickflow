@@ -116,6 +116,10 @@ export type FormFieldData = {
   _id: string;
 };
 
+export type FormData = {
+  form_data: Array<FormFieldData>;
+};
+
 export type ActivityType = 'Task' | 'Event';
 
 export type ActivityBase = {
@@ -172,6 +176,8 @@ export type TimelineItemSubmitData = {
   item_body: string;
 };
 
+export type TimelineFilterType = 'All' | TimelineItemType;
+
 export type SearchResultItem = {
   _id: string;
   __type: SearchType;
@@ -215,9 +221,19 @@ export type PicklistOption = {
   value: string;
   text: string;
   selected: boolean;
+  __type: string;
 };
 
 export type InfoData = {
   label: string;
   value: string | number;
+};
+
+//basic structure for documents returned from api
+export type ApiDocFormat = Record<string, string | number | PicklistOption>;
+
+export type MUITableColumns = {
+  field?: string;
+  headerName?: string;
+  width?: number;
 };
