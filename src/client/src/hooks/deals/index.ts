@@ -6,6 +6,7 @@ import type {
 } from './../../types/index';
 import { useState, useEffect } from 'react';
 import { getDealsOverRange, getAssociatedDeals } from '../../services/document';
+import { getRequestErrorData } from '../../utils';
 
 export function useGetDealsOverRange(
   rangeType: DealRangeTypes,
@@ -21,17 +22,26 @@ export function useGetDealsOverRange(
     async function getDeals() {
       setLoading(true);
       try {
-        const result = await getDealsOverRange(
+        const response = await getDealsOverRange(
           rangeType,
           dealType,
           value,
           token
         );
 
-        setDealData(result?.data.result as Array<Deal>);
-        setLoading(false);
+        if (!response) {
+          setLoading(false);
+        } else {
+          setDealData(response.data.result as Array<Deal>);
+          setLoading(false);
+        }
       } catch (error) {
-        setError(true);
+        const { statusCode } = getRequestErrorData(error as RequestError);
+
+        //don't treat 404's as an actual error
+        if (statusCode !== 404) {
+          setError(true);
+        }
         setLoading(false);
       }
     }

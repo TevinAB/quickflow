@@ -55,7 +55,7 @@ export type DealCategory = DealStatus | 'All';
 export type Deal = {
   value: number;
   timeline_id: string;
-  deal_status: DealStatus;
+  deal_status: PicklistOption;
   pipeline: string;
   created_date: string;
   closed_date: string;
