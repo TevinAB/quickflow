@@ -1,0 +1,14 @@
+.doc-list {
+  width: 100%;
+  height: 650px;
+}
+
+.doc-list__action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.8rem;
+}
+
+.doc-list__action-buttons > * {
+  margin: 0 8px;
+}
