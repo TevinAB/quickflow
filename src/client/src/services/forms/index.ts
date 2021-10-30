@@ -10,9 +10,9 @@ export async function getFormData(formType: FormType, token: string) {
 }
 
 //each list type is from a form type.
-export async function getListData(token: string) {
+export async function getListData(listType: FormType, token: string) {
   return await get(
-    '/api/resource/customization/lists',
+    `/api/resource/customization/list/${listType.toLowerCase()}`,
     buildHeaders({ auth: token })
   );
 }

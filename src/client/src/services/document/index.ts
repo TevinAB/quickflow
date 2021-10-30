@@ -31,6 +31,12 @@ export async function getDocumentMany(
   );
 }
 
+//temp until the api is fixed to allow fetching all docs in an organization
+export async function getDocumentAll(docType: DocumentType, token: string) {
+  const largeNum = 10000;
+  return await getDocumentMany(docType, 1, token, largeNum);
+}
+
 export async function createDocument(
   docType: DocumentType,
   data: {},
