@@ -5,6 +5,7 @@ import {
   selectDataSource,
   toPicklistData,
   getItemData,
+  sortAscending,
 } from '../../utils';
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../hooks/redux';
@@ -58,6 +59,7 @@ export default function FormManager() {
 
   const { handleSubmit, control } = useForm({
     defaultValues: defaultData,
+    shouldUnregister: true,
   });
 
   const onSubmit = async (data: any) => {
@@ -104,8 +106,8 @@ export default function FormManager() {
     async function buildForm() {
       setLoading(true);
       try {
-        const formData = (await getForm_Data(formType, token)).sort(
-          (a, b) => Number(a.form.order) - Number(b.form.order)
+        const formData = (await getForm_Data(formType, token)).sort((a, b) =>
+          sortAscending(a.form.order, b.form.order)
         );
 
         const sourcesList: Array<Promise<Record<string, Array<nameIdPair>>>> =

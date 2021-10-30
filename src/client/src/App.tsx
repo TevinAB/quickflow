@@ -3,7 +3,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 import FormManager from './components/FormManager';
-import ContactPage from './pages/Contact';
+import ContactList from './pages/ContactList';
 import { useEffect } from 'react';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
 
   return (
     <>
-      <ContactPage />
+      <ContactList />
       <FormManager />
     </>
   );
