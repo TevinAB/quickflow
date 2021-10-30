@@ -2,7 +2,8 @@
   border: 1px solid;
   border-radius: 10px;
   width: 100%;
-  padding: 0;
+  max-height: 400px;
+  padding: 10px;
   overflow: auto;
   list-style-type: none;
   position: relative;

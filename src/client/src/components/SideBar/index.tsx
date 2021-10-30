@@ -53,13 +53,15 @@ const Links = [
 ];
 
 type SideBarProps = {
-  renderLogo: boolean;
-  renderCollapseButton: boolean;
+  showLogo: boolean;
+  showCollapseButton: boolean;
+  sideBarWidth?: string;
 };
 
 export default function SideBar({
-  renderLogo,
-  renderCollapseButton,
+  showLogo,
+  showCollapseButton,
+  sideBarWidth,
 }: SideBarProps) {
   const [isOpen, setOpen] = useState(true);
   const location = useLocation();
@@ -70,11 +72,11 @@ export default function SideBar({
 
   return (
     <nav className="side-bar">
-      {renderLogo && <Logo showText={isOpen} />}
+      {showLogo && <Logo showText={isOpen} />}
 
       <NavLinks isOpen={isOpen} currentUrl={location.pathname} />
 
-      {renderCollapseButton && (
+      {showCollapseButton && (
         <div className="side-bar__footer">
           <IconButton
             className={collapseButtonClasses}

@@ -71,6 +71,7 @@
 
 .side-bar__link-text {
   display: inline-block;
+  width: 165px;
   text-transform: capitalize;
 }
 
