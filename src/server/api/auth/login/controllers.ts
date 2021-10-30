@@ -50,7 +50,7 @@ export function wrapperLogin<T extends Model<Profile>, R extends Model<Role>>(
     next: NextFunction
   ) {
     try {
-      const { email, password } = request.body;
+      const { email, password } = request.body.data;
       if (!email) throw new Error('Email not provided.');
       if (!password) throw new Error('Password not provided.');
 
