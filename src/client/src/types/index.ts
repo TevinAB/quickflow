@@ -1,3 +1,4 @@
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { CancelToken, CancelTokenSource, AxiosError } from 'axios';
 import { groupBy } from '../utils';
 
@@ -118,6 +119,7 @@ export type FormFieldData = {
 
 export type FormData = {
   form_data: Array<FormFieldData>;
+  res_type: string;
 };
 
 export type ActivityType = 'Task' | 'Event';
@@ -232,8 +234,6 @@ export type InfoData = {
 //basic structure for documents returned from api
 export type ApiDocFormat = Record<string, string | number | PicklistOption>;
 
-export type MUITableColumns = {
-  field?: string;
-  headerName?: string;
-  width?: number;
-};
+export interface MUITableColumns extends GridColDef {}
+
+export interface RenderCellArgs<T> extends GridRenderCellParams<any, T> {}

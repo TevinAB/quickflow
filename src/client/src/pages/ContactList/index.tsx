@@ -14,7 +14,10 @@ import PopUp from '../../components/PopUp';
 
 export default function ContactList() {
   const [error, setError] = useState(false);
-  const [columnData, setColumnData] = useState<FormData>({ form_data: [] });
+  const [columnData, setColumnData] = useState<FormData>({
+    form_data: [],
+    res_type: '',
+  });
 
   const [selectedItems, setSelectedItems] = useState<Array<string>>([]);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
@@ -83,6 +86,8 @@ export default function ContactList() {
       </div>
       <DataGrid
         checkboxSelection
+        style={{ fontSize: '15px' }}
+        disableSelectionOnClick
         rowsPerPageOptions={[15]}
         rows={muiRowData as Array<GridRowsProp>}
         columns={muiColumnData as Array<GridColDef>}
