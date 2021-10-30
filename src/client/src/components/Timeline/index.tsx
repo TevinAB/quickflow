@@ -4,32 +4,18 @@ import { timeFromNow } from '../../utils/date';
 import type {
   TimelineItem,
   TimelineFormattedData,
-  TimelineItemType,
+  TimelineFilterType,
 } from '../../types';
 import PickList from '../PickList';
+import { timelineFilterOptions } from '../../utils/filterOptions';
 
 type TimelineProps = {
   timelineFormattedData: TimelineFormattedData;
 };
 
-type FilterType = 'All' | TimelineItemType;
-
-//for filter picklist
-const filterOptions: Array<{
-  text: FilterType;
-  value: FilterType;
-  selected: boolean;
-}> = [
-  { text: 'All', value: 'All', selected: true },
-  { text: 'Event', value: 'Event', selected: false },
-  { text: 'Note', value: 'Note', selected: false },
-  { text: 'Other', value: 'Other', selected: false },
-  { text: 'Task', value: 'Task', selected: false },
-];
-
 export default function Timeline({ timelineFormattedData }: TimelineProps) {
   const [filteredData, setFilteredData] = useState(timelineFormattedData);
-  const [filterType, setFilterType] = useState<FilterType>('All');
+  const [filterType, setFilterType] = useState<TimelineFilterType>('All');
 
   useEffect(() => {
     let filterFunction: (item: TimelineItem) => boolean;
@@ -69,8 +55,8 @@ export default function Timeline({ timelineFormattedData }: TimelineProps) {
       <div className="timeline-filter">
         <div className="timeline-filter__wrapper">
           <PickList
-            optionsData={filterOptions}
-            afterChange={(value) => setFilterType(value as FilterType)}
+            optionsData={timelineFilterOptions}
+            afterChange={(value) => setFilterType(value as TimelineFilterType)}
           />
         </div>
       </div>

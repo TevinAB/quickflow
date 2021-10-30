@@ -18,13 +18,7 @@ import clsx from 'clsx';
 import { logout } from '../../store/slices/user';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../hooks/redux';
-
-const searchTypeOptions = [
-  { text: 'Contact', value: 'Contact', selected: true },
-  { text: 'Account', value: 'Account', selected: false },
-  { text: 'Deal', value: 'Deal', selected: false },
-  { text: 'Profile', value: 'Profile', selected: false },
-];
+import { searchTypeOptions } from '../../utils/filterOptions';
 
 export default function AppBar() {
   const [showSideBar, setShowSideBar] = useState(false);
