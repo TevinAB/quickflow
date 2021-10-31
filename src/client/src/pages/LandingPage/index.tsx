@@ -13,6 +13,7 @@ import pic2 from '../../assets/reviews/pic2.jpg';
 import pic3 from '../../assets/reviews/pic3.jpg';
 import pic4 from '../../assets/reviews/pic4.jpg';
 import pic5 from '../../assets/reviews/pic5.jpg';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const reviewCardSrc = [pic1, pic2, pic3, pic4, pic5];
 
@@ -192,6 +193,15 @@ export default function LandingPage() {
             </div>
             <hr />
             <p>&copy; QuickFlow CRM 2021</p>
+            <a
+              target="_blank"
+              rel="noreferrer"
+              className="git-link"
+              href="https://github.com/TevinAB/quickflow"
+              aria-label="github link to project"
+            >
+              <GitHubIcon sx={{ color: 'white' }} />
+            </a>
           </div>
         </footer>
       </main>
