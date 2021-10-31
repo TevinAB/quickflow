@@ -1,35 +1,32 @@
-import './index.css';
-import InfoWidget, { MainInfoCard } from '../../components/InfoWidget';
-import PopUp from '../../components/PopUp';
-import Button from '../../components/Button';
-import {
-  WidgetLoading,
-  WidgetLoadError,
-  WidgetDocNotFound,
-} from '../../components/WidgetUtils';
-import Timeline from '../../components/Timeline';
-import AssociatedDeals from '../../components/AssociatedDeals';
-import DocumentActions from '../../components/DocumentActions';
-import { infoWidgetComponentAdapter, groupBy } from '../../utils';
-import { DATE_STANDARD_3 } from '../../constants';
-import { formatDate } from '../../utils/date';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {
-  getContactThunk,
-  deleteContactThunk,
-} from '../../store/slices/contact';
 import { useEffect, useState } from 'react';
-import { showForm } from '../../store/slices/formManager';
 import type {
-  TimelineItem,
-  TimelineFormattedData,
   InfoData,
+  PicklistOption,
+  TimelineFormattedData,
+  TimelineItem,
 } from '../../types';
+import { deleteDealThunk, getDealThunk } from '../../store/slices/deal';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { useParams } from 'react-router-dom';
+import { groupBy, infoWidgetComponentAdapter } from '../../utils';
+import { formatDate } from '../../utils/date';
+import { DATE_STANDARD_3 } from '../../constants';
+import {
+  WidgetDocNotFound,
+  WidgetLoadError,
+  WidgetLoading,
+} from '../../components/WidgetUtils';
+import InfoWidget, { MainInfoCard } from '../../components/InfoWidget';
+import DocumentActions from '../../components/DocumentActions';
+import Timeline from '../../components/Timeline';
+import AssociatedContacts from '../../components/AssociatedContacts';
+import Button from '../../components/Button';
+import { showForm } from '../../store/slices/formManager';
+import PopUp from '../../components/PopUp';
 
-//omitting first and last name as they will be included elsewhere
 const InfoWidgetOmitKeys = [
   'created_date',
+  'closed_date',
   '_id',
   'org_id',
   'owner',
@@ -39,15 +36,17 @@ const InfoWidgetOmitKeys = [
   'first_name',
   'last_name',
   '__v',
+  'associated_contacts',
 ];
-export default function ContactPage() {
-  const token = useAppSelector((state) => state.user.token);
-  const { id: contactId } = useParams<{ id: string }>();
 
-  const contactData = useAppSelector((state) => state.contact.documentData);
-  const [contactDataFormatted, setcontactDataFormatted] = useState<
-    Array<InfoData>
-  >([]);
+export default function DealPage() {
+  const token = useAppSelector((state) => state.user.token);
+  const { id: dealId } = useParams<{ id: string }>();
+
+  const dealData = useAppSelector((state) => state.deal.documentData);
+  const [dealDataFormatted, setDealDataFormatted] = useState<Array<InfoData>>(
+    []
+  );
 
   const timelineData = useAppSelector((state) => state.timeline);
   const [formattedTimelineData, setFormattedTimelineData] =
@@ -56,23 +55,21 @@ export default function ContactPage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const handleDeleteConfirm = () => {
     setShowDeleteConfirm(false);
-    dispatch(deleteContactThunk({ documentId: contactData._id, token }));
+    dispatch(deleteDealThunk({ documentId: dealData._id, token }));
   };
 
-  const isLoading = useAppSelector((state) => state.contact.isLoading);
-  const loadError = useAppSelector((state) => state.contact.documentLoadError);
-  const loadErrorMessage = useAppSelector(
-    (state) => state.contact.errorMessage
-  );
+  const isLoading = useAppSelector((state) => state.deal.isLoading);
+  const loadError = useAppSelector((state) => state.deal.documentLoadError);
+  const loadErrorMessage = useAppSelector((state) => state.deal.errorMessage);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    async function getContact() {
-      await dispatch(getContactThunk({ documentId: contactId, token }));
+    async function getDeal() {
+      await dispatch(getDealThunk({ documentId: dealId, token }));
     }
 
-    getContact();
-  }, [token, dispatch, contactId]);
+    getDeal();
+  }, [token, dispatch, dealId]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -88,14 +85,23 @@ export default function ContactPage() {
   }, [timelineData, isLoading]);
 
   useEffect(() => {
+    const valueSetter = (arg: PicklistOption | string | number) => {
+      if (typeof arg === 'string' || typeof arg === 'number') {
+        return String(arg);
+      } else {
+        if ('__type' in arg && arg.__type === 'Picklist') return arg.text;
+      }
+      return '';
+    };
+
     if (!isLoading) {
-      const formatContactResult = infoWidgetComponentAdapter(
-        contactData,
-        InfoWidgetOmitKeys
-      );
-      setcontactDataFormatted(formatContactResult);
+      const formatDealResult = infoWidgetComponentAdapter<
+        PicklistOption | string | number
+      >(dealData, InfoWidgetOmitKeys, valueSetter);
+
+      setDealDataFormatted(formatDealResult);
     }
-  }, [contactData, isLoading]);
+  }, [dealData, isLoading]);
 
   const renderLoading = (
     <div className="page-loading-container">
@@ -109,42 +115,43 @@ export default function ContactPage() {
     </div>
   );
 
-  const renderContact = (
+  const renderDeal = (
     <main className="doc-page">
       <div className="doc-page__info-column">
-        <MainInfoCard name={contactData.name} owner={contactData.owner.text} />
+        <MainInfoCard name={dealData.name} owner={dealData.owner.text} />
         <DocumentActions
-          handleAddDeal={() =>
-            dispatch(showForm({ formType: 'Deal', formMode: 'New' }))
-          }
           handleAddNote={() =>
             dispatch(showForm({ formType: 'Note', formMode: 'New' }))
           }
           handleEditDocument={() =>
             dispatch(
               showForm({
-                formType: 'Contact',
+                formType: 'Deal',
                 formMode: 'Edit',
-                _id: contactData._id,
+                _id: dealData._id,
               })
             )
           }
           handleDeleteDocument={() => setShowDeleteConfirm(true)}
         />
-        <InfoWidget title="Contact Details" data={contactDataFormatted} />
+        <InfoWidget title="Deal Details" data={dealDataFormatted} />
       </div>
       <div className="doc-page__timeline-column">
         <Timeline timelineFormattedData={formattedTimelineData} />
       </div>
       <div className="doc-page__widget-column">
-        <AssociatedDeals mainDocId={contactId} />
+        <AssociatedContacts
+          showRemove={false}
+          onRemove={() => ''}
+          contacts={dealData.associated_contacts || []}
+        />
       </div>
       <div>
         <PopUp
           open={showDeleteConfirm}
           handleClose={() => setShowDeleteConfirm(false)}
           popUpTitle="confirm delete"
-          popUpBody="Would you like to delete this contact?"
+          popUpBody="Would you like to delete this deal?"
           popUpActions={() => (
             <div>
               <Button variant="outlined" onClick={handleDeleteConfirm}>
@@ -168,8 +175,8 @@ export default function ContactPage() {
     <>
       {loadError && !isLoading && renderError}
       {!loadError && isLoading && renderLoading}
-      {!loadError && !isLoading && contactData._id && renderContact}
-      {!loadError && !isLoading && !contactData._id && renderDocumentNotFound}
+      {!loadError && !isLoading && dealData._id && renderDeal}
+      {!loadError && !isLoading && !dealData._id && renderDocumentNotFound}
     </>
   );
 }

@@ -8,11 +8,15 @@ import { getAllDocumentsThunk } from '../../store/slices/documentList';
 import { WidgetLoading, WidgetLoadError } from '../../components/WidgetUtils';
 import { showForm } from '../../store/slices/formManager';
 import { deleteDocumentsThunk } from '../../store/slices/documentList';
-import type { FormData } from '../../types';
+import type { FormData, DocumentType } from '../../types';
 import Button from '../../components/Button';
 import PopUp from '../../components/PopUp';
 
-export default function ContactList() {
+type DocumentListProps = {
+  documentType: DocumentType;
+};
+
+export default function DocumentList({ documentType }: DocumentListProps) {
   const [error, setError] = useState(false);
   const [columnData, setColumnData] = useState<FormData>({
     form_data: [],
@@ -34,8 +38,8 @@ export default function ContactList() {
     async function handleMount() {
       try {
         const [column] = await Promise.all([
-          getListData('Contact', token),
-          dispatch(getAllDocumentsThunk({ documentType: 'Contact', token })),
+          getListData(documentType, token),
+          dispatch(getAllDocumentsThunk({ documentType, token })),
         ]);
 
         setColumnData(column?.data.result as FormData);
@@ -47,11 +51,11 @@ export default function ContactList() {
     }
 
     handleMount();
-  }, [token, dispatch]);
+  }, [token, dispatch, documentType]);
 
   const renderError = (
     <div>
-      <WidgetLoadError errorMessage="Contact list failed to load" />
+      <WidgetLoadError errorMessage={`${documentType} list failed to load`} />
     </div>
   );
 
@@ -68,10 +72,10 @@ export default function ContactList() {
           className="btn btn--action-btn"
           variant="contained"
           onClick={() =>
-            dispatch(showForm({ formType: 'Contact', formMode: 'New' }))
+            dispatch(showForm({ formType: documentType, formMode: 'New' }))
           }
         >
-          Add Contact
+          Add {documentType}
         </Button>
         {selectedItems.length > 0 && (
           <Button
@@ -88,7 +92,7 @@ export default function ContactList() {
         checkboxSelection
         style={{ fontSize: '15px' }}
         disableSelectionOnClick
-        rowsPerPageOptions={[15]}
+        rowsPerPageOptions={[15, 100]}
         rows={muiRowData as Array<GridRowsProp>}
         columns={muiColumnData as Array<GridColDef>}
         onSelectionModelChange={(select) =>
@@ -107,7 +111,7 @@ export default function ContactList() {
               dispatch(
                 deleteDocumentsThunk({
                   documentIds: selectedItems,
-                  documentType: 'Contact',
+                  documentType,
                   token,
                 })
               );
