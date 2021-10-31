@@ -8,7 +8,6 @@ import {
   useRef,
   KeyboardEvent,
   MutableRefObject,
-  FormEvent,
   SetStateAction,
 } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -83,25 +82,23 @@ export default function Search({
     setShowResults(false);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleKeyDownInSearch = (event: KeyboardEvent) => {
+    //allow selecting a result by pressing enter key
+    if (event.key === 'Enter') {
+      if (!shouldSubmit) return;
 
-    if (!shouldSubmit) return;
+      if (activeResultRef.current) {
+        //use the currently highlighted result to search
+        const docId = activeResultRef.current.getAttribute('data-id') || '';
 
-    //use text in textbox to search
-    if (activeResultIndex < 0) {
-      history.push(`/search?type=${searchType?.toLowerCase()}&q=${query}`);
+        handleClick(docId);
+      }
 
-      setShowResults(false);
-    } else if (activeResultRef.current) {
-      //use the currently highlighted result to search
-      const docId = activeResultRef.current.getAttribute('data-id') || '';
-
-      handleClick(docId);
+      searchBoxRef.current?.blur();
+      setActiveResultIndex(-1);
+    } else {
+      handleKeyboardTraversal(event);
     }
-
-    searchBoxRef.current?.blur();
-    setActiveResultIndex(-1);
   };
 
   useEffect(() => {
@@ -135,20 +132,18 @@ export default function Search({
             {searchTypeList(setType)}
           </div>
         )}
-        {/*change from form to text field and handle onEnter*/}
-        <form method="get" onSubmit={handleSubmit}>
-          <TextField
-            id={inputId || 'search-box'}
-            inputRef={searchBoxRef}
-            className="search__box"
-            type="text"
-            size="small"
-            value={query}
-            onKeyDown={handleKeyboardTraversal}
-            onChange={(e) => setQuery(e.target.value)}
-            onFocus={() => setShowResults(true)}
-          />
-        </form>
+
+        <TextField
+          id={inputId || 'search-box'}
+          inputRef={searchBoxRef}
+          className="search__box"
+          type="text"
+          size="small"
+          value={query}
+          onKeyDown={handleKeyDownInSearch}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => setShowResults(true)}
+        />
       </div>
       {showResults && (
         <Typeahead
