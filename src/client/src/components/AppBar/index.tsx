@@ -13,7 +13,7 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import { Collapse, Dialog } from '@mui/material';
+import { Collapse, Dialog, Badge } from '@mui/material';
 import { debounce } from '../../utils';
 import { useLocation } from 'react-router-dom';
 import clsx from 'clsx';
@@ -31,6 +31,7 @@ export default function AppBar({ navContainerRef }: AppBarProps) {
   const [showHiddenSearch, setShowHiddenSearch] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const notifData = useAppSelector((state) => state.user.notifications);
+  const [unreadNotifCount, setUnreadNotifCount] = useState(0);
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -95,6 +96,11 @@ export default function AppBar({ navContainerRef }: AppBarProps) {
     dispatch(logout());
   };
 
+  useEffect(() => {
+    const unreadCount = notifData.filter((notif) => !notif.read).length;
+    setUnreadNotifCount(unreadCount);
+  }, [notifData]);
+
   return (
     <div className="app-bar">
       <div className="app-bar__main" ref={navContainerRef}>
@@ -139,7 +145,9 @@ export default function AppBar({ navContainerRef }: AppBarProps) {
               onClick={() => setShowNotification(!showNotification)}
               aria-label="notifications"
             >
-              <NotificationsOutlinedIcon />
+              <Badge badgeContent={unreadNotifCount} color="error">
+                <NotificationsOutlinedIcon />
+              </Badge>
             </IconButton>
             <div
               className={clsx(
