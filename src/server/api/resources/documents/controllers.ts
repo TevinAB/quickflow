@@ -266,6 +266,8 @@ export function wrapperGetDealsOverRange<T extends Model<Deal>>(baseModel: T) {
     const { range, value, status } = request.query;
 
     try {
+      const { org_id } = request.middlewareInfo.jwtData;
+
       const dateValue = value as string;
       if (!isValidDate(dateValue))
         throw new RequestException('Invalid date value.', 400);
@@ -289,6 +291,7 @@ export function wrapperGetDealsOverRange<T extends Model<Deal>>(baseModel: T) {
       const deals = await baseModel.find({
         ...filters,
         created_date: { $lte: endDate, $gte: startDate },
+        org_id,
       });
 
       if (deals.length) {

@@ -59,9 +59,27 @@ export default function QuickFlow() {
             <Route exact path={`${match.path}deals`}>
               <DocumentList documentType="Deal" />
             </Route>
+
+            <Route exact path={`${match.path}tasks`}>
+              <ComingSoon />
+            </Route>
+            <Route exact path={`${match.path}events`}>
+              <ComingSoon />
+            </Route>
+            <Route exact path={`${match.path}settings`}>
+              <ComingSoon />
+            </Route>
           </Switch>
         </div>
       </div>
+    </div>
+  );
+}
+
+function ComingSoon() {
+  return (
+    <div className="coming-soon-page">
+      <h2>Coming Soon</h2>
     </div>
   );
 }

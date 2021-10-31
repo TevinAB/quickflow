@@ -1,8 +1,9 @@
-import {
+import type {
   LoginData,
   ApiError,
   SignUpData,
   Notification,
+  RequestError,
 } from './../../types/index';
 import { TOKEN_NAME } from '../../constants';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
@@ -12,9 +13,11 @@ import {
   removeFromLocalStorage,
   writeToLocalStorage,
 } from '../../utils/localStorage';
+import { getRequestErrorData } from '../../utils';
 import { RootState } from '..';
 
 interface UserState {
+  auth_check_loading: boolean;
   is_authenticated: boolean;
   _id: string;
   full_name: string;
@@ -36,9 +39,9 @@ export const isAuthenticatedThunk = createAsyncThunk<
   { rejectValue: boolean }
 >('user/is_authenticated', async (token, { rejectWithValue }) => {
   try {
-    const result = await isAuthenticated(token);
+    const response = await isAuthenticated(token);
 
-    const userState = result?.data.result as UserState;
+    const userState = response?.data.result as UserState;
 
     return userState;
   } catch (error) {
@@ -62,7 +65,8 @@ export const loginThunk = createAsyncThunk<
 
     return state;
   } catch (error) {
-    return rejectWithValue(error as ApiError);
+    const requestError = getRequestErrorData(error as RequestError);
+    return rejectWithValue({ message: requestError.message });
   }
 });
 
@@ -82,7 +86,8 @@ export const signUpThunk = createAsyncThunk<
 
     return state;
   } catch (error) {
-    return rejectWithValue(error as ApiError);
+    const requestError = getRequestErrorData(error as RequestError);
+    return rejectWithValue({ message: requestError.message });
   }
 });
 
@@ -97,7 +102,8 @@ export const readNotifThunk = createAsyncThunk<
 
     return result.data as { notifications: Array<Notification> };
   } catch (error) {
-    return rejectWithValue(error as ApiError);
+    const requestError = getRequestErrorData(error as RequestError);
+    return rejectWithValue({ message: requestError.message });
   }
 });
 
@@ -151,6 +157,15 @@ const userSlice = createSlice({
       .addCase(readNotifThunk.rejected, (state, action) => {
         state.notif_error_msg =
           action.payload?.message || 'Failed to read notifications.';
+      })
+      .addCase(isAuthenticatedThunk.pending, (state) => {
+        state.auth_check_loading = true;
+      })
+      .addCase(isAuthenticatedThunk.fulfilled, (_, action) => {
+        return initUserStateOnAuth(action.payload);
+      })
+      .addCase(isAuthenticatedThunk.rejected, (state) => {
+        state.auth_check_loading = false;
       });
   },
 });
@@ -158,6 +173,7 @@ const userSlice = createSlice({
 function initUserStateOnAuth(userData: UserState) {
   return {
     ...userData,
+    auth_check_loading: false,
     is_authenticated: true,
     full_name: `${userData.first_name} ${userData.last_name}`,
     is_loading: false,
@@ -167,6 +183,7 @@ function initUserStateOnAuth(userData: UserState) {
 
 function clearState() {
   return {
+    auth_check_loading: false,
     is_authenticated: false,
     token: '',
     _id: '',

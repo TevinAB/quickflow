@@ -11,6 +11,15 @@
   display: block;
 }
 
+.coming-soon-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  user-select: none;
+  color: var(--grey-3);
+}
+
 @media screen and (max-width: 1024px) {
   .side-bar-container {
     display: none;
