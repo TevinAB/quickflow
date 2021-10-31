@@ -1,8 +1,9 @@
-import {
+import type {
   LoginData,
   ApiError,
   SignUpData,
   Notification,
+  RequestError,
 } from './../../types/index';
 import { TOKEN_NAME } from '../../constants';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
@@ -12,6 +13,7 @@ import {
   removeFromLocalStorage,
   writeToLocalStorage,
 } from '../../utils/localStorage';
+import { getRequestErrorData } from '../../utils';
 import { RootState } from '..';
 
 interface UserState {
@@ -63,7 +65,8 @@ export const loginThunk = createAsyncThunk<
 
     return state;
   } catch (error) {
-    return rejectWithValue(error as ApiError);
+    const requestError = getRequestErrorData(error as RequestError);
+    return rejectWithValue({ message: requestError.message });
   }
 });
 
@@ -83,7 +86,8 @@ export const signUpThunk = createAsyncThunk<
 
     return state;
   } catch (error) {
-    return rejectWithValue(error as ApiError);
+    const requestError = getRequestErrorData(error as RequestError);
+    return rejectWithValue({ message: requestError.message });
   }
 });
 
@@ -98,7 +102,8 @@ export const readNotifThunk = createAsyncThunk<
 
     return result.data as { notifications: Array<Notification> };
   } catch (error) {
-    return rejectWithValue(error as ApiError);
+    const requestError = getRequestErrorData(error as RequestError);
+    return rejectWithValue({ message: requestError.message });
   }
 });
 

@@ -298,7 +298,7 @@ export function getRequestErrorData(error: RequestError) {
   const statusCode = error.response?.status || 400;
   let message;
 
-  if (statusCode !== 404) {
+  if (statusCode !== 404 && statusCode !== 400) {
     message = 'Oops, Something went wrong.';
   } else {
     message = error.response?.data.message || '';
