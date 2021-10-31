@@ -303,3 +303,80 @@ export const managerRole = {
   },
   is_admin: false,
 };
+
+//dummy contacts
+export const dummyContact = {
+  first_name: 'John',
+  last_name: 'Doe',
+  name: 'John Doe',
+  email: 'johns@gmail.com',
+  phone: '8769875612',
+  company: 'Olive',
+  job_title: 'CTO',
+  __type: 'Contact',
+};
+
+export const dummyDeals = [
+  {
+    currency: { __type: 'Picklist', text: '', value: '' },
+    value: 150800,
+    deal_status: { __type: 'Picklist', text: 'Open', value: 'Open' },
+
+    closed_date: '2021-09-30T07:57:42.000Z',
+    associated_contacts: [],
+    name: 'Deal 1',
+
+    __type: 'Deal',
+    current_stage: {
+      __type: 'Picklist',
+      text: 'Start',
+      value: '1',
+    },
+  },
+  {
+    currency: { __type: 'Picklist', text: '', value: '' },
+    value: 280759,
+    deal_status: { __type: 'Picklist', text: 'Won', value: 'Won' },
+
+    closed_date: '2021-10-30T07:57:42.000Z',
+    associated_contacts: [],
+    name: 'Deal 2',
+
+    __type: 'Deal',
+    current_stage: {
+      __type: 'Picklist',
+      text: 'Start',
+      value: '1',
+    },
+  },
+  {
+    currency: { __type: 'Picklist', text: '', value: '' },
+    value: 190000,
+    deal_status: { __type: 'Picklist', text: 'Lost', value: 'Lost' },
+
+    closed_date: '2021-11-30T07:57:42.000Z',
+    associated_contacts: [],
+    name: 'Deal 3',
+    __type: 'Deal',
+    current_stage: {
+      __type: 'Picklist',
+      text: 'Start',
+      value: '1',
+    },
+  },
+  {
+    currency: { __type: 'Picklist', text: '', value: '' },
+    value: 490000,
+    deal_status: { __type: 'Picklist', text: 'Lost', value: 'Lost' },
+
+    closed_date: '2021-12-30T07:57:42.000Z',
+    associated_contacts: [],
+    name: 'Deal 3',
+    __type: 'Deal',
+    current_stage: {
+      __type: 'Picklist',
+      text: 'Start',
+      value: '1',
+    },
+  },
+];

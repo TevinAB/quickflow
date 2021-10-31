@@ -40,6 +40,8 @@ export function wrapperSignUp<T extends Model<Profile>>(
         request.middlewareInfo.orgSetupData = {
           org_id: String(org_id),
           role_id: String(role_id),
+          username: name,
+          userId: _id,
         };
 
         request.middlewareInfo.jwtData = {
