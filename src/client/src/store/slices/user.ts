@@ -15,6 +15,7 @@ import {
 import { RootState } from '..';
 
 interface UserState {
+  auth_check_loading: boolean;
   is_authenticated: boolean;
   _id: string;
   full_name: string;
@@ -36,9 +37,9 @@ export const isAuthenticatedThunk = createAsyncThunk<
   { rejectValue: boolean }
 >('user/is_authenticated', async (token, { rejectWithValue }) => {
   try {
-    const result = await isAuthenticated(token);
+    const response = await isAuthenticated(token);
 
-    const userState = result?.data.result as UserState;
+    const userState = response?.data.result as UserState;
 
     return userState;
   } catch (error) {
@@ -151,6 +152,15 @@ const userSlice = createSlice({
       .addCase(readNotifThunk.rejected, (state, action) => {
         state.notif_error_msg =
           action.payload?.message || 'Failed to read notifications.';
+      })
+      .addCase(isAuthenticatedThunk.pending, (state) => {
+        state.auth_check_loading = true;
+      })
+      .addCase(isAuthenticatedThunk.fulfilled, (_, action) => {
+        return initUserStateOnAuth(action.payload);
+      })
+      .addCase(isAuthenticatedThunk.rejected, (state) => {
+        state.auth_check_loading = false;
       });
   },
 });
@@ -158,6 +168,7 @@ const userSlice = createSlice({
 function initUserStateOnAuth(userData: UserState) {
   return {
     ...userData,
+    auth_check_loading: false,
     is_authenticated: true,
     full_name: `${userData.first_name} ${userData.last_name}`,
     is_loading: false,
@@ -167,6 +178,7 @@ function initUserStateOnAuth(userData: UserState) {
 
 function clearState() {
   return {
+    auth_check_loading: false,
     is_authenticated: false,
     token: '',
     _id: '',

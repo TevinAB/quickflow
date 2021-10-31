@@ -44,7 +44,15 @@ export function removeFromLocalStorage(storageKey: string) {
 }
 
 export function defaultToken(token: string | undefined) {
-  return token || getFromLocalStorage(TOKEN_NAME);
+  if (token) return token;
+
+  let token_;
+  try {
+    token_ = getFromLocalStorage(TOKEN_NAME);
+  } catch (error) {
+    token_ = 'none';
+  }
+  return token_;
 }
 
 export function toStringArray(str: string | Array<string>) {
