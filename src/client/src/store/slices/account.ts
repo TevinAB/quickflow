@@ -18,6 +18,7 @@ import { deleteDocument } from '../../services/document';
 import { clearTimelineState } from './timeline';
 import { getRequestErrorData } from '../../utils';
 import { newAccountState } from '../../utils/document';
+import { showToast } from './toasts';
 
 type AccountState = DocumentStoreState<Account>;
 
@@ -56,6 +57,8 @@ export const deleteAccountThunk = createAsyncThunk<
     }
   } catch (error) {
     const requestError = getRequestErrorData(error as RequestError);
+
+    dispatch(showToast({ message: requestError.message, toastType: 'error' }));
 
     return rejectWithValue({ message: requestError.message });
   }

@@ -16,6 +16,7 @@ import {
   createDocument,
   editDocument,
 } from '../../../services/document';
+import { showToast } from '../toasts';
 
 export function wrapperGetDocumentPayloadCreator<ThunkReturn>(
   documentType: DocumentType
@@ -32,7 +33,6 @@ export function wrapperGetDocumentPayloadCreator<ThunkReturn>(
         args.token
       );
 
-      //TODO: dispatch a toast here -- 'Error, contact not retrieved
       if (!response)
         return rejectWithValue({ message: 'Error fetching contact' });
 
@@ -41,6 +41,10 @@ export function wrapperGetDocumentPayloadCreator<ThunkReturn>(
       return { documentData: response.data.result } as unknown as ThunkReturn;
     } catch (error) {
       const requestError = getRequestErrorData(error as RequestError);
+
+      dispatch(
+        showToast({ message: requestError.message, toastType: 'error' })
+      );
 
       return rejectWithValue({ message: requestError.message });
     }
@@ -61,12 +65,15 @@ export function wrapperCreateDocumentPayloadCreator<T extends BaseDocument>(
       const { documentData, metaData, token } = args;
       await createDocument(documentType, documentData, metaData, token);
 
-      //TODO: dispatch list refresh based on docType e.g: contact >> refresh contact list state
-
-      //Show toast
+      dispatch(
+        showToast({ message: `${documentType} Added`, toastType: 'success' })
+      );
     } catch (error) {
-      //Show toast
-      //close form
+      const requestError = getRequestErrorData(error as RequestError);
+
+      dispatch(
+        showToast({ message: requestError.message, toastType: 'error' })
+      );
     }
   };
 
@@ -93,14 +100,18 @@ export function wrapperEditDocumentPayloadCreator<
         token
       );
 
+      dispatch(
+        showToast({ message: `${documentType} Edited`, toastType: 'success' })
+      );
       dispatch(setTimeline({ timeline: response.data.timeline }));
 
       return { documentData: response.data.result } as unknown as ThunkReturn;
     } catch (error) {
       const requestError = getRequestErrorData(error as RequestError);
 
-      //TODO: close form
-      //show toast
+      dispatch(
+        showToast({ message: requestError.message, toastType: 'error' })
+      );
 
       return rejectWithValue({ message: requestError.message });
     }

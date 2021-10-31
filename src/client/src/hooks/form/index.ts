@@ -23,6 +23,7 @@ import { addTimelineItemThunk } from '../../store/slices/timeline';
 import { getAllDocumentsThunk } from './../../store/slices/documentList';
 import { useAppSelector, useAppDispatch } from '../redux';
 import { useLocation } from 'react-router-dom';
+import { showToast } from '../../store/slices/toasts';
 
 export function useSubmit() {
   const userName = useAppSelector((state) => state.user.full_name);
@@ -136,7 +137,9 @@ export function useSubmit() {
         );
 
         if (addTimelineItemThunk.rejected.match(actionResult)) {
-          // show toast
+          dispatch(
+            showToast({ message: 'Failed To Add Note.', toastType: 'error' })
+          );
         }
         return;
 
