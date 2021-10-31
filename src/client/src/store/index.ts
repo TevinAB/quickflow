@@ -1,6 +1,8 @@
 import { userReducer } from './slices/user';
 import { formManagerReducer } from './slices/formManager';
 import { contactReducer } from './slices/contact';
+import { accountReducer } from './slices/account';
+import { dealReducer } from './slices/deal';
 import { timelineReducer } from './slices/timeline';
 import { documentsReducer } from './slices/documentList';
 import { configureStore } from '@reduxjs/toolkit';
@@ -11,6 +13,8 @@ const store = configureStore({
     timeline: timelineReducer,
     documents: documentsReducer,
     contact: contactReducer,
+    account: accountReducer,
+    deal: dealReducer,
     formManager: formManagerReducer,
   },
 });
