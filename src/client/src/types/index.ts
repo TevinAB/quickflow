@@ -20,7 +20,7 @@ export type Contact = {
 } & BaseDocument;
 
 export type Account = {
-  associated_contacts?: Array<{ first_name: string; last_name: string }>;
+  associated_contacts?: Array<Contact>;
 } & BaseDocument;
 
 //profile type

@@ -267,9 +267,10 @@ export async function getItemData(
   return await Promise.resolve({});
 }
 
-export function infoWidgetComponentAdapter(
+export function infoWidgetComponentAdapter<T = any>(
   data: Record<string, any>,
-  blacklistKeys: Array<string>
+  blacklistKeys: Array<string>,
+  valueSetter?: (arg: T) => string
 ) {
   const result: Array<InfoData> = [];
 
@@ -277,7 +278,7 @@ export function infoWidgetComponentAdapter(
     if (data.hasOwnProperty(key) && !blacklistKeys.includes(key)) {
       result.push({
         label: keyToLabel(key),
-        value: data[key],
+        value: valueSetter ? valueSetter(data[key]) : data[key],
       });
     }
   }
