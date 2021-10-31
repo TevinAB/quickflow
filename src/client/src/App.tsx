@@ -3,6 +3,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 import FormManager from './components/FormManager';
+import ToastManager from './components/ToastManager';
 import { useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -64,6 +65,7 @@ function App() {
           <QuickFlow />
         </ProtectedRoute>
       </Switch>
+      <ToastManager />
       <FormManager />
     </>
   );

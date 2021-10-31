@@ -19,6 +19,7 @@ import {
   wrapperGetDocumentPayloadCreator,
   wrapperEditDocumentPayloadCreator,
 } from './sharedUtils';
+import { showToast } from './toasts';
 
 type ContactState = DocumentStoreState<Contact>;
 
@@ -57,6 +58,8 @@ export const deleteContactThunk = createAsyncThunk<
     }
   } catch (error) {
     const requestError = getRequestErrorData(error as RequestError);
+
+    dispatch(showToast({ message: requestError.message, toastType: 'error' }));
 
     return rejectWithValue({ message: requestError.message });
   }

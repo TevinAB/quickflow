@@ -1,4 +1,5 @@
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
+import { AlertColor } from '@mui/material';
 import { CancelToken, CancelTokenSource, AxiosError } from 'axios';
 import { groupBy } from '../utils';
 
@@ -237,3 +238,5 @@ export type ApiDocFormat = Record<string, string | number | PicklistOption>;
 export interface MUITableColumns extends GridColDef {}
 
 export interface RenderCellArgs<T> extends GridRenderCellParams<any, T> {}
+
+export type ToastType = AlertColor;

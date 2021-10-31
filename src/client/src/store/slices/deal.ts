@@ -18,6 +18,7 @@ import {
 import { getRequestErrorData } from '../../utils';
 import { newDealState } from '../../utils/document';
 import { clearTimelineState } from './timeline';
+import { showToast } from './toasts';
 
 type DealState = DocumentStoreState<Deal>;
 
@@ -55,6 +56,8 @@ export const deleteDealThunk = createAsyncThunk<
     }
   } catch (error) {
     const requestError = getRequestErrorData(error as RequestError);
+
+    dispatch(showToast({ message: requestError.message, toastType: 'error' }));
 
     return rejectWithValue({ message: requestError.message });
   }

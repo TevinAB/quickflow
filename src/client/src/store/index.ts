@@ -5,6 +5,7 @@ import { accountReducer } from './slices/account';
 import { dealReducer } from './slices/deal';
 import { timelineReducer } from './slices/timeline';
 import { documentsReducer } from './slices/documentList';
+import { toastReducer } from './slices/toasts';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
@@ -16,6 +17,7 @@ const store = configureStore({
     account: accountReducer,
     deal: dealReducer,
     formManager: formManagerReducer,
+    toastMananger: toastReducer,
   },
 });
 

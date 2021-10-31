@@ -27,6 +27,7 @@ import type {
   PicklistOption,
 } from '../../types';
 import { WidgetLoading } from '../WidgetUtils';
+import { showToast } from '../../store/slices/toasts';
 
 export default function FormManager() {
   const token = useAppSelector((state) => state.user.token);
@@ -99,6 +100,10 @@ export default function FormManager() {
       //show toast
     } catch (error) {
       //show toast
+      dispatch(hideForm());
+      dispatch(
+        showToast({ message: 'An error has occurred', toastType: 'error' })
+      );
     }
   };
 

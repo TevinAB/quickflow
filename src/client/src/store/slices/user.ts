@@ -14,7 +14,8 @@ import {
   writeToLocalStorage,
 } from '../../utils/localStorage';
 import { getRequestErrorData } from '../../utils';
-import { RootState } from '..';
+import { AppDispatch, RootState } from '..';
+import { showToast } from './toasts';
 
 interface UserState {
   auth_check_loading: boolean;
@@ -52,8 +53,8 @@ export const isAuthenticatedThunk = createAsyncThunk<
 export const loginThunk = createAsyncThunk<
   UserState,
   LoginData,
-  { rejectValue: ApiError }
->('user/login', async (data, { rejectWithValue }) => {
+  { rejectValue: ApiError; dispatch: AppDispatch }
+>('user/login', async (data, { rejectWithValue, dispatch }) => {
   try {
     const result = await login(data);
 
@@ -66,6 +67,9 @@ export const loginThunk = createAsyncThunk<
     return state;
   } catch (error) {
     const requestError = getRequestErrorData(error as RequestError);
+
+    dispatch(showToast({ message: requestError.message, toastType: 'error' }));
+
     return rejectWithValue({ message: requestError.message });
   }
 });
@@ -73,8 +77,8 @@ export const loginThunk = createAsyncThunk<
 export const signUpThunk = createAsyncThunk<
   UserState,
   SignUpData,
-  { rejectValue: ApiError }
->('user/sign_up', async (data, { rejectWithValue }) => {
+  { rejectValue: ApiError; dispatch: AppDispatch }
+>('user/sign_up', async (data, { rejectWithValue, dispatch }) => {
   try {
     const result = await signUp(data);
 
@@ -87,6 +91,9 @@ export const signUpThunk = createAsyncThunk<
     return state;
   } catch (error) {
     const requestError = getRequestErrorData(error as RequestError);
+
+    dispatch(showToast({ message: requestError.message, toastType: 'error' }));
+
     return rejectWithValue({ message: requestError.message });
   }
 });
@@ -94,8 +101,8 @@ export const signUpThunk = createAsyncThunk<
 export const readNotifThunk = createAsyncThunk<
   { notifications: Array<Notification> },
   unknown,
-  { state: RootState; rejectValue: ApiError }
->('user/read_notif', async (_, { getState, rejectWithValue }) => {
+  { state: RootState; rejectValue: ApiError; dispatch: AppDispatch }
+>('user/read_notif', async (_, { getState, rejectWithValue, dispatch }) => {
   try {
     const { _id, token } = getState().user;
     const result = await readNotifications(_id, token);
@@ -103,6 +110,9 @@ export const readNotifThunk = createAsyncThunk<
     return result.data as { notifications: Array<Notification> };
   } catch (error) {
     const requestError = getRequestErrorData(error as RequestError);
+
+    dispatch(showToast({ message: requestError.message, toastType: 'error' }));
+
     return rejectWithValue({ message: requestError.message });
   }
 });
