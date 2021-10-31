@@ -24,6 +24,8 @@ declare module 'express-serve-static-core' {
         | {
             org_id: any;
             role_id: any;
+            username: any;
+            userId: any;
           }
         | { [key: string]: any };
 
