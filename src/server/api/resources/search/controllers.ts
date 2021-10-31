@@ -13,6 +13,7 @@ export function wrapperSearchDocuments<T extends Model<BaseDocument>>(
     next: NextFunction
   ) {
     const { __type } = request.params;
+    const { org_id } = request.middlewareInfo.jwtData;
     const { q: queryText } = request.query;
 
     try {
@@ -26,6 +27,7 @@ export function wrapperSearchDocuments<T extends Model<BaseDocument>>(
           results = await baseModel
             .find({
               $text: { $search: searchText },
+              org_id,
             })
             .select('name _id timeline_id');
         } else {
@@ -33,6 +35,7 @@ export function wrapperSearchDocuments<T extends Model<BaseDocument>>(
             .find({
               __type: __type[0].toUpperCase() + __type.slice(1),
               $text: { $search: searchText },
+              org_id,
             })
             .select('name _id timeline_id');
         }
@@ -59,6 +62,7 @@ export function wrapperSearchProfiles<T extends Model<Profile>>(
     next: NextFunction
   ) {
     const { q: queryText } = request.query;
+    const { org_id } = request.middlewareInfo.jwtData;
 
     try {
       const searchText = String(queryText);
@@ -66,6 +70,7 @@ export function wrapperSearchProfiles<T extends Model<Profile>>(
       const results = await profileModel
         .find({
           $text: { $search: searchText },
+          org_id,
         })
         .select('first_name last_name _id');
 

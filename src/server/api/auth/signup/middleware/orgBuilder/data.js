@@ -343,11 +343,6 @@ export const dummyDeals = [
     name: 'Deal 2',
 
     __type: 'Deal',
-    current_stage: {
-      __type: 'Picklist',
-      text: 'Start',
-      value: '1',
-    },
   },
   {
     currency: { __type: 'Picklist', text: '', value: '' },
@@ -358,11 +353,6 @@ export const dummyDeals = [
     associated_contacts: [],
     name: 'Deal 3',
     __type: 'Deal',
-    current_stage: {
-      __type: 'Picklist',
-      text: 'Start',
-      value: '1',
-    },
   },
   {
     currency: { __type: 'Picklist', text: '', value: '' },
@@ -373,10 +363,5 @@ export const dummyDeals = [
     associated_contacts: [],
     name: 'Deal 3',
     __type: 'Deal',
-    current_stage: {
-      __type: 'Picklist',
-      text: 'Start',
-      value: '1',
-    },
   },
 ];
