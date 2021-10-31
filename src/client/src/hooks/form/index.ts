@@ -1,14 +1,13 @@
-import { createDocument, editDocument } from '../../services/document';
 import type {
   FormMode,
   FormType,
   LoginData,
   SignUpData,
-  HttpRequestMetaData,
   TimelineItemSubmitData,
   Contact,
   Deal,
   DocumentType,
+  Account,
 } from '../../types';
 import { loginThunk, signUpThunk } from '../../store/slices/user';
 import {
@@ -16,6 +15,10 @@ import {
   editContactThunk,
 } from '../../store/slices/contact';
 import { createDealThunk, editDealThunk } from '../../store/slices/deal';
+import {
+  createAccountThunk,
+  editAccountThunk,
+} from '../../store/slices/account';
 import { addTimelineItemThunk } from '../../store/slices/timeline';
 import { getAllDocumentsThunk } from './../../store/slices/documentList';
 import { useAppSelector, useAppDispatch } from '../redux';
@@ -96,14 +99,27 @@ export function useSubmit() {
         break;
 
       case 'Account':
-        const meta: HttpRequestMetaData = {
-          initiator: userName,
-        };
-
         if (formMode === 'New') {
-          return await createDocument(formType, data, meta, token);
+          await dispatch(
+            createAccountThunk({
+              documentData: data as Account,
+              metaData: { initiator: userName },
+              token,
+            })
+          );
+
+          return await handleListRefresh('Account', token);
         } else if (formMode === 'Edit') {
-          return await editDocument(formType, id, data, meta, token);
+          await dispatch(
+            editAccountThunk({
+              documentId: id,
+              editedData: data as Account,
+              metaData: { initiator: userName },
+              token,
+            })
+          );
+
+          return await handleListRefresh('Account', token);
         }
         break;
 
