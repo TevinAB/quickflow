@@ -4,6 +4,7 @@ import type {
   BaseDocument,
   DocumentType,
   Contact,
+  Account,
 } from '../types';
 
 function newBaseDocumentState(documentType: DocumentType) {
@@ -44,4 +45,11 @@ export function newDealState() {
     created_date: '',
     closed_date: '',
   } as Deal;
+}
+
+export function newAccountState() {
+  return {
+    ...newBaseDocumentState('Account'),
+    associated_contacts: [],
+  } as Account;
 }

@@ -51,8 +51,6 @@ export const deleteContactThunk = createAsyncThunk<
 
     await deleteDocument('Contact', documentId, token);
 
-    //TODO: dispatch contact-list filter update
-
     if (contactInStateId === documentId) {
       dispatch({ type: 'contact/deleteContactFromState' });
       dispatch(clearTimelineState());

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AppDispatch } from '..';
+import { AppDispatch, RootState } from '..';
 import { deleteDocument } from '../../services/document';
 import type {
   Deal,
@@ -17,6 +17,7 @@ import {
 } from './sharedUtils';
 import { getRequestErrorData } from '../../utils';
 import { newDealState } from '../../utils/document';
+import { clearTimelineState } from './timeline';
 
 type DealState = DocumentStoreState<Deal>;
 
@@ -41,18 +42,17 @@ export const editDealThunk = createAsyncThunk<
 export const deleteDealThunk = createAsyncThunk<
   void,
   DocumentThunkArgs,
-  { rejectValue: ApiError; state: DealState; dispatch: AppDispatch }
+  { rejectValue: ApiError; state: RootState; dispatch: AppDispatch }
 >('deal/delete', async (args, { getState, dispatch, rejectWithValue }) => {
   try {
-    const dealInStateId = getState().documentData._id;
+    const dealInStateId = getState().deal.documentData._id;
     const { documentId, token } = args;
     await deleteDocument('Deal', documentId, token);
 
     if (dealInStateId === documentId) {
       dispatch({ type: 'deal/deleteDealFromState' });
+      dispatch(clearTimelineState());
     }
-
-    //TODO: dispatch contact-list filter update
   } catch (error) {
     const requestError = getRequestErrorData(error as RequestError);
 
