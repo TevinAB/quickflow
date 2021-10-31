@@ -18,7 +18,7 @@ import {
   getContactThunk,
   deleteContactThunk,
 } from '../../store/slices/contact';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { showForm } from '../../store/slices/formManager';
 import type {
   TimelineItem,
@@ -26,6 +26,8 @@ import type {
   InfoData,
 } from '../../types';
 import { useParams } from 'react-router-dom';
+
+import { PageContext } from '../QuickFlow';
 
 //omitting first and last name as they will be included elsewhere
 const InfoWidgetOmitKeys = [
@@ -41,6 +43,7 @@ const InfoWidgetOmitKeys = [
   '__v',
 ];
 export default function ContactPage() {
+  const pageHeight = useContext(PageContext);
   const token = useAppSelector((state) => state.user.token);
   const { id: contactId } = useParams<{ id: string }>();
 
@@ -133,7 +136,10 @@ export default function ContactPage() {
         />
         <InfoWidget title="Contact Details" data={contactDataFormatted} />
       </div>
-      <div className="doc-page__timeline-column">
+      <div
+        style={{ height: pageHeight.height }}
+        className="doc-page__timeline-column"
+      >
         <Timeline timelineFormattedData={formattedTimelineData} />
       </div>
       <div className="doc-page__widget-column">

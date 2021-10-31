@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import type {
   InfoData,
   TimelineFormattedData,
@@ -25,6 +25,7 @@ import Timeline from '../../components/Timeline';
 import AssociatedContacts from '../../components/AssociatedContacts';
 import PopUp from '../../components/PopUp';
 import Button from '../../components/Button';
+import { PageContext } from '../QuickFlow';
 
 const InfoWidgetOmitKeys = [
   'created_date',
@@ -41,6 +42,7 @@ const InfoWidgetOmitKeys = [
 ];
 
 export default function AccountPage() {
+  const pageHeight = useContext(PageContext);
   const token = useAppSelector((state) => state.user.token);
   const { id: accountId } = useParams<{ id: string }>();
 
@@ -133,7 +135,10 @@ export default function AccountPage() {
         />
         <InfoWidget title="Account Details" data={accountDataFormatted} />
       </div>
-      <div className="doc-page__timeline-column">
+      <div
+        style={{ height: pageHeight.height }}
+        className="doc-page__timeline-column"
+      >
         <Timeline timelineFormattedData={formattedTimelineData} />
       </div>
       <div className="doc-page__widget-column">

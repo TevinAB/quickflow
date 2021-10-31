@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import type {
   InfoData,
   PicklistOption,
@@ -23,6 +23,7 @@ import AssociatedContacts from '../../components/AssociatedContacts';
 import Button from '../../components/Button';
 import { showForm } from '../../store/slices/formManager';
 import PopUp from '../../components/PopUp';
+import { PageContext } from '../QuickFlow';
 
 const InfoWidgetOmitKeys = [
   'created_date',
@@ -40,6 +41,7 @@ const InfoWidgetOmitKeys = [
 ];
 
 export default function DealPage() {
+  const pageHeight = useContext(PageContext);
   const token = useAppSelector((state) => state.user.token);
   const { id: dealId } = useParams<{ id: string }>();
 
@@ -136,7 +138,10 @@ export default function DealPage() {
         />
         <InfoWidget title="Deal Details" data={dealDataFormatted} />
       </div>
-      <div className="doc-page__timeline-column">
+      <div
+        style={{ height: pageHeight.height }}
+        className="doc-page__timeline-column"
+      >
         <Timeline timelineFormattedData={formattedTimelineData} />
       </div>
       <div className="doc-page__widget-column">
