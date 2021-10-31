@@ -206,3 +206,8 @@
 .s-wave .shape-fill {
   fill: #8474a9;
 }
+
+.git-link {
+  text-decoration: none;
+  columns: white;
+}
