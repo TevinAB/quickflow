@@ -2,8 +2,8 @@ export type ID = string;
 
 export type BaseDocument = {
   _id: ID;
-  name: string;
   org_id: ID;
+  name: string;
   created_date: Date | string;
 };
 
@@ -11,7 +11,7 @@ export type Profile = {
   first_name: string;
   last_name: string;
   email: string;
-  role_id: ID;
+  role_id: PicklistData;
   password: string;
   is_ceo: boolean;
   notifications: Array<ID>;
@@ -21,7 +21,10 @@ export type NotificationType = MainDocumentType | ActivityType;
 export type Notification = {
   notification_type: NotificationType;
   read: boolean;
-};
+
+  /** Profile the notification belongs to. */
+  profile_id: ID;
+} & BaseDocument;
 
 type IDocFunction<T extends Object> = (data: T) => T;
 export interface IDocument<U> {
@@ -34,13 +37,13 @@ export interface IDocument<U> {
 export type MainDocumentType = 'Contact' | 'Deal' | 'Account';
 export type MainDocument = {
   timeline_id: ID;
-  owner_id: ID;
+  owner_id: PicklistData;
 } & BaseDocument;
 
 export type Contact = {
   first_name: string;
   last_name: string;
-} & BaseDocument;
+} & MainDocument;
 
 export type BusinessDocument = {
   associated_contacts: Array<SearchData>;
@@ -51,7 +54,7 @@ export type Account = {} & BusinessDocument;
 export type DealStatus = 'Open' | 'Won' | 'Lost';
 export type Deal = {
   value: number;
-  deal_status: DealStatus;
+  deal_status: PicklistData;
   current_stage: PicklistData;
   pipeline: PicklistData;
   closed_date: string | Date;
@@ -60,17 +63,23 @@ export type Deal = {
 export type ActivityType = 'Task' | 'Event';
 export type ActivityDocument = {
   end_date: Date | string;
-  related_to: Array<ID>;
-  assigned_to: ID;
-  involved: Array<ID>;
-};
+
+  /** The documents that are related to this activity */
+  related_to: Array<SearchData>;
+
+  /**The profile that is in charge of this activity. */
+  assigned_to: SearchData;
+
+  /**Other profiles involved with this task. */
+  involved: Array<SearchData>;
+} & BaseDocument;
 
 export type Task = {
   completed: boolean;
 } & ActivityDocument;
 
 export type Event = {
-  calender_id: ID;
+  calender_id: PicklistData;
 } & ActivityDocument;
 
 export type TimelineItemType = 'Note' | 'Edit' | ActivityType;
@@ -138,7 +147,7 @@ export type FormField = {
 } & BaseDocument;
 
 type FormFieldMeta = {
-  /**The order relative to the other fields. */
+  /**The order relative to the other fields. Used for sorting fields. */
   order: number;
   visible: boolean;
 };
@@ -146,3 +155,13 @@ type FormFieldMeta = {
 export type FormData = {
   fields_data: Array<FormField>;
 } & BaseDocument;
+
+/**All objects that can be created */
+export type CreatableObject =
+  | MainDocumentType
+  | ActivityType
+  | Omit<TimelineItemType, ActivityType>
+  | 'Form'
+  | 'Profile'
+  | 'Role'
+  | 'Notification';

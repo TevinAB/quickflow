@@ -8,12 +8,12 @@
     "strict": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./src/server/types","./node_modules/@types"]
+    "typeRoots": ["./src/server/types","./src/server/node_modules/@types","./node_modules/@types"]
   },
   "include": ["src/server/**/*"],
   "exclude": ["node_modules"]

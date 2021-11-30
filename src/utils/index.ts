@@ -70,3 +70,16 @@ export function validatePassword(password: string): {
 
   return { is_valid: true, errorMessage: '' };
 }
+
+export function isObject(arg: any) {
+  return (
+    typeof arg === 'object' &&
+    arg !== null &&
+    !(arg instanceof Function) &&
+    !(arg instanceof Array)
+  );
+}
+
+export function isArray(arg: any) {
+  return arg instanceof Array;
+}
