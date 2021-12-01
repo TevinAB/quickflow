@@ -137,20 +137,21 @@ export type FormField = {
   deletable: boolean;
 
   /**Used for search fields. Stores the name of the data source to use when searching.*/
-  data_source: string;
+  search_source?: string;
 
-  /**Data on how to display this field in a form. */
-  form_info: FormFieldMeta;
+  /**Used for picklists. Stores the name of the list to use for displaying picklist options. */
+  list_source?: string;
 
-  /**Data on how to display this field in a list format. */
-  list_info: FormFieldMeta;
+  /**The position in the form that this field will appear at: 1,2,3,... */
+  form_order: number;
+  /**If this field is visible in a form */
+  form_visible: boolean;
+
+  /**The position in a table format. */
+  column_order: number;
+  /**If this field is visible in a table format */
+  column_visible: number;
 } & BaseDocument;
-
-type FormFieldMeta = {
-  /**The order relative to the other fields. Used for sorting fields. */
-  order: number;
-  visible: boolean;
-};
 
 export type FormData = {
   fields_data: Array<FormField>;
