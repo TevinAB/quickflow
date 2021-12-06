@@ -84,7 +84,7 @@ export function basicFormValidation(
   dataObject: Record<string, any>,
   formData: FormData
 ) {
-  const fieldsData = [...formData.fields_data];
+  const fieldsData = [...formData.fieldsData];
   const fieldNames = Object.keys(dataObject);
 
   for (let fieldName of fieldNames) {
@@ -95,8 +95,8 @@ export function basicFormValidation(
     if (field) {
       singleFieldValidation(
         dataObject[fieldName],
-        field.input_type,
-        field.input_label
+        field.inputType,
+        field.inputLabel
       );
     }
   }
