@@ -13,7 +13,7 @@ export default function buildContactModel({
     return {
       create(contactData: Contact) {
         const whitelist = [
-          ...getFormFieldNames(formData.fields_data),
+          ...getFormFieldNames(formData.fieldsData),
           ...getNonFormFieldKeys('Contact'),
         ];
         const result = normalizeObject(contactData, whitelist);
