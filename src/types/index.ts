@@ -1,4 +1,4 @@
-import { FORM_FIELD_TYPES } from 'src/constants';
+import { FORM_FIELD_TYPES, FORM_FIELD_PERMISSION_KEYS } from 'src/constants';
 
 export type ID = string;
 
@@ -134,66 +134,31 @@ export type FormField = {
   /**Used for picklists. Stores the id of the list to use for displaying picklist options. */
   listSource?: ID;
 
-  /**The position in the form that this field will appear at: 1,2,3,... */
-  formOrder: number;
-  /**If this field is visible in a form */
-  visibleInForm: boolean;
-
-  /**The position in a table format. */
-  tableOrder: number;
-  /**If this field is visible in a table format */
-  visibleInTable: boolean;
-
-  /**The position it appears in the info display box*/
-  infoBoxOrder: number;
-  /**If this is to be shown in info display boxes*/
-  visibleInInfoBox: boolean;
-
   /*validation rules for this field*/
   validation: Array<string>;
 
   /**The actions that can be done on an individual form field. Users will not be able to edit these. */
-  permissions: {
-    /**If the input type be changed*/
-    editInputType: boolean;
-
-    /**If the input label can be changed.*/
-    editInputLabel: boolean;
-
-    /*If the help text can be changed*/
-    editHelpText: boolean;
-
-    /**If the list source can be changed. For picklists.*/
-    editListSource: boolean;
-
-    /*If the search source can be changed. For search fields.**/
-    editSearchSource: boolean;
-
-    /**If this field can be hidden in form.*/
-    editFormVisibility: boolean;
-    /**If the order in the form can be changed.*/
-    editFormOrder: boolean;
-
-    /** If this can be hidden in table views*/
-    editTableVisibility: boolean;
-    /**If the order in the table can be changed.*/
-    editTableOrder: boolean;
-
-    /**If this can be hidden in info boxes*/
-    editInfoBoxVisibility: boolean;
-    /**If the order in the info box can be changed*/
-    editInfoBoxOrder: boolean;
-
-    /**If this field can be deleted */
-    isDeletable: boolean;
-
-    /*If validation rules can be edited.**/
-    editValidation: boolean;
-  };
+  permissions: Record<keyof typeof FORM_FIELD_PERMISSION_KEYS, boolean>;
 } & BaseDocument;
 
-export type FormData = {
-  fieldsData: Array<FormField>;
+export type FieldDisplayFieldData = {
+  fieldName: string;
+  removable: boolean;
+  reorderable: boolean;
+};
+
+/**How the form fields will be displayed in various settings. For e.g; for contacts, it controls
+ * what will be displayed in contact form, contacts table, and what fields appear in contact infoBox.
+ */
+export type FieldDisplay = {
+  /**Controls how the fields are displayed in a specific form(contact, account, profile, etc.) */
+  form: Array<FieldDisplayFieldData>;
+
+  /**Controls how the fields are displayed in a specific table.*/
+  table: Array<FieldDisplayFieldData>;
+
+  /**Controls how the fields are displayed in a specific info box. */
+  infoBox: Array<FieldDisplayFieldData>;
 } & BaseDocument;
 
 /**All objects that can be created */

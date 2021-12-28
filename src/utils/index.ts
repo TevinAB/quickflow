@@ -83,3 +83,20 @@ export function isObject(arg: any) {
 export function isArray(arg: any) {
   return arg instanceof Array;
 }
+
+export function capitalizeWord(word: string) {
+  return word[0].toUpperCase() + word.slice(1);
+}
+
+export function toCamelCase(text: string, delimitter = ' ') {
+  return text
+    .split(delimitter)
+    .map((word, index) => {
+      if (index === 0) {
+        return word.toLowerCase();
+      } else {
+        return capitalizeWord(word);
+      }
+    })
+    .join('');
+}

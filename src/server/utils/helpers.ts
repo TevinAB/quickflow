@@ -1,6 +1,5 @@
 import type {
   CreatableObject,
-  FormData,
   FormField,
   FormFieldTypes,
   PicklistData,
@@ -82,9 +81,9 @@ export function sanitizeProperties(dataObject: Record<string, any>) {
  */
 export function basicFormValidation(
   dataObject: Record<string, any>,
-  formData: FormData
+  fields: Array<FormField>
 ) {
-  const fieldsData = [...formData.fieldsData];
+  const fieldsData = [...fields];
   const fieldNames = Object.keys(dataObject);
 
   for (let fieldName of fieldNames) {
