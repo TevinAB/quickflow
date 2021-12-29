@@ -99,11 +99,26 @@ export type ActivityDocPermissions = {
 };
 
 export type Role = {
-  isAdmin: boolean;
-  view: MainDocPermissions;
-  create: { email: boolean } & MainDocPermissions & ActivityDocPermissions;
-  edit: MainDocPermissions & ActivityDocPermissions;
-  delete_: MainDocPermissions & ActivityDocPermissions;
+  _isAdmin: boolean;
+  _viewContact: boolean;
+  _viewAccount: boolean;
+  _viewDeal: boolean;
+  _createContact: boolean;
+  _createAccount: boolean;
+  _createDeal: boolean;
+  _createEmail: boolean;
+  _createEvent: boolean;
+  _createTask: boolean;
+  _editContact: boolean;
+  _editAccount: boolean;
+  _editDeal: boolean;
+  _editTask: boolean;
+  _editEvent: boolean;
+  _deleteContact: boolean;
+  _deleteAccount: boolean;
+  _deleteDeal: boolean;
+  _deleteEvent: boolean;
+  _deleteTask: boolean;
 };
 
 export type PicklistData = {
