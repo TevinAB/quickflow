@@ -425,5 +425,22 @@ const fields = [
     searchSource: 'Validation',
     validation: [],
   },
+  {
+    permissions: {
+      public: false,
+      editInputType: false,
+      editInputLabel: true,
+      editHelpText: true,
+      editListSource: true,
+      isDeletable: true,
+      editValidation: true,
+    },
+    inputLabel: 'Role',
+    inputType: 'Picklist',
+    name: '_role',
+    helpText: '',
+    listSource: 'role',
+    validation: [],
+  },
 ];
 export default fields;

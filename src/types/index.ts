@@ -142,7 +142,8 @@ export type FormField = {
 } & BaseDocument;
 
 export type FieldDisplayFieldData = {
-  fieldName: string;
+  /**field name. */
+  name: string;
   removable: boolean;
   reorderable: boolean;
 };

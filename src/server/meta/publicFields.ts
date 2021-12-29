@@ -328,5 +328,20 @@ const fields = [
     listSource: 'calendars',
     validation: [],
   },
+  {
+    permissions: {
+      public: true,
+      editInputType: false,
+      editInputLabel: true,
+      editHelpText: true,
+      isDeletable: false,
+      editValidation: true,
+    },
+    inputLabel: 'Description',
+    inputType: 'Text',
+    name: 'description',
+    helpText: '',
+    validation: [],
+  },
 ];
 export default fields;

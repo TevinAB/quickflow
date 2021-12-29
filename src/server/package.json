@@ -4,6 +4,7 @@
   "description": "Weird work around for using jest on client and server with create-react-app",
   "scripts": {
     "build:fields": "node --loader ts-node/esm -r tsconfig-paths/register ./tools/fieldBuilder.ts ",
+    "build:fieldDisplay": "node --loader ts-node/esm -r tsconfig-paths/register ./tools/fieldDisplay.ts ",
     "test": "jest"
   },
   "keywords": [],
