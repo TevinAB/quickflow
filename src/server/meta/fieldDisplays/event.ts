@@ -5,7 +5,7 @@ const event = {
     { name: 'description', removable: false, reorderable: true },
     { name: 'startDate', removable: false, reorderable: true },
     { name: 'closedDate', removable: false, reorderable: true },
-    { name: 'involved', removable: false, reorderable: true },
+    { name: 'relatedTo', removable: false, reorderable: true },
     { name: 'owner', removable: false, reorderable: true },
   ],
   table: [

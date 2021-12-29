@@ -10,11 +10,11 @@ export type BaseDocument = {
 };
 
 export type Profile = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  roleId: PicklistData;
-  password: string;
+  _firstName: string;
+  _lastName: string;
+  _email: string;
+  _role: PicklistData;
+  _password: string;
   isCeo: boolean;
   notifications: Array<ID>;
 } & BaseDocument;
@@ -39,7 +39,7 @@ export interface IDocument<U> {
 export type MainDocumentType = 'Contact' | 'Deal' | 'Account';
 export type MainDocument = {
   timelineId: ID;
-  ownerId: SearchData;
+  owner: SearchData;
 } & BaseDocument;
 
 export type Contact = {
@@ -64,16 +64,13 @@ export type Deal = {
 
 export type ActivityType = 'Task' | 'Event';
 export type ActivityDocument = {
-  endDate: Date | string;
+  closedDate: Date | string;
 
   /** The documents that are related to this activity */
   relatedTo: Array<SearchData>;
 
   /**The profile that is in charge of this activity. */
-  assignedTo: SearchData;
-
-  /**Other profiles involved with this task. */
-  involved: Array<SearchData>;
+  owner: SearchData;
 } & BaseDocument;
 
 export type Task = {

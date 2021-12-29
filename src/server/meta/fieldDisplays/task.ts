@@ -7,7 +7,7 @@ const task = {
     { name: 'startDate', removable: false, reorderable: true },
     { name: 'closedDate', removable: false, reorderable: true },
     { name: 'owner', removable: false, reorderable: true },
-    { name: 'involved', removable: false, reorderable: true },
+    { name: 'relatedTo', removable: false, reorderable: true },
   ],
   table: [
     { name: 'name', removable: false, reorderable: true },
