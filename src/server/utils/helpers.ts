@@ -172,7 +172,7 @@ function throwInvalidFieldException(fieldLabelName: string, errorCode: number) {
  * @param whitelist - List of allowed keys/properties.
  * @returns Result object casted to a specified type.
  */
-export function normalizeObject<ResultType extends Record<string, any>>(
+export function filterObjectKeys<ResultType extends Record<string, any>>(
   dataObject: Record<string, any>,
   whitelist: Array<string>
 ) {
@@ -221,4 +221,13 @@ export function getNonFormFieldKeys(objectType: CreatableObject) {
   }
 
   return [] as Array<string>;
+}
+
+export function testWithExceptionJest(callback: Function) {
+  try {
+    callback();
+    return true;
+  } catch (e) {
+    return false;
+  }
 }

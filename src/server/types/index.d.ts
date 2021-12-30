@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import type { CreatableObject, FormData, FormField } from 'src/types';
+import type { CreatableObject, FormField } from 'src/types';
 
 export type HashFunction = (text: string, rounds: number) => Promise<string>;
 
@@ -7,7 +7,7 @@ export type HashFunction = (text: string, rounds: number) => Promise<string>;
 export type SanitizeProperties = (dataObject: Record<string, any>) => void;
 
 /**Normalizes an object by removing all properties that are not included in the whitelist. */
-export type NormalizeObject<ResultType extends Record<string, any>> = (
+export type FilterObjectKeys<ResultType extends Record<string, any>> = (
   dataObject: Record<string, any>,
   whitelist: Array<string>
 ) => ResultType;
@@ -15,7 +15,7 @@ export type NormalizeObject<ResultType extends Record<string, any>> = (
 /**Validates data object using form data. Throws error if validation failed. */
 export type BasicFormValidation = (
   dataObject: Record<string, any>,
-  formData: FormData
+  formFields: Array<FormField>
 ) => void;
 
 /**Get the names of all form fields */
@@ -34,7 +34,7 @@ export type HashCompare = (
 type ModelArgs = {
   sanitizeProperties: SanitizeProperties;
 
-  normalizeObject: NormalizeObject<Contact>;
+  filterObjectKeys: FilterObjectKeys<Contact>;
 
   getFormFieldNames: GetFormFieldNames;
 
@@ -42,7 +42,7 @@ type ModelArgs = {
 
   basicFormValidation: BasicFormValidation;
 
-  formData: FormData;
+  formFields: Array<FormField>;
 };
 
 export type Resources =

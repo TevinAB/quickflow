@@ -3,32 +3,30 @@ import type { ModelArgs } from 'src/server/types';
 
 export default function buildContactModel({
   sanitizeProperties,
-  normalizeObject,
+  filterObjectKeys,
   getFormFieldNames,
   getNonFormFieldKeys,
   basicFormValidation,
-  formData,
+  formFields,
 }: ModelArgs) {
-  return function contactModel() {
-    return {
-      create(contactData: Contact) {
-        const whitelist = [
-          ...getFormFieldNames(formData.fields),
-          ...getNonFormFieldKeys('Contact'),
-        ];
-        const result = normalizeObject(contactData, whitelist);
+  return {
+    create(contactData: Contact) {
+      const whitelist = [
+        ...getFormFieldNames(formFields),
+        ...getNonFormFieldKeys('Contact'),
+      ];
+      const result = filterObjectKeys(contactData, whitelist);
 
-        // Mutates object
-        sanitizeProperties(result);
+      // Mutates object
+      sanitizeProperties(result);
 
-        validateContact(result);
+      validateContact(result);
 
-        return result;
-      },
-    };
-
-    function validateContact(contactData: Contact) {
-      basicFormValidation(contactData, formData);
-    }
+      return result;
+    },
   };
+
+  function validateContact(contactData: Contact) {
+    basicFormValidation(contactData, formFields);
+  }
 }

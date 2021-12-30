@@ -2,7 +2,7 @@ import type { FormFieldTypes, PicklistData, SearchData } from 'src/types';
 import {
   sanitizeProperties,
   singleFieldValidation,
-  normalizeObject,
+  filterObjectKeys,
 } from './helpers';
 
 describe('sanitizeProperties', () => {
@@ -147,7 +147,7 @@ describe('singleFieldValidation', () => {
   });
 });
 
-describe('normalizeObject', () => {
+describe('filterObjectKeys', () => {
   let testObject: Record<string, any>;
   const whitelist = ['prop1', 'prop5', 'prop3'];
 
@@ -162,7 +162,7 @@ describe('normalizeObject', () => {
   });
 
   it('should remove properties not included in whitelist', () => {
-    const resultObject = normalizeObject(testObject, whitelist);
+    const resultObject = filterObjectKeys(testObject, whitelist);
 
     expect(resultObject['prop1']).not.toBeUndefined();
     expect(resultObject['prop5']).not.toBeUndefined();
