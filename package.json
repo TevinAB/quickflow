@@ -27,6 +27,7 @@
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/node": "^17.0.9",
+    "@types/sanitizer": "0.0.28",
     "bcrypt": "^5.0.1",
     "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
