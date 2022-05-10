@@ -174,7 +174,7 @@ export type FieldDisplay = {
   infoBox: Array<FieldDisplayFieldData>;
 } & BaseDocument;
 
-/**All objects that can be created */
+/**All objects that can be created*/
 export type CreatableObject =
   | MainDocumentType
   | ActivityType
